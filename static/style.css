@@ -1,0 +1,41 @@
+body {
+    background-color: #f5f5f5;
+}
+
+.sidebar {
+    background-color: #0056b3;
+    min-height: 100vh;
+    padding: 20px;
+    color: white;
+}
+
+.sidebar-logo {
+    max-width: 80%;
+    margin-bottom: 20px;
+}
+
+.sidebar-title {
+    font-size: 24px;
+    font-weight: bold;
+}
+
+.form-container {
+    margin: 20px;
+    padding: 20px;
+    border: 2px dashed #ffa500;
+    background-color: white;
+    border-radius: 8px;
+}
+
+.form-container label {
+    font-weight: bold;
+}
+
+.btn-submit {
+    background-color: #0056b3;
+    color: white;
+}
+
+.btn-submit:hover {
+    background-color: #003f7f;
+}
