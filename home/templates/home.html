@@ -5,110 +5,123 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>EquipTrack</title>
-        <link rel="shortcut icon" href="/static/img/icon.jpg" type="image/x-icon">
-        <!-- Link para o bootstrap -->
-        <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet"
-            integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
-        <!-- Link para o bootstrap icon -->
-        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css">
+    <link rel="shortcut icon" href="/static/img/icon.jpg" type="image/x-icon">
+    <!-- Link para o bootstrap -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
+    <!-- Link para o bootstrap icon -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css">
 </head>
-<style> * {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
-}
 
-body {
-    font-family: Arial, sans-serif;
-    background-color: #f9f9f9;
-}
+<style>
+    * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+    }
 
-.card-container {
-    display: flex;
-    justify-content: space-around;
-    padding: 20px;
-}
+    body {
+        font-family: Arial, sans-serif;
+        background-color: #f9f9f9;
+    }
 
-.card {
-    background: linear-gradient(to bottom, #e0e7ef, #003c7e);
-    border-radius: 10px;
-    width: 150px;
-    text-align: center;
-    padding: 20px;
-    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-}
+    .card-container {
+        display: flex;
+        justify-content: space-around;
+        padding: 20px;
+    }
 
-.card .icon {
-    background-color: #f2f5fa;
-    border-radius: 10px;
-    padding: 10px;
-    margin-bottom: 15px;
-}
+    .card {
+        background: linear-gradient(to bottom, #e0e7ef, #003c7e);
+        border-radius: 20px;
+        width: 180px;
+        text-align: center;
+        padding: 20px;
+        box-shadow: 0 6px 8px rgba(0, 0, 0, 0.1);
+        position: relative;
+    }
 
-.card img {
-    width: 40px;
-    height: 40px;
-}
+    .icon {
+        background-color: #EAF0F7;
+        border-radius: 15px;
+        padding: 20px;
+        margin-bottom: 15px;
+        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    }
 
-.card h3 {
-    color: white;
-    margin-bottom: 15px;
-}
+    .card img {
+        width: 50px;
+        height: 50px;
+        
+    }
 
-.indicators {
-    display: flex;
-    justify-content: center;
-    gap: 10px;
-}
+    .card h3 {
+        color: white;
+        margin-bottom: 20px;
+    }
 
-.indicator {
-    width: 30px;
-    height: 30px;
-    border-radius: 50%;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-size: 16px;
-    font-weight: bold;
-    color: white;
-}
+    .indicators {
+        background-color: #EAF0F7;
+        border-radius: 15px;
+        padding: 10px;
+        display: flex;
+        justify-content: space-around;
+        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    }
 
-.indicator.red {
-    background-color: red;
-}
+    .indicator {
+        width: 35px;
+        height: 35px;
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 16px;
+        font-weight: bold;
+        color: white;
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+    }
 
-.indicator.yellow {
-    background-color: yellow;
-    color: black; /* Ajusta a cor do texto para ser legível no fundo amarelo */
-}
-.btn-padrao {
-    background-color: #EAF0F7;
-    border-radius: 10px;
-    border-width: 0;
-    box-shadow: rgba(25, 25, 25, 0.04) 0 0 1px 0, rgba(0, 0, 0, 0.1) 0 3px 4px 0;
-    color: #015799;
-    cursor: pointer;
-    display: inline-block;
-    font-family: Arial, sans-serif;
-    height: 35px;
-    padding: 0 12px;
-    transition: all 200ms;
-    justify-content: space-between;
-    margin: 1em;
-    font-size: 16px;
-    font-weight: bold;
-}
-.btn-padrao:hover {
-    background-color: #d0e4f5;
-    transform: scale(1.05);
-}
+    .indicator.red {
+        background-color: red;
+        border: 2px solid #ffcccc;
+    }
+
+    .indicator.yellow {
+        background-color: yellow;
+        color: black;
+        border: 2px solid #fff5cc;
+    }
+
+    .btn-padrao {
+        background-color: #EAF0F7;
+        border-radius: 10px;
+        border-width: 0;
+        box-shadow: rgba(25, 25, 25, 0.04) 0 0 1px 0, rgba(0, 0, 0, 0.1) 0 3px 4px 0;
+        color: #015799;
+        cursor: pointer;
+        display: inline-block;
+        font-family: Arial, sans-serif;
+        height: 35px;
+        padding: 0 12px;
+        transition: all 200ms;
+        justify-content: space-between;
+        margin: 1em;
+        font-size: 16px;
+        font-weight: bold;
+    }
+
+    .btn-padrao:hover {
+        background-color: #d0e4f5;
+        transform: scale(1.05);
+    }
 </style>
+
 <body class="d-flex flex-column" style="min-height: 100vh;">
     <header>
         <nav style="background-color: #015799;" class="navbar navbar-expand-lg  shadow border-bottom border-dark border-opacity-50 border-1 ">
             <div class="container-fluid">
                 <img src="/static/images/logo1.png" style="width: 10%;">
-            
                 <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
                     data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false"
                     aria-label="Toggle navigation">
@@ -128,22 +141,17 @@ body {
                         <li class="nav-item">
                             <button class="btn-padrao">Sobre</button>
                         </li>
-                        
-                    
                     </ul>
                 </div>
             </div>
-            
         </nav>
-
     </header>
 
     <main class="flex-fill py-3">
         <div class="card-container">
             <div class="card">
                 <div class="icon">
-                    <!-- Aqui você pode colocar a imagem do ícone -->
-                    <img src="static/images/cozinha.png" alt="Cozinha">
+                    <img src="/static/images/cozinha.png" alt="Cozinha">
                 </div>
                 <h3>Cozinha</h3>
                 <div class="indicators">
@@ -151,10 +159,10 @@ body {
                     <div class="indicator yellow">2</div>
                 </div>
             </div>
-    
+
             <div class="card">
                 <div class="icon">
-                    <img src="static/images/manutenção.png" alt="Manutenção">
+                    <img src="/static/images/manutenção.png" alt="Manutenção">
                 </div>
                 <h3>Manutenção</h3>
                 <div class="indicators">
@@ -162,10 +170,10 @@ body {
                     <div class="indicator yellow">2</div>
                 </div>
             </div>
-    
+
             <div class="card">
                 <div class="icon">
-                    <img src="professor-icon.png" alt="Professores">
+                    <img src="/static/images/professores.png" alt="Professores">
                 </div>
                 <h3>Professores</h3>
                 <div class="indicators">
@@ -173,10 +181,10 @@ body {
                     <div class="indicator yellow">2</div>
                 </div>
             </div>
-    
+
             <div class="card">
                 <div class="icon">
-                    <img src="inspector-icon.png" alt="Inspetores">
+                    <img src="/static/images/inspetores.png" alt="Inspetores">
                 </div>
                 <h3>Inspetores</h3>
                 <div class="indicators">
@@ -197,10 +205,10 @@ body {
                 </div>
                 <div class="col-12 col-md-4 text-center">
                     Política de Privacidade<br>Termos de uso<br>Trocas e Devoluções
-                <br>
-                <a href="/adm" class="text-decoration-none text-outline-danger">
-                    Área administrativa
-                </a>
+                    <br>
+                    <a href="/adm" class="text-decoration-none text-outline-danger">
+                        Área administrativa
+                    </a>
                 </div>
                 <div class="col-12 col-md-4 text-center">
                     Contato pelo Site<br>E-mail: contato@quitandadoze.com.br<br>Cel: (15) 99999-9999
