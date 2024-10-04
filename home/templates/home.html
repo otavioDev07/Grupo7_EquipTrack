@@ -4,24 +4,26 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Quitanda do Zé :: {{ title }}</title>
-        <link rel="shortcut icon" href="/static/img/icon.jpg" type="image/x-icon">
-        <!-- Link para o bootstrap -->
-        <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet"
-            integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
-        <!-- Link para o bootstrap icon -->
-        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css">
+    <title>EquipTrack</title>
+    <link rel="shortcut icon" href="/static/img/icon.jpg" type="image/x-icon">
+    <!-- Link para o bootstrap -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
+    <!-- Link para o bootstrap icon -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css">
 </head>
-<style> * {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
-}
 
-body {
-    font-family: Arial, sans-serif;
-    background-color: #f9f9f9;
-}
+<style>
+    * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+    }
+
+    body {
+        font-family: Arial, sans-serif;
+        background-color: #f9f9f9;
+    }
 
 .card-container {
     display: flex;
@@ -49,10 +51,11 @@ body {
     margin-bottom: 15px;
 }
 
-.card img {
-    width: 40px;
-    height: 40px;
-}
+    .card img {
+        width: 50px;
+        height: 50px;
+        
+    }
 
 .card h3 {
     color: white;
@@ -60,27 +63,32 @@ body {
     font-size: 1.2rem; /* Ajuste do tamanho da fonte para evitar quebras */
 }
 
-.indicators {
-    display: flex;
-    justify-content: center;
-    gap: 10px;
-}
+    .indicators {
+        background-color: #EAF0F7;
+        border-radius: 15px;
+        padding: 10px;
+        display: flex;
+        justify-content: space-around;
+        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    }
 
-.indicator {
-    width: 30px;
-    height: 30px;
-    border-radius: 50%;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-size: 16px;
-    font-weight: bold;
-    color: white;
-}
+    .indicator {
+        width: 35px;
+        height: 35px;
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 16px;
+        font-weight: bold;
+        color: white;
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+    }
 
-.indicator.red {
-    background-color: red;
-}
+    .indicator.red {
+        background-color: red;
+        border: 2px solid #ffcccc;
+    }
 
 .indicator.yellow {
     background-color: yellow;
@@ -88,12 +96,12 @@ body {
 }
 
 </style>
+
 <body class="d-flex flex-column" style="min-height: 100vh;">
     <header>
-        <nav class="navbar navbar-expand-lg bg-success shadow border-bottom border-dark border-opacity-50 border-1">
-            <div class="container">
-                
-                <a class="navbar-brand fs-3 fw-bold text-white" href="/">EquipTrack</a>
+        <nav style="background-color: #015799;" class="navbar navbar-expand-lg  shadow border-bottom border-dark border-opacity-50 border-1 ">
+            <div class="container-fluid">
+                <img src="/static/images/logo1.png" style="width: 10%;">
                 <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
                     data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false"
                     aria-label="Toggle navigation">
@@ -102,25 +110,28 @@ body {
                 <div class="collapse navbar-collapse" id="navbarSupportedContent">
                     <ul class="navbar-nav me-auto mb-2 mb-lg-0">
                         <li class="nav-item">
-                            <a class="nav-link active fs-6 fw-bold text-white" aria-current="page" href="/">Home</a>
+                            <button class="btn-padrao">Cadastro</button>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link active fs-6 fw-bold text-white" aria-current="page"
-                                href="/quemsomos">Quem somos</a>
+                            <button class="btn-padrao">Estoque</button>
                         </li>
-                        
+                        <li class="nav-item">
+                            <button class="btn-padrao">Descarte</button>
+                        </li>
+                        <li class="nav-item">
+                            <button class="btn-padrao">Sobre</button>
+                        </li>
                     </ul>
-                   
                 </div>
             </div>
         </nav>
-
     </header>
 
     <main class="flex-fill py-3">
         <div class="card-container">
             <div class="card">
                 <div class="icon">
+                    <img src="/static/images/cozinha.png" alt="Cozinha">
                     <img src="/static/images/cozinha.png" alt="Cozinha">
                 </div>
                 <h3>Cozinha</h3>
@@ -131,6 +142,7 @@ body {
                     </div>
                 </div>
             </div>
+
 
             <div class="card">
                 <div class="icon">
@@ -145,6 +157,7 @@ body {
                 </div>
             </div>
 
+
             <div class="card">
                 <div class="icon">
                     <img src="/static/images/profs.png" alt="Professores">
@@ -158,8 +171,10 @@ body {
                 </div>
             </div>
 
+
             <div class="card">
                 <div class="icon">
+                    <img src="/static/images/inspetores.png" alt="Inspetores">
                     <img src="/static/images/inspetores.png" alt="Inspetores">
                 </div>
                 <h3>Inspetores</h3>
@@ -183,10 +198,10 @@ body {
                 </div>
                 <div class="col-12 col-md-4 text-center">
                     Política de Privacidade<br>Termos de uso<br>Trocas e Devoluções
-                <br>
-                <a href="/adm" class="text-decoration-none text-outline-danger">
-                    Área administrativa
-                </a>
+                    <br>
+                    <a href="/adm" class="text-decoration-none text-outline-danger">
+                        Área administrativa
+                    </a>
                 </div>
                 <div class="col-12 col-md-4 text-center">
                     Contato pelo Site<br>E-mail: contato@quitandadoze.com.br<br>Cel: (15) 99999-9999
