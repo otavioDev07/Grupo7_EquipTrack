@@ -27,19 +27,23 @@ body {
     display: flex;
     justify-content: space-around;
     padding: 20px;
+    gap: 10px; /* Espaçamento entre os cartões */
+    flex-wrap: wrap; /* Permite que os cartões se ajustem em diferentes resoluções */
 }
 
 .card {
     background: linear-gradient(to bottom, #e0e7ef, #003c7e);
     border-radius: 10px;
-    width: 150px;
+    width: 180px; /* Aumenta a largura dos cartões */
     text-align: center;
     padding: 20px;
     box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    margin-bottom: 20px; /* Espaçamento inferior entre as linhas */
+    white-space: nowrap; /* Impede a quebra de palavras */
 }
 
 .card .icon {
-    background-color: #f2f5fa;
+    background-color: #EAF0F7;
     border-radius: 10px;
     padding: 10px;
     margin-bottom: 15px;
@@ -53,6 +57,7 @@ body {
 .card h3 {
     color: white;
     margin-bottom: 15px;
+    font-size: 1.2rem; /* Ajuste do tamanho da fonte para evitar quebras */
 }
 
 .indicators {
@@ -79,8 +84,9 @@ body {
 
 .indicator.yellow {
     background-color: yellow;
-    color: black; /* Ajusta a cor do texto para ser legível no fundo amarelo */
+    color: black;
 }
+
 </style>
 <body class="d-flex flex-column" style="min-height: 100vh;">
     <header>
@@ -115,46 +121,53 @@ body {
         <div class="card-container">
             <div class="card">
                 <div class="icon">
-                    <!-- Aqui você pode colocar a imagem do ícone -->
-                    <img src="static/images/cozinha.png" alt="Cozinha">
+                    <img src="/static/images/cozinha.png" alt="Cozinha">
                 </div>
                 <h3>Cozinha</h3>
-                <div class="indicators">
-                    <div class="indicator red">5</div>
-                    <div class="indicator yellow">2</div>
+                <div class="icon">
+                    <div class="indicators">
+                        <div class="indicator red">5</div>
+                        <div class="indicator yellow">2</div>
+                    </div>
                 </div>
             </div>
-    
+
             <div class="card">
                 <div class="icon">
-                    <img src="static/images/manutenção.png" alt="Manutenção">
+                    <img src="/static/images/manutencao.png" alt="Manutenção">
                 </div>
                 <h3>Manutenção</h3>
-                <div class="indicators">
-                    <div class="indicator red">5</div>
-                    <div class="indicator yellow">2</div>
+                <div class="icon">
+                    <div class="indicators">
+                        <div class="indicator red">5</div>
+                        <div class="indicator yellow">2</div>
+                    </div>
                 </div>
             </div>
-    
+
             <div class="card">
                 <div class="icon">
-                    <img src="professor-icon.png" alt="Professores">
+                    <img src="/static/images/profs.png" alt="Professores">
                 </div>
                 <h3>Professores</h3>
-                <div class="indicators">
-                    <div class="indicator red">5</div>
-                    <div class="indicator yellow">2</div>
+                <div class="icon">
+                    <div class="indicators">
+                        <div class="indicator red">5</div>
+                        <div class="indicator yellow">2</div>
+                    </div>
                 </div>
             </div>
-    
+
             <div class="card">
                 <div class="icon">
-                    <img src="inspector-icon.png" alt="Inspetores">
+                    <img src="/static/images/inspetores.png" alt="Inspetores">
                 </div>
                 <h3>Inspetores</h3>
-                <div class="indicators">
-                    <div class="indicator red">5</div>
-                    <div class="indicator yellow">2</div>
+                <div class="icon">
+                    <div class="indicators">
+                        <div class="indicator red">5</div>
+                        <div class="indicator yellow">2</div>
+                    </div>
                 </div>
             </div>
         </div>
