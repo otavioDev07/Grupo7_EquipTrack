@@ -12,31 +12,76 @@
         <!-- Link para o bootstrap icon -->
         <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css">
 </head>
-<style>
-    .btn-padrao {
-        background-color: #EAF0F7;
-        border-radius: 10px;
-        border-width: 0;
-        box-shadow: rgba(25, 25, 25, 0.04) 0 0 1px 0, rgba(0, 0, 0, 0.1) 0 3px 4px 0;
-        color: #015799;
-        cursor: pointer;
-        display: inline-block;
-        font-family: Arial, sans-serif;
-        height: 35px;
-        padding: 0 12px;
-        transition: all 200ms;
-        justify-content: space-between;
-        margin: 1em;
-        font-size: 16px;
-        font-weight: bold;
-    }
-    .btn-padrao:hover {
-        background-color: #d0e4f5;
-        transform: scale(1.05);
-    }
+<style> * {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: Arial, sans-serif;
+    background-color: #f9f9f9;
+}
+
+.card-container {
+    display: flex;
+    justify-content: space-around;
+    padding: 20px;
+}
+
+.card {
+    background: linear-gradient(to bottom, #e0e7ef, #003c7e);
+    border-radius: 10px;
+    width: 150px;
+    text-align: center;
+    padding: 20px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.card .icon {
+    background-color: #f2f5fa;
+    border-radius: 10px;
+    padding: 10px;
+    margin-bottom: 15px;
+}
+
+.card img {
+    width: 40px;
+    height: 40px;
+}
+
+.card h3 {
+    color: white;
+    margin-bottom: 15px;
+}
+
+.indicators {
+    display: flex;
+    justify-content: center;
+    gap: 10px;
+}
+
+.indicator {
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 16px;
+    font-weight: bold;
+    color: white;
+}
+
+.indicator.red {
+    background-color: red;
+}
+
+.indicator.yellow {
+    background-color: yellow;
+    color: black; /* Ajusta a cor do texto para ser legível no fundo amarelo */
+}
 </style>
-
-
 <body class="d-flex flex-column" style="min-height: 100vh;">
     <header>
         <nav style="background-color: #015799;" class="navbar navbar-expand-lg  shadow border-bottom border-dark border-opacity-50 border-1 ">
@@ -73,7 +118,52 @@
     </header>
 
     <main class="flex-fill py-3">
-       
+        <div class="card-container">
+            <div class="card">
+                <div class="icon">
+                    <!-- Aqui você pode colocar a imagem do ícone -->
+                    <img src="static/images/cozinha.png" alt="Cozinha">
+                </div>
+                <h3>Cozinha</h3>
+                <div class="indicators">
+                    <div class="indicator red">5</div>
+                    <div class="indicator yellow">2</div>
+                </div>
+            </div>
+    
+            <div class="card">
+                <div class="icon">
+                    <img src="static/images/manutenção.png" alt="Manutenção">
+                </div>
+                <h3>Manutenção</h3>
+                <div class="indicators">
+                    <div class="indicator red">5</div>
+                    <div class="indicator yellow">2</div>
+                </div>
+            </div>
+    
+            <div class="card">
+                <div class="icon">
+                    <img src="professor-icon.png" alt="Professores">
+                </div>
+                <h3>Professores</h3>
+                <div class="indicators">
+                    <div class="indicator red">5</div>
+                    <div class="indicator yellow">2</div>
+                </div>
+            </div>
+    
+            <div class="card">
+                <div class="icon">
+                    <img src="inspector-icon.png" alt="Inspetores">
+                </div>
+                <h3>Inspetores</h3>
+                <div class="indicators">
+                    <div class="indicator red">5</div>
+                    <div class="indicator yellow">2</div>
+                </div>
+            </div>
+        </div>
     </main>
 
     <footer class="border-top bg-light shadow border-3 border-dark border-opacity-25">
