@@ -19,7 +19,7 @@
         padding: 0;
         box-sizing: border-box;
     }
-
+    
     body {
         font-family: Arial, sans-serif;
         background-color: #f9f9f9;
@@ -53,15 +53,14 @@
     .card img {
         width: 50px;
         height: 50px;
-        
     }
-
-.card h3 {
-    color: white;
-    margin-bottom: 15px;
-    font-size: 1.2rem; /* Ajuste do tamanho da fonte para evitar quebras */
-}
-
+    
+    .card h3 {
+        color: white;
+        margin-bottom: 15px;
+        font-size: 1.2rem; /* Ajuste do tamanho da fonte para evitar quebras */
+    }
+    
     .indicators {
         background-color: #EAF0F7;
         border-radius: 15px;
@@ -70,7 +69,7 @@
         justify-content: space-around;
         box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
     }
-
+    
     .indicator {
         width: 35px;
         height: 35px;
@@ -83,16 +82,17 @@
         color: white;
         box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
     }
-
+    
     .indicator.red {
         background-color: red;
         border: 2px solid #ffcccc;
     }
-
-.indicator.yellow {
-    background-color: yellow;
-    color: black;
-}
+    
+    .indicator.yellow {
+        background-color: yellow;
+        color: black;
+    }
+    
     .btn-padrao {
         background-color: #EAF0F7;
         border-radius: 10px;
@@ -110,7 +110,7 @@
         font-size: 16px;
         font-weight: bold;
     }
-
+    
     .btn-padrao:hover {
         background-color: #d0e4f5;
         transform: scale(1.05);
@@ -286,6 +286,14 @@ button:hover {
         }
 </style>
 
+<script>
+    function closeWelcomeBox() {
+        // Oculta a welcome-box ao clicar no botão "X"
+        document.querySelector('.welcome-box').style.display = 'none';
+    }
+</script>
+
+
 <body class="d-flex flex-column" style="min-height: 100vh;">
     <header>
         <nav style="background-color: #015799;" class="navbar navbar-expand-lg  shadow border-bottom border-dark border-opacity-50 border-1 ">
@@ -317,8 +325,9 @@ button:hover {
     </header>
 
     <main class="flex-fill py-3">
-        <div class="container">
+        <div class="content-container">
             <div class="welcome-box">
+                <button class="close-btn" onclick="closeWelcomeBox()">X</button> <!-- Botão de fechar -->
                 <div class="illustration">
                     <img src="/static/images/icone1.png" alt="Ilustração" class="image">
                 </div>
@@ -327,6 +336,7 @@ button:hover {
                     <p>Aqui você tem acesso aos EPIs da escola. Use esta página para verificar datas de validade, estado de conservação e estoque, além de atualizar o status dos equipamentos e receber notificações sobre vencimentos próximos.</p>
                 </div>
             </div>
+            
         </div>
         <div class="card-container">
             <div class="card">
