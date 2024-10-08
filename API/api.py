@@ -7,7 +7,6 @@ CORS(app)
 
 #Listagem do estoque
 @app.route('/listEPI', methods=['GET'])
-
 def list_EPI():
     with conecta_db() as (conexao, cursor):
         try:
