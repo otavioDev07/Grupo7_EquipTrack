@@ -19,50 +19,48 @@
         padding: 0;
         box-sizing: border-box;
     }
-
+    
     body {
         font-family: Arial, sans-serif;
         background-color: #f9f9f9;
     }
-
-.card-container {
-    display: flex;
-    justify-content: space-around;
-    padding: 20px;
-    gap: 10px; /* Espaçamento entre os cartões */
-    flex-wrap: wrap; /* Permite que os cartões se ajustem em diferentes resoluções */
-}
-
-.card {
-    background: linear-gradient(to right, #D2D2D2, #003c7e);
-    border-radius: 10px;
-    width: 180px; /* Aumenta a largura dos cartões */
-    text-align: center;
-    padding: 20px;
-   
-    margin-bottom: 20px; /* Espaçamento inferior entre as linhas */
-    white-space: nowrap; /* Impede a quebra de palavras */
-}
-
-.card .icon {
-    background-color: #EAF0F7;
-    border-radius: 10px;
-    padding: 10px;
-    margin-bottom: 15px;
-}
-
+    
+    .card-container {
+        display: flex;
+        justify-content: space-around;
+        padding: 20px;
+        gap: 10px; /* Espaçamento entre os cartões */
+        flex-wrap: wrap; /* Permite que os cartões se ajustem em diferentes resoluções */
+    }
+    
+    .card {
+        background: linear-gradient(to right, #D2D2D2, #003c7e);
+        border-radius: 10px;
+        width: 180px; /* Aumenta a largura dos cartões */
+        text-align: center;
+        padding: 20px;
+        margin-bottom: 20px; /* Espaçamento inferior entre as linhas */
+        white-space: nowrap; /* Impede a quebra de palavras */
+    }
+    
+    .card .icon {
+        background-color: #EAF0F7;
+        border-radius: 10px;
+        padding: 10px;
+        margin-bottom: 15px;
+    }
+    
     .card img {
         width: 50px;
         height: 50px;
-        
     }
-
-.card h3 {
-    color: white;
-    margin-bottom: 15px;
-    font-size: 1.2rem; /* Ajuste do tamanho da fonte para evitar quebras */
-}
-
+    
+    .card h3 {
+        color: white;
+        margin-bottom: 15px;
+        font-size: 1.2rem; /* Ajuste do tamanho da fonte para evitar quebras */
+    }
+    
     .indicators {
         background-color: #EAF0F7;
         border-radius: 15px;
@@ -71,7 +69,7 @@
         justify-content: space-around;
         box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
     }
-
+    
     .indicator {
         width: 35px;
         height: 35px;
@@ -84,16 +82,17 @@
         color: white;
         box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
     }
-
+    
     .indicator.red {
         background-color: red;
         border: 2px solid #ffcccc;
     }
-
-.indicator.yellow {
-    background-color: yellow;
-    color: black;
-}
+    
+    .indicator.yellow {
+        background-color: yellow;
+        color: black;
+    }
+    
     .btn-padrao {
         background-color: #EAF0F7;
         border-radius: 10px;
@@ -111,55 +110,79 @@
         font-size: 16px;
         font-weight: bold;
     }
-
+    
     .btn-padrao:hover {
         background-color: #d0e4f5;
         transform: scale(1.05);
     }
+    
+    .content-container {
+        display: flex;
+        justify-content: center;
+        flex-direction: column;
+        gap: 8%;
+        align-items: center;
+        height: 40vh;
+    }
+    
+    .welcome-box {
+        position: relative;
+        background: linear-gradient(to right, #D2D2D2, #015799);
+        border-radius: 12px;
+        display: flex;
+        align-items: center;
+        padding: 20px;
+        box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.1);
+        max-width: 700px;
+        width: 100%;
+    }
+    
+    .illustration {
+        margin-right: 20px;
+    }
+    
+    .image {
+        width: 120px;
+        height: auto;
+        border-radius: 8px;
+    }
+    
+    .text-content {
+        color: white;
+    }
+    
+    .text-content h1 {
+        font-size: 24px;
+        margin-bottom: 10px;
+    }
+    
+    .text-content p {
+        font-size: 16px;
+        line-height: 1.5;
+    }
+    
+    .close-btn {
+        background-color: transparent;
+        border: none;
+        font-size: 20px;
+        color: white;
+        position: absolute;
+        top: 10px;
+        right: 20px;
+        cursor: pointer;
+    }
+    
 
-    .container {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    height: 40vh;
-}
-
-.welcome-box {
-    background: linear-gradient(to right, #D2D2D2, #015799);
-    border-radius: 12px;
-    display: flex;
-    align-items: center;
-    padding: 20px;
-    box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.1);
-    max-width: 700px;
-    width: 100%;
-}
-
-.illustration {
-    margin-right: 20px;
-}
-
-.image {
-    width: 120px;
-    height: auto;
-    border-radius: 8px;
-}
-
-.text-content {
-    color: white;
-}
-
-.text-content h1 {
-    font-size: 24px;
-    margin-bottom: 10px;
-}
-
-.text-content p {
-    font-size: 16px;
-    line-height: 1.5;
-}
 
 </style>
+
+<script>
+    function closeWelcomeBox() {
+        // Oculta a welcome-box ao clicar no botão "X"
+        document.querySelector('.welcome-box').style.display = 'none';
+    }
+</script>
+
 
 <body class="d-flex flex-column" style="min-height: 100vh;">
     <header>
@@ -192,8 +215,9 @@
     </header>
 
     <main class="flex-fill py-3">
-        <div class="container">
+        <div class="content-container">
             <div class="welcome-box">
+                <button class="close-btn" onclick="closeWelcomeBox()">X</button> <!-- Botão de fechar -->
                 <div class="illustration">
                     <img src="/static/images/icone1.png" alt="Ilustração" class="image">
                 </div>
@@ -202,6 +226,7 @@
                     <p>Aqui você tem acesso aos EPIs da escola. Use esta página para verificar datas de validade, estado de conservação e estoque, além de atualizar o status dos equipamentos e receber notificações sobre vencimentos próximos.</p>
                 </div>
             </div>
+            
         </div>
         <div class="card-container">
             <div class="card">
