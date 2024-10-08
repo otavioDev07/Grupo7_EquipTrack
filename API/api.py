@@ -10,7 +10,7 @@ CORS(app)
 def list_EPI():
     with conecta_db() as (conexao, cursor):
         try:
-            cursor.execute('SELECT * FROM EPI')
+            cursor.execute('SELECT * FROM epi')
             result = cursor.fetchall()
             
             estoque = []
@@ -36,6 +36,31 @@ def list_EPI():
         
         except Exception as e:
             return jsonify({'error': str(e)}), 400
+        
+#Listagem dos funcionários
+@app.route('/listFuncionarios', methods=['GET'])
+def list_funcionarios():
+    with conecta_db() as (conexao, cursor):
+        try:
+            cursor.execute('SELECT * FROM funcionário')
+            result = cursor.fetchall()
+
+            funcionarios = []
+            for row in result:
+                funcionarios.append({
+                    'idFuncionario': row[0],
+                    'nomeFuncionario': row[1],
+                    'NIF': row[2],
+                    'CPF': row[3]
+                    'idSetor': row[4],
+                    'condicoes_especiais': row[5],
+                    'cargo': row[6],
+                    'tamCalcado': row[7],
+                    'tamRoupa': row[8]
+                })
+            return jsonify(funcionarios), 200 
+        except Exception as e:
+            return jsonify({'error': str(e)}), 400 
 
 if __name__ == '__main__':
     app.run(debug=True)
