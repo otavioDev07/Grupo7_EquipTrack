@@ -132,6 +132,7 @@
     box-shadow: 0px 4px 12px rgba(255, 254, 254, 0);
     max-width: 700px;
     width: 100%;
+    margin: auto;
 }
 
 .illustration {
@@ -238,6 +239,17 @@ button:hover {
     background-color: #194666;
 }
 
+.close-btn-close {
+    background-color: #ff914d;
+    color: white;
+    padding: 5px 15px;
+    border: none;
+    border-radius: 40px;
+    font-size: 16px;
+    cursor: pointer;
+    margin-top: 15px;
+}
+
 /* Estilo do Container de Indicadores de Performance */
 .indicadores-container {
             background-color: #2672af;
@@ -327,11 +339,11 @@ button:hover {
     <main class="flex-fill py-3">
         <div class="content-container">
             <div class="welcome-box">
-                <button class="close-btn" onclick="closeWelcomeBox()">X</button> <!-- Botão de fechar -->
                 <div class="illustration">
                     <img src="/static/images/icone1.png" alt="Ilustração" class="image">
                 </div>
                 <div class="text-content">
+                    <div style="padding-left: 90%; "><button class="close-btn-close" onclick="closeWelcomeBox()">X</button> <!-- Botão de fechar --></div>
                     <h1 class="fw-bold">Seja Bem-vindo</h1>
                     <p>Aqui você tem acesso aos EPIs da escola. Use esta página para verificar datas de validade, estado de conservação e estoque, além de atualizar o status dos equipamentos e receber notificações sobre vencimentos próximos.</p>
                 </div>
