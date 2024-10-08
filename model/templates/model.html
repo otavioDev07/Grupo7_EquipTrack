@@ -50,10 +50,31 @@
         .btn-submit:hover {
             background-color: #003f7f;
         }
+
+        .btn-back {
+        position: absolute;
+        top: 20px;
+        left: 20px;
+        background-color: transparent;
+        color: #F08424;
+        border: 2px solid #F08424;
+        padding: 10px 20px;
+        border-radius: 50px;
+        font-weight: bold;
+        text-decoration: none;
+        display: inline-flex;
+        align-items: center;
+        }
     </style>
 </head>
 
 <body>
+
+    <div class="col-md-10 d-flex align-items-center justify-content-center vh-100">
+        <!-- Botão de voltar estilizado -->
+        <a href="/" class="btn-back">
+            <i class="fas fa-arrow-left"></i> Voltar
+        </a>
     <div class="container-fluid">
         <div class="row">
             <!-- Sidebar -->
