@@ -18,35 +18,101 @@
             min-height: 100vh;
             padding: 20px;
             color: white;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
         }
 
         .sidebar-logo {
-            max-width: 80%;
+            max-width: 150%;
             margin-bottom: 20px;
+            transition: transform 0.3s ease; /* Animação ao passar o mouse sobre a logo */
+        }
+
+        .sidebar-logo:hover {
+            transform: scale(1.1); /* Efeito de zoom ao passar o mouse */
         }
 
         .sidebar-title {
-            font-size: 24px;
+            font-size: 28px;
             font-weight: bold;
+            margin-top: -20px; /* Subindo o texto um pouco mais */
+            transition: transform 0.3s ease, color 0.3s ease; /* Animação para o título */
+        }
+
+        .sidebar-title:hover {
+            transform: translateY(-5px); /* Efeito de subir o texto ao passar o mouse */
+            color: #ffcc00; /* Troca de cor ao passar o mouse */
+        }
+
+
+        .btn-back {
+            position: absolute;
+            top: 20px;
+            left: 20px;
+            background-color: transparent;
+            color: #F08424;
+            border: 2px solid #F08424;
+            padding: 10px 20px;
+            border-radius: 50px;
+            font-weight: bold;
+            text-decoration: none;
+            display: inline-flex;
+            align-items: center;
+            transition: background-color 0.3s ease, transform 0.3s ease; /* Animação para o botão de voltar */
+        }
+
+        .btn-back:hover {
+            background-color: #f08424;
+            color: white;
+            transform: scale(1.05); /* Leve aumento no tamanho ao passar o mouse */
+        }
+
+        .btn-back i {
+            margin-right: 8px;
+        }
+
+        /* Ajustes de responsividade */
+        @media (max-width: 768px) {
+            .sidebar {
+                min-height: auto;
+            }
+
+            .sidebar-logo {
+                max-width: 100%; /* Ajusta o tamanho da logo para telas menores */
+            }
+
+            .sidebar-title {
+                font-size: 24px;
+            }
         }
     </style>
 </head>
 
 <body>
+    <!-- Botão de voltar estilizado -->
+    <a href="/" class="btn-back">
+        <i class="bi bi-arrow-left"></i> Voltar
+    </a>
+
     <div class="container-fluid">
         <div class="row">
             <!-- Sidebar -->
-            <div class="col-md-3 col-sm-4 sidebar d-flex flex-column align-items-center">
+            <div class="col-md-2 col-sm-3 sidebar d-flex flex-column align-items-center">
                 <img src="/static/images/logo1.png" alt="Logo" class="sidebar-logo">
                 <div class="sidebar-title">Modelo</div>
             </div>
 
-            <!-- Conteúdo dinâmico aqui -->
-            <main class="col-md-9 col-sm-8">
-                {% block conteudo %}
-                <!-- O conteúdo de cadastro.html será inserido aqui -->
-                {% endblock %}
+            <!-- Conteúdo Principal -->
+            <main class="col-md-10 col-sm-9 flex-fill py-3">
+                <div class="form-container">
+                    {% block conteudo %}
+                    {% endblock %}
+                </div>
             </main>
+        </div>
+    </div>
         </div>
     </div>
 
