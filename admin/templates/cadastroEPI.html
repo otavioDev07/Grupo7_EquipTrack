@@ -3,40 +3,60 @@
 {% block conteudo %}
 
 <style>
+/* Remover barras de rolagem da página */
+html, body {
+    margin: 0;
+    padding: 0;
+    overflow: hidden; /* Remove barras de rolagem */
+    height: 100%; /* Garante que o corpo ocupe 100% da altura da tela */
+}
+
 /* Layout geral do contêiner */
 .container {
     display: flex;
+    flex-direction: column; /* Organiza o conteúdo em coluna */
     margin-top: 5%;
     width: 100%;
-    
+    height: 100vh; /* Ocupa a altura total da tela */
 }
 
 /* Bordas tracejadas */
 .dashed-border {
     border: 2px dashed orange;
     border-radius: 10px;
-    padding: 5%;
+    padding: 2%; /* Reduzido para economizar espaço */
     margin: 3%;
-    width: 30rem; /* Ajuste para preencher mais espaço e deixar alinhado */
     transition: transform 0.3s ease, box-shadow 0.3s ease;
 }
 
 /* Contêiner do formulário */
 .form-container {
-    display: flex;
-    justify-content: center;
+    display: flex; /* Permite o alinhamento lado a lado */
+    justify-content: space-between; /* Espaça as caixas uniformemente */
     width: 100%;
-    padding: 40px;
+    height: calc(100vh - 60px); /* Ajusta a altura para evitar rolagem e espaço para o botão */
 }
 
-.epi-form {
+/* Seções do formulário */
+.box {
     display: flex;
-    justify-content: space-between;
-    width: 100%;
+    flex-direction: column; /* Coloca os campos em coluna */
+    width: 48%; /* Ajusta para que duas caixas fiquem lado a lado */
+    flex-grow: 1; /* Permite que as caixas ocupem o espaço disponível */
+    transition: flex-grow 0.3s ease; /* Animação ao alterar o tamanho */
 }
 
-.form-group {
-    margin-bottom: 10%;
+/* Efeito de seleção de box */
+.box:hover {
+    cursor: pointer; /* Muda o cursor ao passar o mouse */
+}
+
+.box:focus-within {
+    flex-grow: 2; /* Aumenta a box selecionada */
+}
+
+.box:not(:focus-within) {
+    flex-grow: 1; /* Diminui as outras boxes */
 }
 
 /* Estilo dos rótulos */
@@ -49,17 +69,20 @@ label {
 /* Campos de entrada */
 input[type="text"], input[type="date"], select, input[type="number"] {
     width: 100%;
-    padding: 10px;
+    padding: 8px; /* Reduzido para um layout mais compacto */
     border-radius: 5px;
     border: 1px solid #ddd;
     border: 1px solid orange; /* Adiciona borda laranja */
+    margin-bottom: 10px; /* Margem entre os campos */
 }
 
 /* Botão de submissão */
 .button-container {
-    text-align: center; /* Alinha o botão ao centro */
+    margin-left: 533px; /* Alinha o botão à esquerda */
     width: 100%;
-    margin-top: 20px; /* Espaçamento superior */
+    position: absolute; /* Para posicionamento fixo */
+    bottom: 20px; /* Espaçamento inferior */
+    padding-left: 20px; /* Espaçamento à esquerda para o botão */
 }
 
 button.submit-btn {
@@ -68,7 +91,6 @@ button.submit-btn {
     padding: 10px 20px;
     border: none;
     border-radius: 5px;
-    cursor: pointer;
 }
 
 button.submit-btn:hover {
@@ -77,71 +99,69 @@ button.submit-btn:hover {
 </style>
 
 <div class="form-container">
-    <form class="epi-form">
-        <div class="left-section dashed-border">
-            <div class="form-group">
-                <label for="nome">Nome</label>
-                <input type="text" id="nome" placeholder="Escreva aqui...">
-            </div>
-            <div class="form-group">
-                <label for="numero-serie">Número de Série</label>
-                <input type="text" id="numero-serie" placeholder="Escreva aqui...">
-            </div>
-            <div class="form-group">
-                <label for="numero-serie">CA</label>
-                <input type="text" id="numero-serie" placeholder="Escreva aqui...">
-            </div>
-            <div class="form-group">
-                <label for="marca">Marca</label>
-                <input type="text" id="marca" placeholder="Escreva aqui...">
-            </div>
-            <div class="form-group">
-                <label for="modelo">Modelo</label>
-                <input type="text" id="modelo" placeholder="Escreva aqui...">
-            </div>
-            <div class="form-group">
-                <label for="data-aquisicao">Data de Aquisição</label>
-                <input type="date" id="data-aquisicao">
-            </div>
-            <div class="form-group">
-                <label for="data-vencimento">Data de Vencimento</label>
-                <input type="date" id="data-vencimento">
-            </div>
+    <div class="box dashed-border" tabindex="0"> <!-- Adicionado tabindex para permitir foco -->
+        <div class="form-group">
+            <label for="nome">Nome</label>
+            <input type="text" id="nome" placeholder="Escreva aqui...">
         </div>
+        <div class="form-group">
+            <label for="numero-serie">Número de Série</label>
+            <input type="text" id="numero-serie" placeholder="Escreva aqui...">
+        </div>
+        <div class="form-group">
+            <label for="ca">CA</label> <!-- Corrigido o id para evitar duplicação -->
+            <input type="text" id="ca" placeholder="Escreva aqui...">
+        </div>
+        <div class="form-group">
+            <label for="marca">Marca</label>
+            <input type="text" id="marca" placeholder="Escreva aqui...">
+        </div>
+        <div class="form-group">
+            <label for="modelo">Modelo</label>
+            <input type="text" id="modelo" placeholder="Escreva aqui...">
+        </div>
+        <div class="form-group">
+            <label for="data-aquisicao">Data de Aquisição</label>
+            <input type="date" id="data-aquisicao">
+        </div>
+        <div class="form-group">
+            <label for="data-vencimento">Data de Vencimento</label>
+            <input type="date" id="data-vencimento">
+        </div>
+    </div>
 
-        <div class="right-section dashed-border">
-            <div class="form-group">
-                <label for="categoria">Categoria</label>
-                <input type="text" id="categoria" placeholder="Escreva aqui...">
-            </div>
-            <div class="form-group">
-                <label for="setor">Setor</label>
-                <input type="text" id="setor" placeholder="Escreva aqui...">
-            </div>
-            <div class="form-group">
-                <label for="status">Status</label>
-                <select id="status">
-                    <option>Selecione...</option>
-                    <option>Estoque</option>
-                </select>
-            </div>
-            <div class="form-group">
-                <label for="colaborador">Nome do Colaborador</label>
-                <input type="text" id="colaborador" placeholder="Escreva aqui...">
-            </div>
-            <div class="form-group">
-                <label for="quantidade">Quantidade</label>
-                <input type="number" id="quantidade" placeholder="Escreva aqui...">
-            </div>
-            <div class="form-group">
-                <label for="tamanho">Tamanho</label>
-                <input type="text" id="tamanho" placeholder="Escreva aqui...">
-            </div>
+    <div class="box dashed-border" tabindex="0"> <!-- Adicionado tabindex para permitir foco -->
+        <div class="form-group">
+            <label for="categoria">Categoria</label>
+            <input type="text" id="categoria" placeholder="Escreva aqui...">
         </div>
-    </form>
+        <div class="form-group">
+            <label for="setor">Setor</label>
+            <input type="text" id="setor" placeholder="Escreva aqui...">
+        </div>
+        <div class="form-group">
+            <label for="status">Status</label>
+            <select id="status">
+                <option>Selecione...</option>
+                <option>Estoque</option>
+            </select>
+        </div>
+        <div class="form-group">
+            <label for="colaborador">Nome do Colaborador</label>
+            <input type="text" id="colaborador" placeholder="Escreva aqui...">
+        </div>
+        <div class="form-group">
+            <label for="quantidade">Quantidade</label>
+            <input type="number" id="quantidade" placeholder="Escreva aqui...">
+        </div>
+        <div class="form-group">
+            <label for="tamanho">Tamanho</label>
+            <input type="text" id="tamanho" placeholder="Escreva aqui...">
+        </div>
+    </div>
 </div>
 
-<div class="button-container">
+<div class="button-container"> <!-- Botão abaixo das caixas -->
     <button type="submit" class="submit-btn">Cadastrar</button>
 </div>
 
