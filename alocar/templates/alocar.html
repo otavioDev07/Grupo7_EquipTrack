@@ -57,73 +57,82 @@
         background-color: #f8f9fa;
     }
 
-    /* Estilo para o botão de voltar */
-    .btn-back {
-        position: absolute;
-        top: 20px;
-        left: 20px;
-        background-color: transparent;
-        color: #F08424;
-        border: 2px solid #F08424;
-        padding: 10px 20px;
-        border-radius: 50px;
-        font-weight: bold;
-        text-decoration: none;
-        display: inline-flex;
-        align-items: center;
-        transition: background-color 0.3s ease, transform 0.3s ease, color 0.3s ease;
-    }
 
-    .btn-back:hover {
-        background-color: #F08424;
-        color: white;
-        transform: scale(1.1);
-    }
-
-    .btn-back i {
-        margin-right: 8px;
-        transition: transform 0.3s ease;
-    }
-
-    .btn-back:hover i {
-        transform: translateX(-5px);
-    }
-
-    /* Animação no carregamento da página */
-    @keyframes fadeIn {
-        from {
-            opacity: 0;
+        .sidebar {
+            background-color: #0056b3;
+            min-height: 100vh;
+            padding: 20px;
+            color: white;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
         }
-        to {
-            opacity: 1;
+
+        .sidebar-logo {
+            max-width: 130%;
+            margin-bottom: 10px;
+            transition: transform 0.3s ease; /* Animação ao passar o mouse sobre a logo */
         }
-    }
 
-    body, .dashed-border, .btn-back {
-        animation: fadeIn 0.5s ease-in-out;
-    }
+        .sidebar-logo:hover {
+            transform: scale(1.1); /* Efeito de zoom ao passar o mouse */
+        }
 
-    /* Estilização e animação para o título "Alocar" */
-    .title {
-        font-family: 'Oswald', sans-serif;
-        font-size: 2.5rem;
-        text-transform: uppercase;
-        letter-spacing: 2px;
-        color: white;
-        transition: transform 0.3s ease, letter-spacing 0.3s ease;
-    }
+        .sidebar-title {
+            font-size: 28px;
+            font-weight: bold;
+            margin-top: -20px; /* Subindo o texto um pouco mais */
+            transition: transform 0.3s ease, color 0.3s ease; /* Animação para o título */
+        }
 
-    .title:hover {
-        transform: scale(1.1);
-        letter-spacing: 5px;
-    }
+        .sidebar-title:hover {
+            transform: translateY(-5px); /* Efeito de subir o texto ao passar o mouse */
+            color: #ffcc00; /* Troca de cor ao passar o mouse */
+        }
 
-    /* Estilização para a logo */
-    .logo {
-        width: 250px; /* Aumente o valor para 250px */
-        height: auto; /* Mantém a proporção da imagem */
-    }
-</style>
+
+        .btn-back {
+            position: absolute;
+            top: 20px;
+            left: 20px;
+            background-color: transparent;
+            color: #F08424;
+            border: 2px solid #F08424;
+            padding: 10px 20px;
+            border-radius: 50px;
+            font-weight: bold;
+            text-decoration: none;
+            display: inline-flex;
+            align-items: center;
+            transition: background-color 0.3s ease, transform 0.3s ease; /* Animação para o botão de voltar */
+        }
+
+        .btn-back:hover {
+            background-color: #f08424;
+            color: white;
+            transform: scale(1.05); /* Leve aumento no tamanho ao passar o mouse */
+        }
+
+        .btn-back i {
+            margin-right: 8px;
+        }
+
+        /* Ajustes de responsividade */
+        @media (max-width: 768px) {
+            .sidebar {
+                min-height: auto;
+            }
+
+            .sidebar-logo {
+                max-width: 100%; /* Ajusta o tamanho da logo para telas menores */
+            }
+
+            .sidebar-title {
+                font-size: 24px;
+            }
+        }
+    </style>
 
 <body>
     <div class="container-fluid">
