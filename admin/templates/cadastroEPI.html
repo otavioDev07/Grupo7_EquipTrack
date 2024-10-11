@@ -6,17 +6,18 @@
 /* Layout geral do contêiner */
 .container {
     display: flex;
-    justify-content: center; /* Centraliza o conteúdo */
     margin-top: 5%;
+    width: 100%;
+    
 }
 
 /* Bordas tracejadas */
 .dashed-border {
     border: 2px dashed orange;
     border-radius: 10px;
-    padding: 20px;
-    margin: 10px;
-    width: 48%; /* Ajuste para preencher mais espaço e deixar alinhado */
+    padding: 5%;
+    margin: 3%;
+    width: 30rem; /* Ajuste para preencher mais espaço e deixar alinhado */
     transition: transform 0.3s ease, box-shadow 0.3s ease;
 }
 
@@ -24,7 +25,7 @@
 .form-container {
     display: flex;
     justify-content: center;
-    width: 90%; /* Ajuste da largura do contêiner do formulário */
+    width: 100%;
     padding: 40px;
 }
 
@@ -34,12 +35,8 @@
     width: 100%;
 }
 
-.left-section, .right-section {
-    width: 48%; /* Ajuste para maior simetria */
-}
-
 .form-group {
-    margin-bottom: 20px;
+    margin-bottom: 10%;
 }
 
 /* Estilo dos rótulos */
@@ -60,9 +57,9 @@ input[type="text"], input[type="date"], select, input[type="number"] {
 
 /* Botão de submissão */
 .button-container {
-    text-align: left; /* Alinha o botão à esquerda */
-    margin-left: 10px;
+    text-align: center; /* Alinha o botão ao centro */
     width: 100%;
+    margin-top: 20px; /* Espaçamento superior */
 }
 
 button.submit-btn {
@@ -72,7 +69,6 @@ button.submit-btn {
     border: none;
     border-radius: 5px;
     cursor: pointer;
-    margin-top: 20px;
 }
 
 button.submit-btn:hover {
@@ -92,6 +88,10 @@ button.submit-btn:hover {
                 <input type="text" id="numero-serie" placeholder="Escreva aqui...">
             </div>
             <div class="form-group">
+                <label for="numero-serie">CA</label>
+                <input type="text" id="numero-serie" placeholder="Escreva aqui...">
+            </div>
+            <div class="form-group">
                 <label for="marca">Marca</label>
                 <input type="text" id="marca" placeholder="Escreva aqui...">
             </div>
@@ -106,10 +106,6 @@ button.submit-btn:hover {
             <div class="form-group">
                 <label for="data-vencimento">Data de Vencimento</label>
                 <input type="date" id="data-vencimento">
-            </div>
-            <div class="form-group">
-                <label for="data-locacao">Data de Locação</label>
-                <input type="date" id="data-locacao">
             </div>
         </div>
 
@@ -126,7 +122,6 @@ button.submit-btn:hover {
                 <label for="status">Status</label>
                 <select id="status">
                     <option>Selecione...</option>
-                    <option>Em uso</option>
                     <option>Estoque</option>
                 </select>
             </div>
