@@ -233,10 +233,13 @@ button {
     font-size: 16px;
     cursor: pointer;
     margin-top: 20px;
+    transition: all 200ms;
+    display: inline-block;
 }
 
 button:hover {
-    background-color: #194666;
+    background-color: #ff914d;
+    transform: scale(1.05);
 }
 
 .close-btn-close {
@@ -250,16 +253,16 @@ button:hover {
     margin-top: 15px;
 }
 
+
 /* Estilo do Container de Indicadores de Performance */
 .indicadores-container {
             background-color: #2672af;
             border-radius: 10px;
             padding: 20px;
-            width: 700px;
+            width: 850px;
             box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
             border: 2px solid #ff9900;
             text-align: center;
-            margin-top: 20px;
             margin: auto;
         }
 
@@ -267,6 +270,7 @@ button:hover {
             color: #ff9900;
             font-size: 24px;
             margin-bottom: 20px;
+            margin-left: 22%;
         }
 
         .indicadores-content {
@@ -280,7 +284,7 @@ button:hover {
         }
 
         .indicador h3 {
-            color: #ff9900;
+            color: #fff;
             font-size: 18px;
             margin-bottom: 10px;
         }
@@ -293,7 +297,7 @@ button:hover {
             font-weight: bold;
             padding: 10px;
             margin: 0 auto;
-            width: 60px;
+            width: 70px;
             border: 2px solid #ff9900;
         }
 </style>
@@ -464,7 +468,7 @@ button:hover {
             <div class="valor">Luiz</div>
         </div>
         <div class="indicador">
-            <h3>Número de equipamentos revisados ou atualizados essa semana</h3>
+            <h3>Número de equipamentos atualizados essa semana</h3>
             <div class="valor">10</div>
         </div>
     </div>
