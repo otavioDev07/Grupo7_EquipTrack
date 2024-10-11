@@ -24,32 +24,33 @@
         font-family: Arial, sans-serif;
         background-color: #f9f9f9;
     }
-    
-    .card-container {
-        display: flex;
-        justify-content: space-around;
-        padding: 20px;
-        gap: 10px; /* Espaçamento entre os cartões */
-        flex-wrap: wrap; /* Permite que os cartões se ajustem em diferentes resoluções */
-    }
-    
-    .card {
-        background: linear-gradient(to right, #D2D2D2, #003c7e);
-        border-radius: 10px;
-        width: 180px; /* Aumenta a largura dos cartões */
-        text-align: center;
-        padding: 20px;
-        margin-bottom: 20px; /* Espaçamento inferior entre as linhas */
-        white-space: nowrap; /* Impede a quebra de palavras */
-    }
-    
-    .card .icon {
-        background-color: #EAF0F7;
-        border-radius: 10px;
-        padding: 10px;
-        margin-bottom: 15px;
-    }
-    
+
+.card-container {
+    display: flex;
+    justify-content: space-around;
+    padding: 20px;
+    gap: 10px; /* Espaçamento entre os cartões */
+    flex-wrap: wrap; /* Permite que os cartões se ajustem em diferentes resoluções */
+}
+
+.card {
+    background: linear-gradient(to right, #D2D2D2, #003c7e);
+    border-radius: 10px;
+    width: 180px; /* Aumenta a largura dos cartões */
+    text-align: center;
+    padding: 20px;
+    margin-bottom: 20px; /* Espaçamento inferior entre as linhas */
+    white-space: nowrap; /* Impede a quebra de palavras */
+    border: none;
+}
+
+.card .icon {
+    background-color: #EAF0F7;
+    border-radius: 10px;
+    padding: 25px;
+    margin-bottom: 20px;
+}
+
     .card img {
         width: 50px;
         height: 50px;
@@ -97,7 +98,7 @@
         background-color: #EAF0F7;
         border-radius: 10px;
         border-width: 0;
-        box-shadow: rgba(25, 25, 25, 0.04) 0 0 1px 0, rgba(0, 0, 0, 0.1) 0 3px 4px 0;
+        box-shadow: rgba(25, 25, 25, 0.04) 0 0 1px 0, rgba(0, 0, 0, 0) 0 3px 4px 0;
         color: #015799;
         cursor: pointer;
         display: inline-block;
@@ -115,65 +116,191 @@
         background-color: #d0e4f5;
         transform: scale(1.05);
     }
-    
-    .content-container {
-        display: flex;
-        justify-content: center;
-        flex-direction: column;
-        gap: 8%;
-        align-items: center;
-        height: 40vh;
-    }
-    
-    .welcome-box {
-        position: relative;
-        background: linear-gradient(to right, #D2D2D2, #015799);
-        border-radius: 12px;
-        display: flex;
-        align-items: center;
-        padding: 20px;
-        box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.1);
-        max-width: 700px;
-        width: 100%;
-    }
-    
-    .illustration {
-        margin-right: 20px;
-    }
-    
-    .image {
-        width: 120px;
-        height: auto;
-        border-radius: 8px;
-    }
-    
-    .text-content {
-        color: white;
-    }
-    
-    .text-content h1 {
-        font-size: 24px;
-        margin-bottom: 10px;
-    }
-    
-    .text-content p {
-        font-size: 16px;
-        line-height: 1.5;
-    }
-    
-    .close-btn {
-        background-color: transparent;
-        border: none;
-        font-size: 20px;
-        color: white;
-        position: absolute;
-        top: 10px;
-        right: 20px;
-        cursor: pointer;
-    }
-    
+
+    .container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 40vh;
+}
+
+.welcome-box {
+    background: linear-gradient(to right, #D2D2D2, #015799);
+    border-radius: 12px;
+    display: flex;
+    align-items: center;
+    padding: 20px;
+    box-shadow: 0px 4px 12px rgba(255, 254, 254, 0);
+    max-width: 700px;
+    width: 100%;
+    margin: auto;
+}
+
+.illustration {
+    margin-right: 20px;
+}
+
+.image {
+    width: 120px;
+    height: auto;
+    border-radius: 8px;
+}
+
+.text-content {
+    color: white;
+}
+
+.text-content h1 {
+    font-size: 24px;
+    margin-bottom: 10px;
+}
+
+.text-content p {
+    font-size: 16px;
+    line-height: 1.5;
+}
+
+.container2 {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: row;
+    gap: 50px;
+    padding: 30px;
+    background: linear-gradient(to right, #D2D2D2, #015799);
+    border-radius: 12px;
+    width: fit-content;
+    margin: auto;
+}
+
+.box {
+    background-color: white;
+    border-radius: 10px;
+    padding: 20px;
+    width: 300px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    display: flex;
+    flex-direction: column;
+}
+
+h2 {
+    margin-bottom: 20px;
+    text-align: left;
+}
+
+.coluna {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
+
+.atividade {
+    display: flex;
+    align-items: center;
+    margin-bottom: 15px;
+}
+
+.icone {
+    width: 20px;
+    height: 20px;
+    border-radius: 50%;
+    margin-right: 10px;
+}
+
+.green {
+    background-color: #53c07b;
+}
+
+.purple {
+    background-color: #927de5;
+}
+
+.orange {
+    background-color: #ff914d;
+}
+
+.ver-mais {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+button {
+    background-color: #015799;
+    color: white;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 15px;
+    font-size: 16px;
+    cursor: pointer;
+    margin-top: 20px;
+    transition: all 200ms;
+    display: inline-block;
+}
+
+button:hover {
+    background-color: #ff914d;
+    transform: scale(1.05);
+}
+
+.close-btn-close {
+    background-color: #ff914d;
+    color: white;
+    padding: 5px 15px;
+    border: none;
+    border-radius: 40px;
+    font-size: 16px;
+    cursor: pointer;
+    margin-top: 15px;
+}
 
 
+/* Estilo do Container de Indicadores de Performance */
+.indicadores-container {
+            background-color: #2672af;
+            border-radius: 10px;
+            padding: 20px;
+            width: 850px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            border: 2px solid #ff9900;
+            text-align: center;
+            margin: auto;
+        }
+
+        .indicadores-container h2 {
+            color: #ff9900;
+            font-size: 24px;
+            margin-bottom: 20px;
+            margin-left: 22%;
+        }
+
+        .indicadores-content {
+            display: flex;
+            justify-content: space-between;
+        }
+
+        .indicador {
+            text-align: center;
+            flex: 1;
+        }
+
+        .indicador h3 {
+            color: #fff;
+            font-size: 18px;
+            margin-bottom: 10px;
+        }
+
+        .valor {
+            background-color: white;
+            color: #2672af;
+            border-radius: 5px;
+            font-size: 24px;
+            font-weight: bold;
+            padding: 10px;
+            margin: 0 auto;
+            width: 70px;
+            border: 2px solid #ff9900;
+        }
 </style>
 
 <script>
@@ -197,7 +324,9 @@
                 <div class="collapse navbar-collapse" id="navbarSupportedContent">
                     <ul class="navbar-nav me-auto mb-2 mb-lg-0">
                         <li class="nav-item">
-                            <button class="btn-padrao">Cadastro</button>
+                            <a href="/cadastro">
+                                <button class="btn-padrao">Cadastro</button>
+                            </a>
                         </li>
                         <li class="nav-item">
                             <button class="btn-padrao">Estoque</button>
@@ -217,11 +346,11 @@
     <main class="flex-fill py-3">
         <div class="content-container">
             <div class="welcome-box">
-                <button class="close-btn" onclick="closeWelcomeBox()">X</button> <!-- Botão de fechar -->
                 <div class="illustration">
                     <img src="/static/images/icone1.png" alt="Ilustração" class="image">
                 </div>
                 <div class="text-content">
+                    <div style="padding-left: 90%; "><button class="close-btn-close" onclick="closeWelcomeBox()">X</button> <!-- Botão de fechar --></div>
                     <h1 class="fw-bold">Seja Bem-vindo</h1>
                     <p>Aqui você tem acesso aos EPIs da escola. Use esta página para verificar datas de validade, estado de conservação e estoque, além de atualizar o status dos equipamentos e receber notificações sobre vencimentos próximos.</p>
                 </div>
@@ -284,6 +413,67 @@
                 </div>
             </div>
         </div>
+
+<!-- Atividade Mensal -->
+        <div class="container2">
+            <div class="box">
+                <h2>Atividade Mensal</h2>
+                <div class="coluna">
+                    <div class="atividade">
+                        <div class="icone green"></div>
+                        <p><strong>Luis</strong> retirou 3 EPI's esta semana.</p>
+                    </div>
+                    <div class="atividade">
+                        <div class="icone purple"></div>
+                        <p><strong>Carol</strong> editou 3 EPI's esta semana.</p>
+                    </div>
+                    <div class="atividade">
+                        <div class="icone orange"></div>
+                        <p><strong>Carlos</strong> descartou 5 EPI's esta semana.</p>
+                    </div>
+                </div>
+            </div>
+    
+            <div class="ver-mais">
+                <button>Ver mais</button>
+            </div>
+    
+            <div class="box">
+                <div class="coluna">
+                    <div class="atividade">
+                        <div class="icone green"></div>
+                        <p><strong>Luis</strong> retirou 2 EPI's esta semana.</p>
+                    </div>
+                    <div class="atividade">
+                        <div class="icone purple"></div>
+                        <p><strong>Carol</strong> editou 3 EPI's semana passada.</p>
+                    </div>
+                    <div class="atividade">
+                        <div class="icone orange"></div>
+                        <p><strong>Fernanda</strong> cadastrou 5 EPI's no dia 02/10.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+<!-- Indicadores de Performance -->
+<div class="indicadores-container">
+    <h2>Indicadores de Performance do Sistema</h2>
+    <div class="indicadores-content">
+        <div class="indicador">
+            <h3>Número total de equipamentos cadastrados</h3>
+            <div class="valor">150</div>
+        </div>
+        <div class="indicador">
+            <h3>Colaborador mais ativo no sistema</h3>
+            <div class="valor">Luiz</div>
+        </div>
+        <div class="indicador">
+            <h3>Número de equipamentos atualizados essa semana</h3>
+            <div class="valor">10</div>
+        </div>
+    </div>
+</div>
     </main>
 
     <footer class="border-top bg-light shadow border-3 border-dark border-opacity-25">
