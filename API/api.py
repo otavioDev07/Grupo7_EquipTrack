@@ -51,7 +51,7 @@ def list_funcionarios():
                     'idFuncionario': row[0],
                     'nomeFuncionario': row[1],
                     'NIF': row[2],
-                    'CPF': row[3]
+                    'CPF': row[3],
                     'idSetor': row[4],
                     'condicoes_especiais': row[5],
                     'cargo': row[6],
