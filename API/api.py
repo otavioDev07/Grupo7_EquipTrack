@@ -10,7 +10,7 @@ CORS(app)
 def list_EPI():
     with conecta_db() as (conexao, cursor):
         try:
-            cursor.execute('SELECT * FROM epi')
+            cursor.execute('SELECT  FROM epi')
             result = cursor.fetchall()
             
             estoque = []
