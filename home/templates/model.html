@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Cadastrar Funcionário</title>
+    <title>Modelo</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet"
         integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css">
@@ -29,52 +29,10 @@
             font-size: 24px;
             font-weight: bold;
         }
-
-        .form-container {
-            margin: 20px;
-            padding: 20px;
-            border: 2px dashed #ffa500;
-            background-color: white;
-            border-radius: 8px;
-        }
-
-        .form-container label {
-            font-weight: bold;
-        }
-
-        .btn-submit {
-            background-color: #0056b3;
-            color: white;
-        }
-
-        .btn-submit:hover {
-            background-color: #003f7f;
-        }
-
-        .btn-back {
-        position: absolute;
-        top: 20px;
-        left: 20px;
-        background-color: transparent;
-        color: #F08424;
-        border: 2px solid #F08424;
-        padding: 10px 20px;
-        border-radius: 50px;
-        font-weight: bold;
-        text-decoration: none;
-        display: inline-flex;
-        align-items: center;
-        }
     </style>
 </head>
 
 <body>
-
-    <div class="col-md-10 d-flex align-items-center justify-content-center vh-100">
-        <!-- Botão de voltar estilizado -->
-        <a href="/" class="btn-back">
-            <i class="fas fa-arrow-left"></i> Voltar
-        </a>
     <div class="container-fluid">
         <div class="row">
             <!-- Sidebar -->
@@ -83,13 +41,14 @@
                 <div class="sidebar-title">Modelo</div>
             </div>
 
-
-            <main class="flex-fill py-3">
+            <!-- Conteúdo dinâmico aqui -->
+            <main class="col-md-9 col-sm-8">
                 {% block conteudo %}
+                <!-- O conteúdo de cadastro.html será inserido aqui -->
                 {% endblock %}
             </main>
-
-           
+        </div>
+    </div>
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"
         integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL" crossorigin="anonymous"></script>
