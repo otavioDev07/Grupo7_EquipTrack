@@ -14,7 +14,8 @@ app.register_blueprint(model_blueprint)
 app.register_blueprint(home_blueprint)
 app.register_blueprint(db_blueprint)
 app.register_blueprint(login_blueprint)
-app.register_blueprint(alocar_blueprint)app.register_blueprint(admin_blueprint)
+app.register_blueprint(alocar_blueprint)
+app.register_blueprint(admin_blueprint)
 
 
 if __name__ == '__main__':
