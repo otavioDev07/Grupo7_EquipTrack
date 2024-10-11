@@ -59,40 +59,61 @@
     .card h3 {
         color: white;
         margin-bottom: 15px;
-        font-size: 1.2rem; /* Ajuste do tamanho da fonte para evitar quebras */
+        font-size: 1.2rem; /* Ajuste do tamanho da fonte */
     }
-    
+
     .indicators {
-        background-color: #EAF0F7;
-        border-radius: 15px;
-        padding: 10px;
         display: flex;
         justify-content: space-around;
-        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        padding: 10px;
     }
-    
+
     .indicator {
-        width: 35px;
-        height: 35px;
-        border-radius: 50%;
         display: flex;
+        flex-direction: column;
         align-items: center;
         justify-content: center;
+        text-align: center;
+    }
+
+    .circle {
+        width: 20px;
+        height: 20px;
+        border-radius: 50%;
+    }
+
+    .indicator.red .circle {
+        background-color: red;
+    }
+
+    .indicator.yellow .circle {
+        background-color: yellow;
+    }
+
+    .indicator .number {
+        margin-top: 8px;
         font-size: 16px;
         font-weight: bold;
-        color: white;
-        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
-    }
-    
-    .indicator.red {
-        background-color: red;
-        border: 2px solid #ffcccc;
-    }
-    
-    .indicator.yellow {
-        background-color: yellow;
         color: black;
+        background-color: #f9f9f9;
+        padding: 3px 8px;
+        border-radius: 5px;
+        border: 2px solid transparent;
     }
+
+    .indicator.red .number {
+        border-color: red;
+    }
+
+    .indicator.yellow .number {
+        border-color: yellow;
+    }
+
+    .card-container {
+        display: flex;
+        justify-content: space-around;
+    }
+
     
     .btn-padrao {
         background-color: #EAF0F7;
@@ -365,13 +386,18 @@ button:hover {
                 <h3>Cozinha</h3>
                 <div class="icon">
                     <div class="indicators">
-                        <div class="indicator red">5</div>
-                        <div class="indicator yellow">2</div>
+                        <div class="indicator red">
+                            <div class="circle"></div>
+                            <span class="number">5</span>
+                        </div>
+                        <div class="indicator yellow">
+                            <div class="circle"></div>
+                            <span class="number">2</span>
+                        </div>
                     </div>
                 </div>
             </div>
-
-
+        
             <div class="card">
                 <div class="icon">
                     <img src="/static/images/manutenção.png" alt="Manutenção">
@@ -379,13 +405,18 @@ button:hover {
                 <h3>Manutenção</h3>
                 <div class="icon">
                     <div class="indicators">
-                        <div class="indicator red">5</div>
-                        <div class="indicator yellow">2</div>
+                        <div class="indicator red">
+                            <div class="circle"></div>
+                            <span class="number">5</span>
+                        </div>
+                        <div class="indicator yellow">
+                            <div class="circle"></div>
+                            <span class="number">2</span>
+                        </div>
                     </div>
                 </div>
             </div>
-
-
+        
             <div class="card">
                 <div class="icon">
                     <img src="/static/images/profs.png" alt="Professores">
@@ -393,13 +424,18 @@ button:hover {
                 <h3>Professores</h3>
                 <div class="icon">
                     <div class="indicators">
-                        <div class="indicator red">5</div>
-                        <div class="indicator yellow">2</div>
+                        <div class="indicator red">
+                            <div class="circle"></div>
+                            <span class="number">5</span>
+                        </div>
+                        <div class="indicator yellow">
+                            <div class="circle"></div>
+                            <span class="number">2</span>
+                        </div>
                     </div>
                 </div>
             </div>
-
-
+        
             <div class="card">
                 <div class="icon">
                     <img src="/static/images/inspetores.png" alt="Inspetores">
@@ -407,13 +443,19 @@ button:hover {
                 <h3>Inspetores</h3>
                 <div class="icon">
                     <div class="indicators">
-                        <div class="indicator red">5</div>
-                        <div class="indicator yellow">2</div>
+                        <div class="indicator red">
+                            <div class="circle"></div>
+                            <span class="number">5</span>
+                        </div>
+                        <div class="indicator yellow">
+                            <div class="circle"></div>
+                            <span class="number">2</span>
+                        </div>
                     </div>
                 </div>
             </div>
         </div>
-
+        
 <!-- Atividade Mensal -->
         <div class="container2">
             <div class="box">
