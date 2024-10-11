@@ -5,7 +5,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Alocar</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
-
     <link href="https://fonts.googleapis.com/css2?family=Oswald:wght@500&display=swap" rel="stylesheet">
 </head>
 
@@ -14,7 +13,8 @@
     .dashed-border {
         border: 2px dashed orange;
         border-radius: 10px;
-        width: 600px;
+        width: 100%;
+        max-width: 600px;
         transition: transform 0.3s ease, box-shadow 0.3s ease;
     }
 
@@ -71,23 +71,23 @@
     .sidebar-logo {
         max-width: 130%;
         margin-bottom: 10px;
-        transition: transform 0.3s ease; /* Animação ao passar o mouse sobre a logo */
+        transition: transform 0.3s ease;
     }
 
     .sidebar-logo:hover {
-        transform: scale(1.1); /* Efeito de zoom ao passar o mouse */
+        transform: scale(1.1);
     }
 
     .sidebar-title {
         font-size: 28px;
         font-weight: bold;
-        margin-top: -20px; /* Subindo o texto um pouco mais */
-        transition: transform 0.3s ease, color 0.3s ease; /* Animação para o título */
+        margin-top: -20px;
+        transition: transform 0.3s ease, color 0.3s ease;
     }
 
     .sidebar-title:hover {
-        transform: translateY(-5px); /* Efeito de subir o texto ao passar o mouse */
-        color: #ffcc00; /* Troca de cor ao passar o mouse */
+        transform: translateY(-5px);
+        color: #ffcc00;
     }
 
     .btn-back {
@@ -103,13 +103,13 @@
         text-decoration: none;
         display: inline-flex;
         align-items: center;
-        transition: background-color 0.3s ease, transform 0.3s ease; /* Animação para o botão de voltar */
+        transition: background-color 0.3s ease, transform 0.3s ease;
     }
 
     .btn-back:hover {
         background-color: #f08424;
         color: white;
-        transform: scale(1.05); /* Leve aumento no tamanho ao passar o mouse */
+        transform: scale(1.05);
     }
 
     .btn-back i {
@@ -120,14 +120,25 @@
     @media (max-width: 768px) {
         .sidebar {
             min-height: auto;
-        }
-
-        .sidebar-logo {
-            max-width: 100%; /* Ajusta o tamanho da logo para telas menores */
+            width: 100%;
+            padding: 10px;
         }
 
         .sidebar-title {
             font-size: 24px;
+        }
+
+        .col-md-2 {
+            width: 100%;
+        }
+
+        .col-md-10 {
+            width: 100%;
+            padding: 20px;
+        }
+
+        .vh-100 {
+            height: auto !important;
         }
     }
 </style>
@@ -136,9 +147,9 @@
     <div class="container-fluid">
         <div class="row">
             <!-- Sidebar -->
-            <div class="col-md-2 bg-primary text-white">
-                <div class="d-flex flex-column align-items-center justify-content-center vh-100">
-                    <img src="/static/images/logo1.png" alt="Logo" class="img-fluid mb-4 logo"> <!-- Classe 'logo' com largura aumentada -->
+            <div class="col-md-2 bg-primary text-white sidebar">
+                <div class="d-flex flex-column align-items-center justify-content-center">
+                    <img src="/static/images/logo1.png" alt="Logo" class="img-fluid mb-4 logo">
                     <h2 class="title">Alocar</h2>
                 </div>
             </div>
