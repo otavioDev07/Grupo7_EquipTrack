@@ -9,3 +9,7 @@ def cadastro_EPI():
 @admin_blueprint.route('/cadastroFuncionario')
 def cadastro_Funcionario():
     return render_template('cadastroFuncionario.html')
+
+@admin_blueprint.route('/descarte')
+def descarte():
+    return render_template('descarte.html')
