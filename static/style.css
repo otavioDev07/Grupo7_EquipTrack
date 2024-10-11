@@ -1,100 +1,79 @@
-* {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
-}
 
-body {
-    font-family: Arial, sans-serif;
-    background-color: #f9f9f9;
-}
+        body {
+            background-color: #ffffff;
+        }
 
-.container {
-    display: flex;
-    height: 100vh;
-}
+        .sidebar {
+            background-color: #0056b3;
+            min-height: 100vh;
+            padding: 20px;
+            color: white;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+        }
 
-.sidebar {
-    background-color: #003c7e;
-    color: white;
-    width: 250px;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: flex-start;
-    padding: 20px;
-}
+        .sidebar-logo {
+            max-width: 130%;
+            margin-bottom: 10px;
+            transition: transform 0.3s ease; /* Animação ao passar o mouse sobre a logo */
+        }
 
-.logo {
-    margin-top: 50px;
-    text-align: center;
-}
+        .sidebar-logo:hover {
+            transform: scale(1.1); /* Efeito de zoom ao passar o mouse */
+        }
 
-.logo h2 {
-    margin-top: 20px;
-}
+        .sidebar-title {
+            font-size: 28px;
+            font-weight: bold;
+            margin-top: -20px; /* Subindo o texto um pouco mais */
+            transition: transform 0.3s ease, color 0.3s ease; /* Animação para o título */
+        }
 
-.back-button {
-    background-color: orange;
-    color: white;
-    border: none;
-    padding: 10px;
-    margin-bottom: 30px;
-    font-size: 18px;
-    cursor: pointer;
-}
+        .sidebar-title:hover {
+            transform: translateY(-5px); /* Efeito de subir o texto ao passar o mouse */
+            color: #ffcc00; /* Troca de cor ao passar o mouse */
+        }
 
-.form-container {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    width: 100%;
-    padding: 40px;
-}
 
-form {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 20px;
-    width: 100%;
-    max-width: 1000px;
-    background-color: white;
-    padding: 30px;
-    border-radius: 10px;
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-}
+        .btn-back {
+            position: absolute;
+            top: 20px;
+            left: 20px;
+            background-color: transparent;
+            color: #F08424;
+            border: 2px solid #F08424;
+            padding: 10px 20px;
+            border-radius: 50px;
+            font-weight: bold;
+            text-decoration: none;
+            display: inline-flex;
+            align-items: center;
+            transition: background-color 0.3s ease, transform 0.3s ease; /* Animação para o botão de voltar */
+        }
 
-.form-group {
-    display: flex;
-    flex-direction: column;
-}
+        .btn-back:hover {
+            background-color: #f08424;
+            color: white;
+            transform: scale(1.05); /* Leve aumento no tamanho ao passar o mouse */
+        }
 
-.form-group label {
-    margin-bottom: 5px;
-    color: #333;
-}
+        .btn-back i {
+            margin-right: 8px;
+        }
 
-.form-group input, .form-group select {
-    padding: 10px;
-    border: 2px solid #ff7a1a;
-    border-radius: 5px;
-    font-size: 16px;
-    outline: none;
-}
+        /* Ajustes de responsividade */
+        @media (max-width: 768px) {
+            .sidebar {
+                min-height: auto;
+            }
 
-.submit-button {
-    grid-column: span 2;
-    background-color: #007bff;
-    color: white;
-    border: none;
-    padding: 15px;
-    border-radius: 5px;
-    font-size: 18px;
-    cursor: pointer;
-    margin-top: 20px;
-}
+            .sidebar-logo {
+                max-width: 100%; /* Ajusta o tamanho da logo para telas menores */
+            }
 
-.submit-button:hover {
-    background-color: #0056b3;
-}
-
+            .sidebar-title {
+                font-size: 24px;
+            }
+        } 
