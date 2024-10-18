@@ -4,7 +4,7 @@
 
 <style>
 /* Layout geral do contêiner */
-.container {
+.form-container {
     display: flex;
     justify-content: center; /* Centraliza o conteúdo */
     margin-top: 5%;
@@ -63,7 +63,7 @@ button {
     border-radius: 15px;
     font-size: 16px;
     cursor: pointer;
-    margin-left: 48%;
+    margin-left: 45%;
     transition: all 200ms;
     display: inline-block;
 }
@@ -72,6 +72,21 @@ button:hover {
     background-color: #ff914d;
     transform: scale(1.05);
 }
+/* Campos de entrada */
+input[type="text"],
+    input[type="date"],
+    select,
+    input[type="number"] {
+        width: 100%;
+        padding: 8px;
+        /* Reduzido para um layout mais compacto */
+        border-radius: 5px;
+        border: 1px solid #ddd;
+        border: 1px solid orange;
+        /* Adiciona borda laranja */
+        margin-bottom: 0.5em;
+        /* Margem entre os campos */
+    }
 </style>
 
 <div class="form-container">
@@ -79,63 +94,18 @@ button:hover {
     <div class="dashed-border">
     <form>
         <div style="margin-bottom: 10px;" class="form-group">
-            <label for="nome-completo">Nome Completo</label>
-            <input type="text" id="nome-completo" placeholder="Escreva aqui...">
+            <label for="nome-completo">Por que você está descartando essa EPI?</label>
+            <input type="text" id="porque-descarte" placeholder="Escreva aqui...">
         </div>
 
         <div style="margin-bottom: 10px;" class="form-group">
-            <label for="nif">Número de Identificação NIF</label>
-            <input type="text" id="nif" placeholder="Escreva aqui...">
+            <label for="nif">Onde foi descartada essa EPI?</label>
+            <input type="text" id="local" placeholder="Escreva aqui...">
         </div>
 
-        <div style="margin-bottom: 10px;" class="form-group">
-            <label for="cargo">Cargo/Posição</label>
-            <input type="text" id="cargo" placeholder="Escreva aqui...">
-        </div>
-
-        <div style="margin-bottom: 10px;" class="form-group">
-            <label for="setor">Setor</label>
-            <select id="setor">
-                <option value="">Selecione o setor</option>
-                <option value="">Cozinha</option>
-                <option value="">Manutenção</option>
-                <option value="">Professores</option>
-                <option value="">Inspetores</option>
-            </select>
-        </div>
-
-        <div style="margin-bottom: 10px;" class="form-group">
-            <label for="tamanho-roupa">Tamanho de Roupas</label>
-            <select id="setor">
-                <option value="">Selecione o tamanho</option>
-                <option value="">P</option>
-                <option value="">M</option>
-                <option value="">G</option>
-                <option value="">GG</option>
-            </select>
-        </div>
-
-        <div style="margin-bottom: 10px;" class="form-group">
-            <label for="calcados">Calçados</label>
-            <select id="calcados">
-                <option>Selecione o tamanho</option>
-                <option value="">33</option>
-                <option value="">34</option>
-                <option value="">35</option>
-                <option value="">36</option>
-                <option value="">37</option>
-                <option value="">38</option>
-                <option value="">39</option>
-                <option value="">40</option>
-                <option value="">41</option>
-                <option value="">42</option>
-                <option value="">43</option>
-            </select>
-        </div>
-
-        <div style="margin-bottom: 10px;" class="form-group">
-            <label for="condicoes-especiais">Condições Especiais</label>
-            <input type="text" id="condicoes-especiais" placeholder="Restrições ou condições que possam exigir EPIs especiais">
+        <div class="form-group">
+                <label for="data-vencimento">Data de Vencimento</label>
+                <input type="date" id="data-vencimento">
         </div>
 
     </form>
