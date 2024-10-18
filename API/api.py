@@ -48,7 +48,27 @@ def list_funcionarios(id):
         except Exception as e:
             return jsonify({'error': str(e)}), 400 
         
+#Listagem do Backlog
+@api_blueprint.route('/listBacklog', methods=['GET'])
+def list_backlog():
+    with conecta_db() as (conexao, cursor):
+        try:
+            cursor.execute('SELECT * FROM backlog')
+            result = cursor.fetchall()
 
+            backlog = []
+
+            for row in result:
+                backlog.append({
+                    'idBacklog': row[0],
+                    'dataHora': row[1],
+                    'acao': row[2],
+                    'idSupervisor': row[3]
+                })
+            return jsonify(backlog), 200
+        except Exception as e:
+            return jsonify({'error': str(e)}), 400 
+        
 #Cadastro de EPI
 @api_blueprint.route('/cadEPI', methods=['POST'])
 def cad_EPI():
@@ -107,6 +127,9 @@ def cad_EPI():
 
         except Exception as e:
             return jsonify({'error': str(e)}), 400 
+        
+
+
 
 
 #ERRO 404
