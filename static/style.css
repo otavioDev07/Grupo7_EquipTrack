@@ -162,3 +162,21 @@ button.submit-btn {
 button.submit-btn:hover {
     background-color: #003c7e;
 }
+
+.botao {
+    background-color: #015799;
+    color: white;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 15px;
+    font-size: 16px;
+    cursor: pointer;
+    margin-left: 46%;
+    transition: all 200ms;
+    display: inline-block;
+}
+
+button:hover {
+    background-color: #ff914d;
+    transform: scale(1.05);
+}
