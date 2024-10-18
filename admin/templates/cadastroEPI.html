@@ -76,16 +76,18 @@
 </style>
 
 <div class="container-fluid">
+    <form action="/cadastroEPI" method="post">
     <div class="row form-container justify-content-center">
+       
         <!-- Coluna do lado esquerdo -->
         <div class="col-12 col-md-6 col-lg-5 box dashed-border" tabindex="0">
             <div class="form-group">
                 <label for="nome">Nome</label>
-                <input type="text" id="nome" placeholder="Escreva aqui...">
+                <input type="text" id="nome" name="nome" placeholder="Escreva aqui...">
             </div>
             <div class="form-group">
                 <label for="numero-serie">Número de Série</label>
-                <input type="text" id="numero-serie" placeholder="Escreva aqui...">
+                <input type="text" id="numero-serie" name="numero-serie" placeholder="Escreva aqui...">
             </div>
             <div class="form-group">
                 <label for="ca">CA</label>
@@ -112,8 +114,13 @@
         <!-- Coluna do lado direito -->
         <div class="col-12 col-md-6 col-lg-5 box dashed-border" tabindex="0">
             <div class="form-group">
-                <label for="setor">Setor</label>
-                <input type="text" id="setor" placeholder="Escreva aqui...">
+                <label for="status">Setor</label>
+                <select id="setor">
+                    <option value="" selected disabled>Selecione...</option>
+                    {% for setor in setores %}
+                    <option value="{{ setor[0] }}">{{setor[1]}}</option>
+                    {% endfor %}
+                </select>
             </div>
             <div class="form-group">
                 <label for="status">Status</label>
@@ -122,10 +129,7 @@
                     <option>Estoque</option>
                 </select>
             </div>
-            <div class="form-group">
-                <label for="colaborador">Nome do Colaborador</label>
-                <input type="text" id="colaborador" placeholder="Escreva aqui...">
-            </div>
+    
             <div class="form-group">
                 <label for="quantidade">Quantidade</label>
                 <input type="number" id="quantidade" placeholder="Escreva aqui...">
@@ -144,6 +148,90 @@
     <div class="row justify-content-center">
         <button type="submit" class="submit-btn">Cadastrar</button>
     </div>
+    </form>
 </div>
+
+<script>
+    document.querySelector('.submit-btn').addEventListener('click', function(e) {
+        e.preventDefault();
+
+        // Função para obter valor com verificação
+        const getElementValue = (id) => {
+            const element = document.getElementById(id);
+            return element ? element.value : null; // Retorna null se o elemento não for encontrado
+        };
+
+        // Capturar os valores dos campos do formulário
+        const nome = getElementValue('nome');
+        const numeroSerie = getElementValue('numero-serie');
+        const codigoCA = getElementValue('ca');
+        const marca = getElementValue('marca');
+        const modelo = getElementValue('modelo') || null; // Opcional
+        const dataAquisicao = getElementValue('data-aquisicao');
+        const dataVencimento = getElementValue('data-vencimento');
+        const setor = getElementValue('setor');
+        const status = getElementValue('status');
+        const quantidade = getElementValue('quantidade');
+        const observacao = getElementValue('observacao') || null; // Opcional
+        const tamanho = getElementValue('tamanho') || null; // Opcional
+
+        // Verificar se os campos obrigatórios estão preenchidos
+        if (!nome || !numeroSerie || !codigoCA || !marca || !dataAquisicao || !dataVencimento || !setor || !status || !quantidade) {
+            alert('Preencha todos os campos obrigatórios.');
+            return;
+        }
+
+        // Criar o objeto de dados para enviar ao backend
+        const data = {
+            codigoCA: codigoCA,
+            numeroSerie: numeroSerie,
+            marca: marca,
+            nomeEquipamento: nome,
+            dataAquisicao: dataAquisicao,
+            quantidade: parseInt(quantidade),
+            dataVencimento: dataVencimento,
+            idSetor: setor,  // Presumindo que setor já seja o ID ou uma string que será convertida no backend
+            status: status,
+            modelo: modelo,
+            observacoes: observacao,
+            tamanho: tamanho
+        };
+
+        console.log('Dados a serem enviados:', JSON.stringify(data)); // Debugging
+
+        fetch('/cadEPI', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(data)
+        })
+        .then(response => {
+            console.log('Status:', response.status);
+            if (!response.ok) {
+                throw new Error('Erro na requisição: ' + response.status);
+            }
+            return response.text(); // Mantenha aqui para ver a resposta como texto
+        })
+        .then(text => {
+            console.log('Resposta do servidor:', text);
+            try {
+                const json = JSON.parse(text); // Tenta converter para JSON
+                console.log(json);
+                if (json.error) {
+                    alert('Erro: ' + json.error);
+                } else {
+                    alert('EPI cadastrado com sucesso! ID: ' + json.idEPI);
+                }
+            } catch (err) {
+                console.error('Erro ao analisar JSON:', err);
+                alert('Erro ao cadastrar o EPI: ' + err.message);
+            }
+        });
+    });    
+</script>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL" crossorigin="anonymous"></script>
 
 {% endblock %}
