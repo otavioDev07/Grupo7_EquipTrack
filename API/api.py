@@ -5,7 +5,7 @@ from datetime import datetime
 
 api_blueprint = Blueprint('API', __name__)
 
-#Listagem do estoque
+#Listagem de EPIs
 @api_blueprint.route('/listEPI', methods=['GET'])
 def list_EPI():
     with conecta_db() as (conexao, cursor):
@@ -28,12 +28,41 @@ def list_EPI():
         except Exception as e:
             return jsonify({'error': str(e)}), 400
         
-#Listagem dos funcionários
-@api_blueprint.route('/listFuncionarios/<id>', methods=['GET'])
-def list_funcionarios(id):
+#EPI específico
+@api_blueprint.route('/EPI/<id>', methods=['GET'])
+def get_EPI(id):
     with conecta_db() as (conexao, cursor):
         try:
-            cursor.execute(f'SELECT idFuncionario, nomeFuncionário, NIF, cargo FROM funcionário WHERE idSetor = {id}')
+            cursor.execute(f'SELECT * FROM epi WHERE idEPI = {id}')
+            result = cursor.fetchone()
+
+            epi = {
+            'idEPI': result[0],
+            'codigoCA': result[1],
+            'numeroSerie': result[2],
+            'marca': result[3],
+            'modelo': result[4],
+            'dataLocacao': result[5],
+            'dataVencimento': result[6],
+            'status': result[7],
+            'observacoes': result[8],
+            'nomeEquipamento': result[9],
+            'dataAquisicao': result[10],
+            'tamanho': result[11],
+            'quantidade': result[12],
+            'idSetor': result[13],
+            }
+
+            return jsonify(epi), 200
+        except Exception as e:
+            return jsonify({'error': str(e)}), 400
+        
+#Listagem dos funcionários
+@api_blueprint.route('/listFuncionarios/<idSetor>', methods=['GET'])
+def list_funcionarios(idSetor):
+    with conecta_db() as (conexao, cursor):
+        try:
+            cursor.execute(f'SELECT idFuncionario, nomeFuncionário, NIF, cargo FROM funcionário WHERE idSetor = {idSetor}')
             result = cursor.fetchall()
 
             funcionarios = []
@@ -101,7 +130,7 @@ def cad_EPI():
             # Validação das datas
             try:
                 dataVencimento = datetime.strptime(dataVencimento, '%Y-%m-%d').date()
-                dataAquisicao = datetime.strptime(dataAquisicao, '%Y-%m-%d').date()
+                dataAquisicao = datetime.strptime(dataAquisicao, '%Y-%m-%d %H:%M:%S')
                 if dataLocacao:
                     dataLocacao = datetime.strptime(dataLocacao, '%Y-%m-%d').date()
             except ValueError:

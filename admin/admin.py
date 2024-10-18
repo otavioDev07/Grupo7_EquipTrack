@@ -1,10 +1,21 @@
-from flask import render_template, Blueprint
+from flask import render_template, Blueprint, request
+from database.conection import *
 
 admin_blueprint = Blueprint('admin', __name__, template_folder="templates")
 
-@admin_blueprint.route('/cadastroEPI')
+@admin_blueprint.route('/cadastroEPI', methods=['GET','POST'])
 def cadastro_EPI():
-    return render_template('cadastroEPI.html')
+    if request.method == 'GET':
+        #1 SELECT PARA PUXAR OS SETORES
+        with conecta_db() as (conexao, cursor):
+            cursor.execute('SELECT * FROM setor')
+            setores = cursor.fetchall()
+            return render_template('cadastroEPI.html',setores=setores)
+    
+    if request.method == 'POST':
+        nome = request.form['nome']
+        numero-serie = request.form['numero-serie']
+
 
 @admin_blueprint.route('/cadastroFuncionario')
 def cadastro_Funcionario():
