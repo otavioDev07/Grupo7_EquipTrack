@@ -4,9 +4,12 @@
 <style>
     .info-box {
         background-color: #f6d6b1;
-        padding: 10px;
+        padding: 15px;
         border-radius: 5px;
         margin-bottom: 10px;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
     }
     .info-header {
         font-weight: bold;
@@ -30,6 +33,32 @@
         border-radius: 5px;
         border: 1px solid #ddd;
     }
+    .info-box .date {
+        display: block;
+        text-align: right;
+    }
+        .label {
+            font-size: 14px;
+            color: #333;
+            margin-bottom: 5px;
+        }
+        .label small {
+            color: #999;
+            font-size: 12px;
+        }
+        .date {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        .date div {
+            background-color: #f0f0f0;
+            padding: 8px 12px;
+            border-radius: 5px;
+            font-size: 14px;
+            color: #007bff;
+            font-weight: bold;
+        }
 </style>
 </head>
 <body>
@@ -54,68 +83,80 @@
 
 <div class="row">
     <div class="col-md-4 info-box">
-        <p class="info-header">Número de série CA</p>
-        <p>345252517</p>
+        <span class="info-header">Número de série CA</span>
+        <span>345252517</span>
     </div>
     <div class="col-md-4 info-box">
-        <p class="info-header">Modelo</p>
-        <p>Luvas de algodão com pigmentos de PVC</p>
+        <span class="info-header">Modelo</span>
+        <span>Luvas de algodão com pigmentos de PVC</span>
     </div>
-    <div class="col-md-4 info-box">
-        <p class="info-header">Data de Aquisição</p>
-        <p>Jun 10, 2024, 9:41 AM</p>
-    </div>
-</div>
-
-<div class="row">
-    <div class="col-md-4 info-box">
-        <p class="info-header">Quantidade</p>
-        <p>5</p>
-    </div>
-    <div class="col-md-4 info-box">
-        <p class="info-header">Categoria</p>
-        <p>Luvas de algodão com pigmentos de PVC</p>
-    </div>
-    <div class="col-md-4 info-box">
-        <p class="info-header">Data de vencimento</p>
-        <p>Jun 10, 2024, 9:41 AM</p>
+    <div class="col-md-4">
+            <div class="label">Data de Aquisição<br><small>Início</small></div>
+            <div class="date">
+                <div>Jun 10, 2024</div>
+                <div>9:41 AM</div>
+            </div>
     </div>
 </div>
 
-<div class="row">
+<div class="row" style="padding-top: 2%;">
     <div class="col-md-4 info-box">
-        <p class="info-header">Setor</p>
-        <p>Manutenção</p>
+        <span class="info-header">Quantidade</span>
+        <span>5</span>
     </div>
     <div class="col-md-4 info-box">
-        <p class="info-header">Marca</p>
-        <p>Flexcut</p>
+        <span class="info-header">Categoria</span>
+        <span>Luvas de algodão com pigmentos de PVC</span>
     </div>
-    <div class="col-md-4 info-box">
-        <p class="info-header">Data de locação</p>
-        <p>Jun 10, 2024, 9:41 AM</p>
-    </div>
-</div>
-
-<div class="row">
-    <div class="col-md-4 info-box">
-        <p class="info-header">Nome do colaborador</p>
-        <p>Luiz Walter</p>
-    </div>
-    <div class="col-md-4 info-box">
-        <p class="info-header">Observações</p>
-        <p>Luvas úmidas</p>
-    </div>
-    <div class="col-md-4 info-box">
-        <p class="info-header">Data de descarte</p>
-        <p>Jun 10, 2024, 9:41 AM</p>
+    <div class="col-md-4">
+    <div class="label">Data de vencimento<br><small>Fim</small></div>
+        <div class="date">
+            <div>Jun 10, 2024</div>
+            <div>9:41 AM</div>
+        </div>
     </div>
 </div>
 
-<div class="row">
+<div class="row" style="padding-top: 2%;">
     <div class="col-md-4 info-box">
-        <p class="info-header">Status</p>
-        <p>Desativado</p>
+        <span class="info-header">Setor</span>
+        <span>Manutenção</span>
+    </div>
+    <div class="col-md-4 info-box">
+        <span class="info-header">Marca</span>
+        <span>Flexcut</span>
+    </div>
+    <div class="col-md-4">
+    <div class="label">Data de locação</div>
+        <div class="date">
+            <div>Jun 10, 2024</div>
+            <div>9:41 AM</div>
+        </div>
+    </div>
+</div>
+
+<div class="row" style="padding-top: 2%;">
+    <div class="col-md-4 info-box">
+        <span class="info-header">Nome do colaborador</span>
+        <span>Luiz Walter</span>
+    </div>
+    <div class="col-md-4 info-box">
+        <span class="info-header">Observações</span>
+        <span>Luvas úmidas</span>
+    </div>
+    <div class="col-md-4">
+    <div class="label col-md-4">Data de descarte</div>
+        <div class="date">
+            <div>Jun 10, 2024</div>
+            <div>9:41 AM</div>
+        </div>
+    </div>
+</div>
+
+<div class="row" style="padding-top: 2%;">
+    <div class="col-md- info-box">
+        <span class="info-header">Status</span>
+        <span>Desativado</span>
     </div>
 </div>
 
