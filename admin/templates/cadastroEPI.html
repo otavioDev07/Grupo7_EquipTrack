@@ -3,80 +3,82 @@
 {% block conteudo %}
 
 <style>
-    
-    /* Bordas tracejadas */
+    /* Estilos de bordas tracejadas */
     .dashed-border {
         border: 2px dashed orange;
         border-radius: 10px;
         padding: 2%;
-        /* Reduzido para economizar espaço */
         margin: 2%;
         transition: transform 0.3s ease, box-shadow 0.3s ease;
     }
-    
-    
+
     /* Efeito de seleção de box */
     .box:hover {
         cursor: pointer;
-        /* Muda o cursor ao passar o mouse */
     }
-    
+
     .box:focus-within {
         flex-grow: 2;
-        /* Aumenta a box selecionada */
     }
-    
+
     .box:not(:focus-within) {
         flex-grow: 1;
-        /* Diminui as outras boxes */
     }
-    
+
     /* Estilo dos rótulos */
     label {
         display: block;
         margin-bottom: 5px;
         font-weight: bold;
     }
-    
+
+    /* Texto opcional pequeno e laranja */
+    .optional {
+        font-size: 0.8em;
+        color: orange;
+        font-weight: normal;
+    }
+
     /* Campos de entrada */
     input[type="text"],
     input[type="date"],
     select,
-    input[type="number"] {
+    input[type="number"],
+    textarea {
         width: 100%;
         padding: 8px;
-        /* Reduzido para um layout mais compacto */
         border-radius: 5px;
-        border: 1px solid #ddd;
         border: 1px solid orange;
-        /* Adiciona borda laranja */
         margin-bottom: 0.5em;
-        /* Margem entre os campos */
     }
-    
+
     /* Botão de submissão */
     .submit-btn {
-        width: 12%;
-        height: 12%;
-        border-radius: 10px;
-        text-align: center;
-        background-color: #0056b3;
+        background-color: #015799;
         color: white;
-        min-height: 5vh;
+        padding: 10px 20px;
+        border: none;
+        border-radius: 18px;
+        font-size: 18px;
+        cursor: pointer;
+        width: 18vh;
+        height: 5.8vh;
+        transition: all 200ms;
+        display: inline-block;
+        font-weight: light;
+        text-align: center;
     }
-   
-    
-    .form-container label {
-        font-weight: bold;
-    }
-    
+
     .submit-btn:hover {
-        background-color: #003f7f;
+        background-color: #ff914d;
+        transform: scale(1.05);
     }
 </style>
+
 <div class="container-fluid">
-    <div class="row form-container">
-        <div class="col-12 col-md-5 box dashed-border" tabindex="0"> <!-- Adicionado tabindex para permitir foco -->
+    <div class="row form-container justify-content-center">
+        <!-- Coluna do lado esquerdo -->
+        <div class="col-12 col-md-6 col-lg-5 box dashed-border" tabindex="0">
             <div class="form-group">
                 <label for="nome">Nome</label>
                 <input type="text" id="nome" placeholder="Escreva aqui...">
@@ -86,7 +88,7 @@
                 <input type="text" id="numero-serie" placeholder="Escreva aqui...">
             </div>
             <div class="form-group">
-                <label for="ca">CA</label> <!-- Corrigido o id para evitar duplicação -->
+                <label for="ca">CA</label>
                 <input type="text" id="ca" placeholder="Escreva aqui...">
             </div>
             <div class="form-group">
@@ -94,7 +96,7 @@
                 <input type="text" id="marca" placeholder="Escreva aqui...">
             </div>
             <div class="form-group">
-                <label for="modelo">Modelo</label>
+                <label for="modelo">Modelo <span class="optional">* Opcional</span></label>
                 <input type="text" id="modelo" placeholder="Escreva aqui...">
             </div>
             <div class="form-group">
@@ -107,11 +109,8 @@
             </div>
         </div>
 
-        <div class="col-12 col-md-5 box dashed-border" tabindex="0"> <!-- Adicionado tabindex para permitir foco -->
-            <div class="form-group">
-                <label for="categoria">Categoria</label>
-                <input type="text" id="categoria" placeholder="Escreva aqui...">
-            </div>
+        <!-- Coluna do lado direito -->
+        <div class="col-12 col-md-6 col-lg-5 box dashed-border" tabindex="0">
             <div class="form-group">
                 <label for="setor">Setor</label>
                 <input type="text" id="setor" placeholder="Escreva aqui...">
@@ -132,14 +131,18 @@
                 <input type="number" id="quantidade" placeholder="Escreva aqui...">
             </div>
             <div class="form-group">
-                <label for="tamanho">Tamanho</label>
+                <label for="observacao">Observação <span class="optional">* Opcional</span></label>
+                <textarea id="observacao" rows="4" maxlength="200" placeholder="Escreva aqui..."></textarea>
+            </div>
+            <div class="form-group">
+                <label for="tamanho">Tamanho <span class="optional">* Opcional</span></label>
                 <input type="text" id="tamanho" placeholder="Escreva aqui...">
             </div>
         </div>
     </div>
 
-    <div> <!-- Botão abaixo das caixas -->
-        <button type="submit" class="botao">Cadastrar</button>
+    <div class="row justify-content-center">
+        <button type="submit" class="submit-btn">Cadastrar</button>
     </div>
 </div>
 

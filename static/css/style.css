@@ -36,7 +36,90 @@ body {
     color: white;
 }
 
-.btn-submit:hover {
-    background-color: #003f7f;
+.btn-back i {
+    margin-right: 8px;
 }
 
+/* Ajustes de responsividade */
+@media (max-width: 768px) {
+    .sidebar {
+        min-height: auto;
+    }
+
+    .sidebar-logo {
+        max-width: 100%;
+        /* Ajusta o tamanho da logo para telas menores */
+    }
+
+    .sidebar-title {
+        font-size: 24px;
+    }
+}
+/* Bordas tracejadas */
+.dashed-border {
+    border: 2px dashed orange;
+    border-radius: 10px;
+    padding: 2%;
+    /* Reduzido para economizar espaço */
+    margin: 2%;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+
+/* Efeito de seleção de box */
+.box:hover {
+    cursor: pointer;
+    /* Muda o cursor ao passar o mouse */
+}
+
+.box:focus-within {
+    flex-grow: 2;
+    /* Aumenta a box selecionada */
+}
+
+.box:not(:focus-within) {
+    flex-grow: 1;
+    /* Diminui as outras boxes */
+}
+
+/* Estilo dos rótulos */
+label {
+    display: block;
+    margin-bottom: 5px;
+    font-weight: bold;
+}
+
+/* Campos de entrada */
+input[type="text"],
+input[type="date"],
+select,
+input[type="number"] {
+    width: 100%;
+    padding: 8px;
+    /* Reduzido para um layout mais compacto */
+    border-radius: 5px;
+    border: 1px solid #ddd;
+    border: 1px solid orange;
+    /* Adiciona borda laranja */
+    margin-bottom: 0.5em;
+    /* Margem entre os campos */
+}
+
+/* Botão de submissão */
+.button-container {
+    width: 100%;
+    text-align: center;
+}
+
+button.submit-btn {
+    background-color: #015799;
+    color: white;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 5px;
+    width: 10em;
+}
+
+button.submit-btn:hover {
+    background-color: #003c7e;
+}
