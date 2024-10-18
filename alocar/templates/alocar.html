@@ -5,7 +5,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Alocar</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
-    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
     <link href="https://fonts.googleapis.com/css2?family=Oswald:wght@500&display=swap" rel="stylesheet">
 </head>
 
@@ -14,7 +13,8 @@
     .dashed-border {
         border: 2px dashed orange;
         border-radius: 10px;
-        width: 600px;
+        width: 100%;
+        max-width: 600px;
         transition: transform 0.3s ease, box-shadow 0.3s ease;
     }
 
@@ -57,7 +57,39 @@
         background-color: #f8f9fa;
     }
 
-    /* Estilo para o botão de voltar */
+    .sidebar {
+        background-color: #0056b3;
+        min-height: 100vh;
+        padding: 20px;
+        color: white;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+    }
+
+    .sidebar-logo {
+        max-width: 130%;
+        margin-bottom: 10px;
+        transition: transform 0.3s ease;
+    }
+
+    .sidebar-logo:hover {
+        transform: scale(1.1);
+    }
+
+    .sidebar-title {
+        font-size: 28px;
+        font-weight: bold;
+        margin-top: -20px;
+        transition: transform 0.3s ease, color 0.3s ease;
+    }
+
+    .sidebar-title:hover {
+        transform: translateY(-5px);
+        color: #ffcc00;
+    }
+
     .btn-back {
         position: absolute;
         top: 20px;
@@ -71,57 +103,43 @@
         text-decoration: none;
         display: inline-flex;
         align-items: center;
-        transition: background-color 0.3s ease, transform 0.3s ease, color 0.3s ease;
+        transition: background-color 0.3s ease, transform 0.3s ease;
     }
 
     .btn-back:hover {
-        background-color: #F08424;
+        background-color: #f08424;
         color: white;
-        transform: scale(1.1);
+        transform: scale(1.05);
     }
 
     .btn-back i {
         margin-right: 8px;
-        transition: transform 0.3s ease;
     }
 
-    .btn-back:hover i {
-        transform: translateX(-5px);
-    }
-
-    /* Animação no carregamento da página */
-    @keyframes fadeIn {
-        from {
-            opacity: 0;
+    /* Ajustes de responsividade */
+    @media (max-width: 768px) {
+        .sidebar {
+            min-height: auto;
+            width: 100%;
+            padding: 10px;
         }
-        to {
-            opacity: 1;
+
+        .sidebar-title {
+            font-size: 24px;
         }
-    }
 
-    body, .dashed-border, .btn-back {
-        animation: fadeIn 0.5s ease-in-out;
-    }
+        .col-md-2 {
+            width: 100%;
+        }
 
-    /* Estilização e animação para o título "Alocar" */
-    .title {
-        font-family: 'Oswald', sans-serif;
-        font-size: 2.5rem;
-        text-transform: uppercase;
-        letter-spacing: 2px;
-        color: white;
-        transition: transform 0.3s ease, letter-spacing 0.3s ease;
-    }
+        .col-md-10 {
+            width: 100%;
+            padding: 20px;
+        }
 
-    .title:hover {
-        transform: scale(1.1);
-        letter-spacing: 5px;
-    }
-
-    /* Estilização para a logo */
-    .logo {
-        width: 250px; /* Aumente o valor para 250px */
-        height: auto; /* Mantém a proporção da imagem */
+        .vh-100 {
+            height: auto !important;
+        }
     }
 </style>
 
@@ -129,9 +147,9 @@
     <div class="container-fluid">
         <div class="row">
             <!-- Sidebar -->
-            <div class="col-md-2 bg-primary text-white">
-                <div class="d-flex flex-column align-items-center justify-content-center vh-100">
-                    <img src="/static/images/logo1.png" alt="Logo" class="img-fluid mb-4 logo"> <!-- Classe 'logo' com largura aumentada -->
+            <div class="col-md-2 bg-primary text-white sidebar">
+                <div class="d-flex flex-column align-items-center justify-content-center">
+                    <img src="/static/images/logo1.png" alt="Logo" class="img-fluid mb-4 logo">
                     <h2 class="title">Alocar</h2>
                 </div>
             </div>
