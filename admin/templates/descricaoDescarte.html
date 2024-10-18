@@ -3,8 +3,8 @@
 {% block conteudo %}
 <style>
     .info-box {
-        background-color: #f6d6b1;
-        padding: 15px;
+        background-color: #f7c191;
+        padding: 10px;
         border-radius: 5px;
         margin-bottom: 10px;
         display: flex;
@@ -13,7 +13,7 @@
     }
     .info-header {
         font-weight: bold;
-        color: #555;
+        color: #1c1c1c;
     }
     .btn-edit {
         background-color: #007bff;
@@ -59,15 +59,42 @@
             color: #007bff;
             font-weight: bold;
         }
+button {
+    background-color: #015799;
+    color: white;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 15px;
+    font-size: 16px;
+    cursor: pointer;
+    margin-left: 45%;
+    margin-top: 2%;
+    transition: all 200ms;
+    display: inline-block;
+}
+
+button:hover {
+    background-color: #ff914d;
+    transform: scale(1.05);
+}
+main {
+    padding: 50px; /* Adiciona espaçamento em torno do conteúdo principal */
+}
+
+@media (max-width: 768px) {
+    main {
+        padding: 10px; /* Reduz o padding em telas menores para melhorar o layout */
+    }
+}
 </style>
 </head>
 <body>
-
-<div class="container mt-5">
+<main>
+<div class="container mt-4">
 <div class="row">
     <div class="col-md-12">
         <h3>Luvas</h3>
-        <p><strong>Material:</strong> Algodão</p>
+        <p ><strong>Material:</strong> Algodão</p>
         <p>Luva confeccionada em tecido de algodão e tricotada em 3 fios. Sua característica permite respirabilidade com menos fadiga para a mão.</p>
         
         <p><strong>Indicações de uso:</strong></p>
@@ -86,11 +113,11 @@
         <span class="info-header">Número de série CA</span>
         <span>345252517</span>
     </div>
-    <div class="col-md-4 info-box">
+    <div class="col-md-4 info-box" style="margin-left: 2%;">
         <span class="info-header">Modelo</span>
-        <span>Luvas de algodão com pigmentos de PVC</span>
+        <span style="margin-left: 14%;">Luvas de algodão com pigmentos de PVC</span>
     </div>
-    <div class="col-md-4">
+    <div class="col-md-3">
             <div class="label">Data de Aquisição<br><small>Início</small></div>
             <div class="date">
                 <div>Jun 10, 2024</div>
@@ -104,11 +131,11 @@
         <span class="info-header">Quantidade</span>
         <span>5</span>
     </div>
-    <div class="col-md-4 info-box">
+    <div class="col-md-4 info-box" style="margin-left: 2%;">
         <span class="info-header">Categoria</span>
-        <span>Luvas de algodão com pigmentos de PVC</span>
+        <span style="margin-left: 14%;">Luvas de algodão com pigmentos de PVC</span>
     </div>
-    <div class="col-md-4">
+    <div class="col-md-3">
     <div class="label">Data de vencimento<br><small>Fim</small></div>
         <div class="date">
             <div>Jun 10, 2024</div>
@@ -122,11 +149,11 @@
         <span class="info-header">Setor</span>
         <span>Manutenção</span>
     </div>
-    <div class="col-md-4 info-box">
+    <div class="col-md-4 info-box" style="margin-left: 2%;">
         <span class="info-header">Marca</span>
         <span>Flexcut</span>
     </div>
-    <div class="col-md-4">
+    <div class="col-md-3">
     <div class="label">Data de locação</div>
         <div class="date">
             <div>Jun 10, 2024</div>
@@ -140,11 +167,11 @@
         <span class="info-header">Nome do colaborador</span>
         <span>Luiz Walter</span>
     </div>
-    <div class="col-md-4 info-box">
+    <div class="col-md-4 info-box" style="margin-left: 2%;">
         <span class="info-header">Observações</span>
         <span>Luvas úmidas</span>
     </div>
-    <div class="col-md-4">
+    <div class="col-md-3">
     <div class="label col-md-4">Data de descarte</div>
         <div class="date">
             <div>Jun 10, 2024</div>
@@ -154,28 +181,29 @@
 </div>
 
 <div class="row" style="padding-top: 2%;">
-    <div class="col-md- info-box">
+    <div class="col-md-4 info-box">
         <span class="info-header">Status</span>
         <span>Desativado</span>
     </div>
 </div>
 
 <div class="row">
-    <div class="col-md-12 discard-info">
         <h5 class="section-header">Informações do descarte</h5>
-        <p><strong>Por que você está descartando este EPI?</strong></p>
+        <p style="color: #F08424"><strong>Por que você está descartando este EPI?</strong></p>
         <p>Durante uma inspeção de rotina no almoxarifado de uma obra em construção de um prédio comercial, foi identificado que um lote de capacetes de segurança, assim como os equipamentos indicados pela norma de segurança vigente, não apresentavam conformidade com o regulamento. Alguns capacetes apresentavam rachaduras e danos visíveis, além da ausência de especificações atípicas para resistir a altas temperaturas.</p>
+        <p style="color: #F08424"><strong>Onde foi descartada essa EPI?</strong></p>
+        <p>Após a constatação das falhas, os capacetes foram recolhidos e descartados de acordo com as normas ambientais e de segurança. O descarte ocorreu em uma unidade de tratamento de resíduos industriais, localizada em uma cidade vizinha à obra, que é licenciada para realizar o descarte seguro de materiais não recicláveis. Todo o processo foi acompanhado por técnicos especializados para garantir que o material não representasse riscos ao meio ambiente.</p>
     </div>
-</div>
 
 <div class="row">
     <div class="col-md-12">
-        <button class="btn btn-edit btn-block">Editar</button>
+        <button>Editar</button>
     </div>
 </div>
 </div>
 
 <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.2/dist/js/bootstrap.bundle.min.js"></script>
+</main>
 </body>
 {% endblock %}
