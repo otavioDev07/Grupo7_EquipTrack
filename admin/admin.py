@@ -13,3 +13,11 @@ def cadastro_Funcionario():
 @admin_blueprint.route('/descarte')
 def descarte():
     return render_template('descarte.html')
+
+@admin_blueprint.route('/cadastroDescarte')
+def cadastroDescarte():
+    return render_template('cadastroDescarte.html')
+
+@admin_blueprint.route('/descricaoDescarte')
+def descricaoDescarte():
+    return render_template('descricaoDescarte.html')
