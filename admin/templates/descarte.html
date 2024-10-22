@@ -3,174 +3,159 @@
 {% block conteudo %}
 
 <style>
-.container {
-    width: 80%;
-    margin: 20px auto;
-    background-color: rgba(32, 56, 85, 0.15);
-    padding: 20px;
-    border-radius: 8px;
-    border: 1px solid #A0A0A0;
-    box-shadow: 0 4px 8px rgba(0,0,0,0.1);
-}
+    .custom-container {
+        width: 80%;
+        margin: 20px auto;
+        background-color: rgba(32, 56, 85, 0.15);
+        padding: 20px;
+        border-radius: 8px;
+        border: 1px solid #A0A0A0;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    }
 
-.search-box {
-    margin-bottom: 20px;
-    display: flex;
-    justify-content: flex-end;
-}
+    .custom-search-box {
+        margin-bottom: 20px;
+        display: flex;
+        justify-content: flex-end;
+    }
 
-.search-box input {
-    padding: 10px;
-    width: 200px;
-    border-radius: 25px;
-    border: 2px solid #015799;
-}
+    .custom-search-box input {
+        padding: 10px;
+        width: 200px;
+        border-radius: 25px;
+        border: 2px solid #015799;
+    }
 
-.card-grid {
-    display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    gap: 20px;
-}
+    .card-status {
+        width: 10px;
+        height: 10px;
+        border-radius: 50%;
+        background-color: red;
+        position: absolute;
+        top: 10px;
+        right: 10px;
+    }
 
-.card {
-    background-color: #f9f9f9;
-    border: 1px solid red;
-    border-radius: 8px;
-    padding: 15px;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-    position: relative;
-}
+    .status-text {
+        color: red;
+        font-weight: bold;
+    }
 
-.card .status {
-    position: absolute;
-    top: 10px;
-    right: 10px;
-    width: 10px;
-    height: 10px;
-    border-radius: 50%;
-    background-color: red;
-}
+    .btn-custom {
+        background-color: #F08424;
+        color: white;
+        border-radius: 15px;
+        text-decoration: none;
+        font-size: 14px;
+        transition: all 200ms;
+        display: inline-block;
+    }
 
-.card h4 {
-    margin: 10px 0;
-    font-size: 16px;
-}
+    .btn-custom:hover {
+        background-color: #F08424;
+        color: white;
+        transform: scale(1.05);
+    }
 
-.card p {
-    margin: 5px 0;
-    font-size: 14px;
-    color: #666;
-}
-
-.status-text {
-    color: red;
-    font-weight: bold;
-}
-
-.card .button {
-            margin-top: 10px;
-            display: inline-block;
-            padding: 8px 12px;
-            background-color: #FFA500;
-            color: white;
-            border-radius: 4px;
-            text-decoration: none;
-            font-size: 14px;
-            transition: background-color 0.3s ease;
-        }
-
-        .card .button:hover {
-            background-color: #e69500;
-        }
-
-.pagination {
-    text-align: center;
-    margin-top: 20px;
-    margin-left: 48%;
-}
-
-.pagination a {
-    margin: 0 5px;
-    text-decoration: none;
-    color: #000;
-}
+    .pagination {
+        text-align: center;
+        margin-top: 20px;
+    }
 </style>
-<div class="container">
-<div class="search-box">
-    <input type="text" placeholder="Busque aqui...">
+
+<div class="custom-container">
+    <div class="custom-search-box">
+        <input type="text" class="form-control" placeholder="Busque aqui...">
+    </div>
+
+    <div class="row">
+        <!-- Card 1 -->
+        <div class="col-md-4">
+            <div class="card mb-4 shadow-sm border-danger">
+                <div class="card-body position-relative">
+                    <div class="card-status"></div>
+                    <h5 class="card-title">Número do série(CA): 5185523</h5>
+                    <p class="card-text">Equipamento: Bota de cozinha</p>
+                    <p class="card-text">Status: <span class="status-text">Vencido</span></p>
+                    <a href="#" class="btn btn-custom">Ver mais</a>
+                </div>
+            </div>
+        </div>
+
+        <!-- Card 2 -->
+        <div class="col-md-4">
+            <div class="card mb-4 shadow-sm border-danger">
+                <div class="card-body position-relative">
+                    <div class="card-status"></div>
+                    <h5 class="card-title">Número do série(CA): 5185523</h5>
+                    <p class="card-text">Equipamento: Bota de cozinha</p>
+                    <p class="card-text">Status: <span class="status-text">Vencido</span></p>
+                    <a href="#" class="btn btn-custom">Ver mais</a>
+                </div>
+            </div>
+        </div>
+
+        <!-- Card 3 -->
+        <div class="col-md-4">
+            <div class="card mb-4 shadow-sm border-danger">
+                <div class="card-body position-relative">
+                    <div class="card-status"></div>
+                    <h5 class="card-title">Número do série(CA): 5185523</h5>
+                    <p class="card-text">Equipamento: Bota de cozinha</p>
+                    <p class="card-text">Status: <span class="status-text">Vencido</span></p>
+                    <a href="#" class="btn btn-custom">Ver mais</a>
+                </div>
+            </div>
+        </div>
+        <!-- Card 4 -->
+        <div class="col-md-4">
+            <div class="card mb-4 shadow-sm border-danger">
+                <div class="card-body position-relative">
+                    <div class="card-status"></div>
+                    <h5 class="card-title">Número do série(CA): 5185523</h5>
+                    <p class="card-text">Equipamento: Bota de cozinha</p>
+                    <p class="card-text">Status: <span class="status-text">Vencido</span></p>
+                    <a href="#" class="btn btn-custom">Ver mais</a>
+                </div>
+            </div>
+        </div>
+        <!-- Card 5 -->
+        <div class="col-md-4">
+            <div class="card mb-4 shadow-sm border-danger">
+                <div class="card-body position-relative">
+                    <div class="card-status"></div>
+                    <h5 class="card-title">Número do série(CA): 5185523</h5>
+                    <p class="card-text">Equipamento: Bota de cozinha</p>
+                    <p class="card-text">Status: <span class="status-text">Vencido</span></p>
+                    <a href="#" class="btn btn-custom">Ver mais</a>
+                </div>
+            </div>
+        </div>
+        <!-- Card 6 -->
+        <div class="col-md-4">
+            <div class="card mb-4 shadow-sm border-danger">
+                <div class="card-body position-relative">
+                    <div class="card-status"></div>
+                    <h5 class="card-title">Número do série(CA): 5185523</h5>
+                    <p class="card-text">Equipamento: Bota de cozinha</p>
+                    <p class="card-text">Status: <span class="status-text">Vencido</span></p>
+                    <a href="#" class="btn btn-custom">Ver mais</a>
+                </div>
+            </div>
+        </div>
+
+        <!-- Repetição de mais cards -->
+        <!-- Adicione mais divs de "col-md-4" conforme necessário para exibir os cards -->
+    </div>
+
+    <!-- Paginação -->
+    <nav aria-label="Page navigation example">
+        <ul class="pagination justify-content-center">
+            <li class="page-item"><a class="page-link" href="#">1</a></li>
+            <li class="page-item"><a class="page-link" href="#">2</a></li>
+            <li class="page-item"><a class="page-link" href="#">3</a></li>
+        </ul>
+    </nav>
 </div>
 
-<div class="card-grid">
-    <div class="card">
-        <div class="status"></div>
-        <h4>Número do série(CA): 5185523</h4>
-        <p>Equipamento: Bota de cozinha</p>
-        <p>Status: <span class="status-text">Vencido</span></p>
-        <a href="#" class="button">Ver mais</a>
-    </div>
-
-    <div class="card">
-        <div class="status"></div>
-        <h4>Número do série(CA): 5185523</h4>
-        <p>Equipamento: Bota de cozinha</p>
-        <p>Status: <span class="status-text">Vencido</span></p>
-        <a href="#" class="button">Ver mais</a>
-    </div>
-
-    <div class="card">
-        <div class="status"></div>
-        <h4>Número do série(CA): 5185523</h4>
-        <p>Equipamento: Bota de cozinha</p>
-        <p>Status: <span class="status-text">Vencido</span></p>
-        <a href="#" class="button">Ver mais</a>
-    </div>
-
-    <div class="card">
-        <div class="status"></div>
-        <h4>Número do série(CA): 5185523</h4>
-        <p>Equipamento: Bota de cozinha</p>
-        <p>Status: <span class="status-text">Vencido</span></p>
-        <a href="#" class="button">Ver mais</a>
-    </div>
-
-    <div class="card">
-        <div class="status"></div>
-        <h4>Número do série(CA): 5185523</h4>
-        <p>Equipamento: Bota de cozinha</p>
-        <p>Status: <span class="status-text">Vencido</span></p>
-        <a href="#" class="button">Ver mais</a>
-    </div>
-
-    <div class="card">
-        <div class="status"></div>
-        <h4>Número do série(CA): 5185523</h4>
-        <p>Equipamento: Bota de cozinha</p>
-        <p>Status: <span class="status-text">Vencido</span></p>
-        <a href="#" class="button">Ver mais</a>
-    </div>
-
-    <div class="card">
-        <div class="status"></div>
-        <h4>Número do série(CA): 5185523</h4>
-        <p>Equipamento: Bota de cozinha</p>
-        <p>Status: <span class="status-text">Vencido</span></p>
-        <a href="#" class="button">Ver mais</a>
-    </div>
-
-    <div class="card">
-        <div class="status"></div>
-        <h4>Número do série(CA): 5185523</h4>
-        <p>Equipamento: Bota de cozinha</p>
-        <p>Status: <span class="status-text">Vencido</span></p>
-        <a href="#" class="button">Ver mais</a>
-    </div>
-</div>
-
-<div class="pagination">
-    <a href="#">1</a>
-    <a href="#">2</a>
-    <a href="#">3</a>
-    <a href="#">4</a>
-</div>
-</div>
 {% endblock %}

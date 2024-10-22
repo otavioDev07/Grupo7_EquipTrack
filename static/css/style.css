@@ -1,14 +1,5 @@
-html, body {
-    margin: 0;
-    padding: 0;
-    /*overflow: hidden;*/
-    /*rolagem*/
-    min-height: 100%;
-    /* Garante que o corpo ocupe 100% da altura da tela */
-}
-
 body {
-    background-color: #ffffff;
+    background-color: #f5f5f5;
 }
 
 .sidebar {
@@ -16,63 +7,33 @@ body {
     min-height: 100vh;
     padding: 20px;
     color: white;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
 }
 
 .sidebar-logo {
-    max-width: 130%;
-    margin-bottom: 10px;
-    transition: transform 0.3s ease;
-    /* Animação ao passar o mouse sobre a logo */
-}
-
-.sidebar-logo:hover {
-    transform: scale(1.1);
-    /* Efeito de zoom ao passar o mouse */
+    max-width: 80%;
+    margin-bottom: 20px;
 }
 
 .sidebar-title {
-    font-size: 28px;
+    font-size: 24px;
     font-weight: bold;
-    margin-top: -20px;
-    /* Subindo o texto um pouco mais */
-    transition: transform 0.3s ease, color 0.3s ease;
-    /* Animação para o título */
 }
 
-.sidebar-title:hover {
-    transform: translateY(-5px);
-    /* Efeito de subir o texto ao passar o mouse */
-    color: #ffcc00;
-    /* Troca de cor ao passar o mouse */
+.form-container {
+    margin: 20px;
+    padding: 20px;
+    border: 2px dashed #ffa500;
+    background-color: white;
+    border-radius: 8px;
 }
 
-
-.btn-back {
-    position: absolute;
-    top: 20px;
-    left: 20px;
-    background-color: transparent;
-    color: #F08424;
-    border: 2px solid #F08424;
-    padding: 10px 20px;
-    border-radius: 50px;
+.form-container label {
     font-weight: bold;
-    text-decoration: none;
-    display: inline-flex;
-    align-items: center;
-    transition: background-color 0.3s ease, transform 0.3s ease;
-    /* Animação para o botão de voltar */
 }
 
-.btn-back:hover {
-    background-color: #f08424;
+.btn-submit {
+    background-color: #0056b3;
     color: white;
-    transform: scale(1.05);
-    /* Leve aumento no tamanho ao passar o mouse */
 }
 
 .btn-back i {
