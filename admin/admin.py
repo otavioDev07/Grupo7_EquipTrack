@@ -1,5 +1,6 @@
-from flask import render_template, Blueprint, request
+from flask import render_template, Blueprint, request, flash, redirect
 from database.conection import *
+from datetime import datetime
 
 admin_blueprint = Blueprint('admin', __name__, template_folder="templates")
 
@@ -13,8 +14,61 @@ def cadastro_EPI():
             return render_template('cadastroEPI.html',setores=setores)
     
     if request.method == 'POST':
-        nome = request.form['nome']
-        numero-serie = request.form['numero-serie']
+        with conecta_db() as (conexao, cursor):
+            try:
+                # Campos obrigatórios
+                codigoCA = request.form['ca']
+                numeroSerie = request.form['numero-serie']
+                marca = request.form['marca']
+                nomeEquipamento = request.form['nome']
+                dataAquisicao = request.form['dataAquisicao']
+                quantidade = request.form['quantidade']
+                dataVencimento = request.form['dataVencimento']
+                idSetor = request.form['idSetor'] #Verificar se o valor está vindo 
+                idSupervisor = 1 #Virá através da autenticação (Não feito ainda)
+
+
+                # Campos opcionais
+                modelo = request.form.get('modelo')
+                dataLocacao = None
+                observacoes = request.form.get('observacoes')
+                tamanho = request.form.get('tamanho')
+
+                # Validação do campo `status`
+                status = request.form['status']
+                if status not in ["Em uso", "Estoque"]:
+                    flash('Status inválido. Deve ser "Em uso" ou "Estoque".', 'error')
+                    return redirect(request.url)
+
+                # Validação das datas
+                try:
+                    dataVencimento = datetime.strptime(dataVencimento, '%Y-%m-%d').strftime('%Y/%m/%d')
+                    dataAquisicao = datetime.strptime(dataAquisicao, '%Y-%m-%d').strftime('%Y/%m/%d')
+
+                    if dataLocacao:
+                        dataLocacao = datetime.strptime(dataLocacao, '%Y-%m-%d').strftime('%Y/%m/%d')
+                except ValueError:
+                    flash({'error': 'Formato de data inválido. Use o formato AAAA-MM-DD.'}), 400
+                    return redirect(request.url)
+                comando = '''
+                    INSERT INTO EPI (codigoCA, numeroSerie, marca, modelo, dataLocacao, dataVencimento, status, observacoes, nomeEquipamento, dataAquisicao, tamanho, quantidade, idSetor) 
+                    VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s)
+                '''
+                cursor.execute(comando, (codigoCA, numeroSerie, marca, modelo, dataLocacao, dataVencimento, status, observacoes, nomeEquipamento, dataAquisicao, tamanho, quantidade, idSetor))
+                conexao.commit()
+
+                comando_backlog = '''
+                    INSERT INTO Backlog (dataHora, acao, idSupervisor) 
+                    VALUES (NOW(), %s, %s)
+                '''
+                acao = f"Cadastro de EPI: {nomeEquipamento}" 
+                cursor.execute(comando_backlog, (acao, idSupervisor))   
+                conexao.commit()
+                flash('Cadastro realizado com sucesso!', 'success')
+                return redirect('/cadastroEPI')
+            except Exception as e:
+                flash(f'Erro: {str(e)}', 'error')
+                return redirect(request.url)
 
 
 @admin_blueprint.route('/cadastroFuncionario')
