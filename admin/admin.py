@@ -86,3 +86,7 @@ def cadastroDescarte():
 @admin_blueprint.route('/descricaoDescarte')
 def descricaoDescarte():
     return render_template('descricaoDescarte.html')
+
+@admin_blueprint.route('/descricaoEPI')
+def descricaoEPI():
+    return render_template('descricaoEPI.html')
