@@ -90,3 +90,7 @@ def descricaoDescarte():
 @admin_blueprint.route('/descricaoEPI')
 def descricaoEPI():
     return render_template('descricaoEPI.html')
+
+@admin_blueprint.route('/atividadeMensal')
+def atividadeMensal():
+    return render_template('atividadeMensal.html')
