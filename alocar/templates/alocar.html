@@ -153,7 +153,6 @@
             <!-- Sidebar -->
             <div class="col-md-2 bg-primary text-white sidebar">
                 <div class="d-flex flex-column align-items-center justify-content-center">
-                    <!-- Verifique se o caminho da imagem está correto -->
                     <img src="/static/images/logo1.png" alt="Logo" class="img-fluid mb-4 sidebar-logo">
                     <h2 class="sidebar-title">Alocar</h2>
                 </div>
@@ -167,28 +166,34 @@
                 </a>
 
                 <div class="dashed-border p-5">
-                    <form>
+                    <h1>EPI: {% if equipamento and request.method == 'GET' %}{{ equipamento[0][0] }}{% else %}Equipamento não encontrado{% endif %}</h1>
+
+                    <form action="/alocar/{{ equipamento[0][0] }}" method="post">
                         <div class="mb-3">
                             <label for="funcionario" class="form-label">Funcionário</label>
-                            <select id="funcionario" class="form-select">
+                            <select id="funcionario" name="idFuncionario" class="form-select">
                                 <option selected>Selecione...</option>
-                                <option value="1">Funcionário 1</option>
-                                <option value="2">Funcionário 2</option>
+                                {% for funcionario in funcionarios %}
+                                    <option value="{{ funcionario[0] }}">{{ funcionario[1] }}</option>
+                                {% endfor %}
                             </select>
                         </div>
+
                         <div class="mb-3">
-                            <label for="data" class="form-label">Data de alocação</label>
-                            <input type="date" id="data" class="form-control">
+                            <label for="dataAlocacao" class="form-label">Data de alocação</label>
+                            <input type="date" id="dataAlocacao" name="dataAlocacao" class="form-control">
                         </div>
+
                         <div class="mb-3">
                             <label for="quantidade" class="form-label">Quantidade</label>
-                            <select id="quantidade" class="form-select">
+                            <select id="quantidade" name="quantidade" class="form-select">
                                 <option selected>Selecione...</option>
                                 <option value="1">1</option>
                                 <option value="2">2</option>
                                 <option value="3">3</option>
                             </select>
                         </div>
+
                         <button type="submit" class="btn btn-primary w-100">Cadastrar</button>
                     </form>
                 </div>

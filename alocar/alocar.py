@@ -3,29 +3,28 @@ from database.conection import conecta_db
 
 alocar_blueprint = Blueprint('alocar', __name__, template_folder="templates", static_folder="static")
 
-@alocar_blueprint.route('/alocar', methods=['GET', 'POST'])
-def alocar_equipamento():
+@alocar_blueprint.route('/alocar/<id>', methods=['GET', 'POST'])
+def alocar_equipamento(id):
     if request.method == 'GET':
         # Selecionar funcionários e equipamentos disponíveis
         with conecta_db() as (conexao, cursor):
-            cursor.execute('SELECT idFuncionario, nomeFuncionário FROM funcionário')
+            cursor.execute(f'SELECT idFuncionario, nomeFuncionário FROM funcionário WHERE idSetor = (SELECT idSetor FROM epi WHERE idEPI = %s)', (id,))
             funcionarios = cursor.fetchall()
             
-            cursor.execute('SELECT idEPI, nomeEquipamento, quantidade FROM epi WHERE status = "Estoque"')
-            equipamentos = cursor.fetchall()
+            cursor.execute('SELECT nomeEquipamento, quantidade FROM epi WHERE idEPI = %s', (id,))
+            equipamento = cursor.fetchall()
             
-            return render_template('alocar.html', funcionarios=funcionarios, equipamentos=equipamentos)
+            return render_template('alocar.html', funcionarios=funcionarios, equipamento=equipamento)
 
     if request.method == 'POST':
         with conecta_db() as (conexao, cursor):
             try:
                 # Capturar os dados do formulário
                 idFuncionario = request.form['idFuncionario']
-                idEPI = request.form['idEPI']
-                quantidade = int(request.form['quantidade'])  # Convertendo para inteiro
+                quantidade = int(request.form['quantidade'])
 
                 # Verificar se a quantidade solicitada está disponível
-                cursor.execute('SELECT quantidade FROM epi WHERE idEPI = %s', (idEPI,))
+                cursor.execute('SELECT quantidade FROM epi WHERE idEPI = %s', (id,))
                 resultado = cursor.fetchone()
 
                 if resultado is None:
@@ -40,7 +39,7 @@ def alocar_equipamento():
 
                 # Atualizar a quantidade do equipamento
                 nova_quantidade = quantidade_disponivel - quantidade
-                cursor.execute('UPDATE epi SET quantidade = %s WHERE idEPI = %s', (nova_quantidade, idEPI))
+                cursor.execute('UPDATE epi SET quantidade = %s WHERE idEPI = %s', (nova_quantidade, id))
 
                 # Inserir na tabela de alocação
                 dataAlocacao = request.form['dataAlocacao']
@@ -48,11 +47,11 @@ def alocar_equipamento():
                     INSERT INTO epi_funcionário (idEquipamento, idFuncionario, dataHora, quantidade) 
                     VALUES (%s, %s, %s, %s)
                 '''
-                cursor.execute(comando, (idEPI, idFuncionario, dataAlocacao, quantidade))
+                cursor.execute(comando, (id, idFuncionario, dataAlocacao, quantidade))
                 conexao.commit()
 
                 flash('Equipamento alocado com sucesso!', 'success')
-                return redirect('/alocar')
+                return redirect('/')
             except Exception as e:
                 flash(f'Erro ao alocar equipamento: {str(e)}', 'error')
                 return redirect(request.url)
