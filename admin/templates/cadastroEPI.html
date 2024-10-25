@@ -76,7 +76,7 @@
 </style>
 
 <div class="container-fluid">
-    <form action="/cadastroEPI" method="post">
+    <form action="/cadastroEPI" method="POST">
     <div class="row form-container justify-content-center">
        
         <!-- Coluna do lado esquerdo -->
@@ -91,23 +91,23 @@
             </div>
             <div class="form-group">
                 <label for="ca">CA</label>
-                <input type="text" id="ca" placeholder="Escreva aqui...">
+                <input type="text" id="ca" name="ca" placeholder="Escreva aqui...">
             </div>
             <div class="form-group">
                 <label for="marca">Marca</label>
-                <input type="text" id="marca" placeholder="Escreva aqui...">
+                <input type="text" id="marca" name="marca" placeholder="Escreva aqui...">
             </div>
             <div class="form-group">
                 <label for="modelo">Modelo <span class="optional">* Opcional</span></label>
-                <input type="text" id="modelo" placeholder="Escreva aqui...">
+                <input type="text" id="modelo" name="modelo" placeholder="Escreva aqui...">
             </div>
             <div class="form-group">
                 <label for="data-aquisicao">Data de Aquisição</label>
-                <input type="date" id="data-aquisicao">
+                <input type="date" name="dataAquisicao" id="data-aquisicao">
             </div>
             <div class="form-group">
                 <label for="data-vencimento">Data de Vencimento</label>
-                <input type="date" id="data-vencimento">
+                <input type="date" name="dataVencimento" id="data-vencimento">
             </div>
         </div>
 
@@ -132,15 +132,15 @@
     
             <div class="form-group">
                 <label for="quantidade">Quantidade</label>
-                <input type="number" id="quantidade" placeholder="Escreva aqui...">
+                <input type="number" id="quantidade" name="quantidade" placeholder="Escreva aqui...">
             </div>
             <div class="form-group">
                 <label for="observacao">Observação <span class="optional">* Opcional</span></label>
-                <textarea id="observacao" rows="4" maxlength="200" placeholder="Escreva aqui..."></textarea>
+                <textarea id="observacao" name="observacoes" rows="4" maxlength="200" placeholder="Escreva aqui..."></textarea>
             </div>
             <div class="form-group">
                 <label for="tamanho">Tamanho <span class="optional">* Opcional</span></label>
-                <input type="text" id="tamanho" placeholder="Escreva aqui...">
+                <input type="text" id="tamanho" name="tamanho" placeholder="Escreva aqui...">
             </div>
         </div>
     </div>
@@ -151,7 +151,7 @@
     </form>
 </div>
 
-<script>
+<!-- <script>
     document.querySelector('.submit-btn').addEventListener('click', function(e) {
         e.preventDefault();
 
@@ -229,7 +229,7 @@
             }
         });
     });    
-</script>
+</script> -->
 
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"
         integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL" crossorigin="anonymous"></script>
