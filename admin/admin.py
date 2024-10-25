@@ -79,16 +79,36 @@ def cadastro_Funcionario():
             try:
                 nome = request.form['nome']
                 nif = request.form['nif']
+                cpf = request.form['cpf']
                 cargo = request.form['cargo']
                 idSetor = request.form['idSetor']
                 roupa = request.form['tamanhoRoupa']
                 calcados = request.form['calcados']
-                especial = request.form['condicoesEspeciais']
+                especial = request.form.get('condicoesEspeciais')
+                idSupervisor = 2 #Virá através da autenticação (Não feito ainda)
+                print('CHEGOU AQUI')
+                comando = '''
+                    INSERT INTO funcionário (nomeFuncionário, NIF, CPF, idSetor, condicoesEspeciais, cargo, tamCalcado, tamRoupa) VALUES (%s, %s, %s, %s, %s, %s, %s, %s)
+                '''
+                cursor.execute(comando, (nome, nif, cpf, idSetor, especial, cargo, calcados, roupa))
+                conexao.commit()
+
+                comando_backlog = '''
+                    INSERT INTO Backlog (dataHora, acao, idSupervisor) 
+                    VALUES (NOW(), %s, %s)
+                '''
+                acao = f"Cadastro de funcionário: {nome}" 
+                cursor.execute(comando_backlog, (acao, idSupervisor))   
+                conexao.commit()
+
+                print('Cadastro realizado com sucesso!', 'success')
+                return redirect('/')
+
+            except Exception as e:
+                return f"Erro de BackEnd: {e}"
+            except Error as e:
+                return f"Erro de BD:{e}"
                 
-            except:
-                ...
-
-
 
 @admin_blueprint.route('/descarte')
 def descarte():
