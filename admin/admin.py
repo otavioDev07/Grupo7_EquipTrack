@@ -1,5 +1,7 @@
-from flask import render_template, Blueprint, request
+from flask import render_template, Blueprint, request, flash, redirect
 from database.conection import *
+from datetime import datetime
+from mysql.connector import Error
 
 admin_blueprint = Blueprint('admin', __name__, template_folder="templates")
 
@@ -13,8 +15,55 @@ def cadastro_EPI():
             return render_template('cadastroEPI.html',setores=setores)
     
     if request.method == 'POST':
-        nome = request.form['nome']
-        numero-serie = request.form['numero-serie']
+        with conecta_db() as (conexao, cursor):
+            try:
+                # Campos obrigatórios
+                codigoCA = request.form['ca']
+                numeroSerie = request.form['numero-serie']
+                marca = request.form['marca']
+                nomeEquipamento = request.form['nome']
+                dataAquisicao = request.form['dataAquisicao']
+                quantidade = request.form['quantidade']
+                dataVencimento = request.form['dataVencimento']
+
+                idSetor = request.form['idSetor'] #Verificar se o valor está vindo 
+                idSupervisor = 2 #Virá através da autenticação (Não feito ainda)
+
+                # Campos opcionais
+                modelo = request.form.get('modelo')
+                observacoes = request.form.get('observacoes')
+                tamanho = request.form.get('tamanho')
+
+                
+                status = 'Estoque'
+
+                # Validação das datas
+                try:
+                    dataVencimento = datetime.strptime(dataVencimento, '%Y-%m-%d').strftime('%Y/%m/%d')
+                    dataAquisicao = datetime.strptime(dataAquisicao, '%Y-%m-%d').strftime('%Y/%m/%d')
+                except ValueError:
+                    flash({'error': 'Formato de data inválido. Use o formato AAAA-MM-DD.'}), 400
+                    return redirect(request.url)
+                comando = '''
+                    INSERT INTO EPI (codigoCA, numeroSerie, marca, modelo, dataVencimento, status, observacoes, nomeEquipamento, dataAquisicao, tamanho, quantidade, idSetor) 
+                    VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s)
+                '''
+                cursor.execute(comando, (codigoCA, numeroSerie, marca, modelo, dataVencimento, status, observacoes, nomeEquipamento, dataAquisicao, tamanho, quantidade, idSetor))
+                conexao.commit()
+        
+                comando_backlog = '''
+                    INSERT INTO Backlog (dataHora, acao, idSupervisor) 
+                    VALUES (NOW(), %s, %s)
+                '''
+                acao = f"Cadastro de EPI: {nomeEquipamento}" 
+                cursor.execute(comando_backlog, (acao, idSupervisor))   
+                conexao.commit()
+                print('Cadastro realizado com sucesso!', 'success')
+                return redirect('/')
+            except Exception as e:
+                return f"Erro de BackEnd: {e}"
+            except Error as e:
+                return f"Erro de BD:{e}"
 
 
 @admin_blueprint.route('/cadastroFuncionario')
