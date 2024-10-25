@@ -1,0 +1,197 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Alocar</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Oswald:wght@500&display=swap" rel="stylesheet">
+</head>
+
+<style>
+    /* Estilização da borda tracejada laranja */
+    .dashed-border {
+        border: 2px dashed orange;
+        border-radius: 10px;
+        width: 100%;
+        max-width: 600px;
+        transition: transform 0.3s ease, box-shadow 0.3s ease;
+    }
+
+    .dashed-border:hover {
+        transform: scale(1.02);
+        box-shadow: 0px 4px 20px rgba(0, 0, 0, 0.1);
+    }
+
+    .form-label {
+        font-weight: bold;
+    }
+
+    .form-control, .form-select {
+        border: 2px solid orange;
+        border-radius: 5px;
+        padding: 10px;
+        transition: box-shadow 0.3s ease;
+    }
+
+    .form-control:focus, .form-select:focus {
+        box-shadow: 0px 0px 10px rgba(255, 165, 0, 0.5);
+    }
+
+    .btn-primary {
+        background-color: #015799;
+        border-color: #015799;
+        transition: background-color 0.3s ease, transform 0.3s ease;
+    }
+
+    .btn-primary:hover {
+        background-color: #014378;
+        transform: scale(1.05);
+    }
+
+    .bg-primary {
+        background-color: #015799 !important;
+    }
+
+    body {
+        background-color: #f8f9fa;
+    }
+
+    .sidebar {
+        background-color: #0056b3;
+        min-height: 100vh;
+        padding: 20px;
+        color: white;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+    }
+
+    .sidebar-logo {
+        max-width: 130%;
+        margin-bottom: 10px;
+        transition: transform 0.3s ease;
+    }
+
+    .sidebar-logo:hover {
+        transform: scale(1.1);
+    }
+
+    .sidebar-title {
+        font-size: 28px;
+        font-weight: bold;
+        margin-top: -20px;
+        transition: transform 0.3s ease, color 0.3s ease;
+    }
+
+    .sidebar-title:hover {
+        transform: translateY(-5px);
+        color: #ffcc00;
+    }
+
+    .btn-back {
+        position: absolute;
+        top: 20px;
+        left: 20px;
+        background-color: transparent;
+        color: #F08424;
+        border: 2px solid #F08424;
+        padding: 10px 20px;
+        border-radius: 50px;
+        font-weight: bold;
+        text-decoration: none;
+        display: inline-flex;
+        align-items: center;
+        transition: background-color 0.3s ease, transform 0.3s ease;
+    }
+
+    .btn-back:hover {
+        background-color: #f08424;
+        color: white;
+        transform: scale(1.05);
+    }
+
+    .btn-back i {
+        margin-right: 8px;
+    }
+
+    /* Ajustes de responsividade */
+    @media (max-width: 768px) {
+        .sidebar {
+            min-height: auto;
+            width: 100%;
+            padding: 10px;
+        }
+
+        .sidebar-title {
+            font-size: 24px;
+        }
+
+        .col-md-2 {
+            width: 100%;
+        }
+
+        .col-md-10 {
+            width: 100%;
+            padding: 20px;
+        }
+
+        .vh-100 {
+            height: auto !important;
+        }
+    }
+</style>
+
+<body>
+    <div class="container-fluid">
+        <div class="row">
+            <!-- Sidebar -->
+            <div class="col-md-2 bg-primary text-white sidebar">
+                <div class="d-flex flex-column align-items-center justify-content-center">
+                    <img src="/static/images/logo1.png" alt="Logo" class="img-fluid mb-4 logo">
+                    <h2 class="title">Alocar</h2>
+                </div>
+            </div>
+
+            <!-- Main content -->
+            <div class="col-md-10 d-flex align-items-center justify-content-center vh-100">
+                <!-- Botão de voltar estilizado -->
+                <a href="/" class="btn-back">
+                    <i class="fas fa-arrow-left"></i> Voltar
+                </a>
+
+                <div class="dashed-border p-5">
+                    <form>
+                        <div class="mb-3">
+                            <label for="funcionario" class="form-label">Funcionário</label>
+                            <select id="funcionario" class="form-select">
+                                <option selected>Selecione...</option>
+                                <option value="1">Funcionário 1</option>
+                                <option value="2">Funcionário 2</option>
+                            </select>
+                        </div>
+                        <div class="mb-3">
+                            <label for="data" class="form-label">Data de alocação</label>
+                            <input type="date" id="data" class="form-control">
+                        </div>
+                        <div class="mb-3">
+                            <label for="quantidade" class="form-label">Quantidade</label>
+                            <select id="quantidade" class="form-select">
+                                <option selected>Selecione...</option>
+                                <option value="1">1</option>
+                                <option value="2">2</option>
+                                <option value="3">3</option>
+                            </select>
+                        </div>
+                        <button type="submit" class="btn btn-primary w-100">Cadastrar</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://kit.fontawesome.com/a076d05399.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>
