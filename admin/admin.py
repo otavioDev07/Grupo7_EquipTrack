@@ -28,7 +28,6 @@ def cadastro_EPI():
 
                 idSetor = request.form['idSetor'] #Verificar se o valor está vindo 
                 idSupervisor = 2 #Virá através da autenticação (Não feito ainda)
-                print("POST request received.")
 
                 # Campos opcionais
                 modelo = request.form.get('modelo')
