@@ -42,7 +42,7 @@ def cadastro_EPI():
                     dataVencimento = datetime.strptime(dataVencimento, '%Y-%m-%d').strftime('%Y/%m/%d')
                     dataAquisicao = datetime.strptime(dataAquisicao, '%Y-%m-%d').strftime('%Y/%m/%d')
                 except ValueError:
-                    flash({'error': 'Formato de data inválido. Use o formato AAAA-MM-DD.'}), 400
+                    print('Formato de data inválido. Use o formato AAAA-MM-DD.')
                     return redirect(request.url)
                 comando = '''
                     INSERT INTO EPI (codigoCA, numeroSerie, marca, modelo, dataVencimento, status, observacoes, nomeEquipamento, dataAquisicao, tamanho, quantidade, idSetor) 
@@ -66,9 +66,29 @@ def cadastro_EPI():
                 return f"Erro de BD:{e}"
 
 
-@admin_blueprint.route('/cadastroFuncionario')
+@admin_blueprint.route('/cadastroFuncionario', methods=['GET','POST'])
 def cadastro_Funcionario():
-    return render_template('cadastroFuncionario.html')
+    if request.method == 'GET':
+        with conecta_db() as (conexao, cursor):
+            cursor.execute('SELECT * FROM setor')
+            setores = cursor.fetchall()
+            return render_template('cadastroFuncionario.html',setores=setores)
+    
+    if request.method == 'POST':
+        with conecta_db() as (conexao, cursor):
+            try:
+                nome = request.form['nome']
+                nif = request.form['nif']
+                cargo = request.form['cargo']
+                idSetor = request.form['idSetor']
+                roupa = request.form['tamanhoRoupa']
+                calcados = request.form['calcados']
+                especial = request.form['condicoesEspeciais']
+                
+            except:
+                ...
+
+
 
 @admin_blueprint.route('/descarte')
 def descarte():
