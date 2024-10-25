@@ -168,7 +168,7 @@
                 <div class="dashed-border p-5">
                     <h1>EPI: {% if equipamento and request.method == 'GET' %}{{ equipamento[0][0] }}{% else %}Equipamento não encontrado{% endif %}</h1>
 
-                    <form action="/alocar/{{ equipamento[0][0] }}" method="post">
+                    <form action="/alocar/{{ id }}" method="post">
                         <div class="mb-3">
                             <label for="funcionario" class="form-label">Funcionário</label>
                             <select id="funcionario" name="idFuncionario" class="form-select">
