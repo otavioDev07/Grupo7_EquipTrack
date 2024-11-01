@@ -102,3 +102,7 @@ def edicaoEPI():
 @admin_blueprint.route('/edicaoFuncionario')
 def edicaoFuncionario():
     return render_template('edicaoFuncionario.html')
+
+@admin_blueprint.route('/descricaoFuncionario')
+def descricaoFuncionario():
+    return render_template('descricaoFuncionario.html')
