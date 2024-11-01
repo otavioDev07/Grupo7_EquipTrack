@@ -94,3 +94,7 @@ def descricaoEPI():
 @admin_blueprint.route('/atividadeMensal')
 def atividadeMensal():
     return render_template('atividadeMensal.html')
+
+@admin_blueprint.route('/edicaoEPI')
+def edicaoEPI():
+    return render_template('edicaoEPI.html')
