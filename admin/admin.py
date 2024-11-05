@@ -106,3 +106,7 @@ def edicaoFuncionario():
 @admin_blueprint.route('/descricaoFuncionario')
 def descricaoFuncionario():
     return render_template('descricaoFuncionario.html')
+
+@admin_blueprint.route('/estoqueCozinha')
+def estoqueCozinha():
+    return render_template('estoqueCozinha.html')
