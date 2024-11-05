@@ -262,6 +262,64 @@
         .ver-mais:hover {
             background-color: #e67e00; /* Efeito de hover no botão */
         }
+
+        /* Estilos gerais */
+    .grid-container {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+        grid-gap: 20px;
+        padding: 20px;
+    }
+
+    .card {
+        background-color: #fff;
+        border: 2px solid #28a745; /* Borda verde */
+        border-radius: 8px;
+        padding: 15px;
+        box-shadow: 0px 2px 10px rgba(0, 0, 0, 0.1);
+        position: relative;
+        transition: transform 0.2s;
+    }
+
+    .card:hover {
+        transform: scale(1.02);
+    }
+
+    /* Círculo de status */
+    .status-circle {
+        width: 12px;
+        height: 12px;
+        border-radius: 50%;
+        position: absolute;
+        top: 10px;
+        right: 10px;
+    }
+
+    /* Cores para status */
+    .status-circle.green {
+        background-color: #28a745; /* Cor verde para "No Prazo" */
+    }
+
+    .status-circle.yellow {
+        background-color: #ffcc00; /* Cor amarela para "Perto do vencimento" */
+    }
+
+    .status-circle.red {
+        background-color: #dc3545; /* Cor vermelha para "Vencido" */
+    }
+
+    /* Estilos dos textos de status */
+    .status-text.green {
+        color: #28a745; /* Texto verde */
+    }
+
+    .status-text.yellow {
+        color: #ffcc00; /* Texto amarelo */
+    }
+
+    .status-text.red {
+        color: #dc3545; /* Texto vermelho */
+    }
 </style>
 </head>
 <body>
@@ -309,44 +367,49 @@
     </div>
 </div>
 
-                {% for item in EPIs %}
-                    <div class="item">
-                        <p>Número do série (CA): {{ item[1] }}</p>
-                        <p>Equipamento: {{ item[2] }}</p>
-                        <p>Quantidade: {{ item[3] }}</p>
-                        <p>Status: 
-                            {% if filtro == 'no_prazo' %}
-                                <span style="color: green;">No prazo</span>
-                            {% elif filtro == 'perto_vencimento' %}
-                                <span style="color: yellow;">Perto do vencimento</span>
-                            {% elif filtro == 'vencido' %}
-                                <span style="color: red;">Vencido</span>
-                            {% endif %}
-                        </p>
-                        <a href="{{ url_for('admin.descricaoEPI', idEPI=item[0]) }}">
-                            <button>Ver mais</button>
-                        </a>
-                    </div>
-                {% endfor %}
+<div class="container py-4">
+    <div class="row row-cols-1 row-cols-md-3 g-4">
+        {% for item in EPIs %}
+        <div class="col">
+            <div class="card h-100 shadow-sm position-relative">
+                <!-- Círculo de status -->
+                <div class="status-circle
+                    {% if filtro == 'no_prazo' %} green
+                    {% elif filtro == 'perto_vencimento' %} yellow
+                    {% elif filtro == 'vencido' %} red
+                    {% endif %}">
+                </div>
 
-                <!-- Stock Cards -->
-                <!-- <div class="row row-cols-1 row-cols-md-3 g-4"> -->
-                    <!-- Card 1 -->
-                    <!-- <div class="col">
-                        <div class="card shadow-sm">
-                            <div class="card-body">
-                                <h5 class="card-title">Número de série/CAE: 5158253</h5>
-                                <p class="card-text">Equipamento: Bolo de cozinha</p>
-                                <p class="card-text">Quantidade: 10</p>
-                                <p class="card-text">
-                                    Status: 
-                                    <span class="badge bg-success status-badge">No prazo</span>
-                                </p>
-                                <a href="#" class="btn btn-warning">Ver mais</a>
-                            </div>
-                        </div>
-                    </div> -->
-                <!-- </div> -->
+                <!-- Conteúdo do card -->
+                <div class="card-body">
+                    <h5 class="card-title">Número do série (CA): {{ item[1] }}</h5>
+                    <p class="card-text">Equipamento: {{ item[2] }}</p>
+                    <p class="card-text">Quantidade: {{ item[3] }}</p>
+                    <p class="card-text">
+                        Status:
+                        <span class="status-text
+                            {% if filtro == 'no_prazo' %} green
+                            {% elif filtro == 'perto_vencimento' %} yellow
+                            {% elif filtro == 'vencido' %} red
+                            {% endif %}">
+                            {% if filtro == 'no_prazo' %}
+                                No prazo
+                            {% elif filtro == 'perto_vencimento' %}
+                                Perto do vencimento
+                            {% elif filtro == 'vencido' %}
+                                Vencido
+                            {% endif %}
+                        </span>
+                    </p>
+                </div>
+                <div class="bg-transparent">
+                    <a href="{{ url_for('admin.descricaoEPI', idEPI=item[0]) }}" class="btn" style="background-color: #e67e00; color: white; margin-left: 70%;">Ver mais</a>
+                </div>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+</div>
             </main>
         </div>
     </div>
