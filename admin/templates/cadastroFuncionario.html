@@ -2,6 +2,51 @@
 
 {% block conteudo %}
 
+<style>
+/* Layout do contêiner centralizado */
+.form-container {
+    display: flex;
+    justify-content: center;
+    margin-top: 1%; /* Reduz ainda mais a margem superior */
+}
+
+/* Estilo da caixa com bordas tracejadas */
+.dashed-border {
+    border: 2px dashed orange;
+    border-radius: 10px;
+    padding: 8px; /* Menor padding interno */
+    width: 500px; /* Ligeiramente menor */
+}
+
+/* Estilo dos campos de entrada e seletores */
+input[type="text"],
+select {
+    width: 100%;
+    padding: 10px; /* Reduzido ainda mais o padding para economizar espaço */
+    margin-bottom: 8px; /* Menor margem entre os campos */
+    border: 1px solid orange;
+    border-radius: 4px;
+    font-size: 14px; /* Fonte ligeiramente menor */
+}
+
+/* Estilo do botão */
+button {
+    background-color: #015799;
+    color: white;
+    padding: 8px 15px; /* Ajuste do padding do botão */
+    border: none;
+    border-radius: 15px;
+    font-size: 15px; /* Fonte ligeiramente menor */
+    cursor: pointer;
+    width: 100%;
+    transition: background-color 200ms;
+}
+
+button:hover {
+    background-color: #ff914d;
+}
+</style>
+
 
 
 
