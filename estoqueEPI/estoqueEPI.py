@@ -14,14 +14,11 @@ def get_estoque():
         query += ' WHERE dataVencimento BETWEEN CURDATE() AND CURDATE() + INTERVAL 30 DAY'  # Exemplo para "Perto do vencimento"
     elif filtro == 'vencido':
         query += ' WHERE dataVencimento < CURDATE()'  
-    print('chegou')
-
     try:
         with conecta_db() as (conexao, cursor):
             cursor.execute(query)
             EPIs = cursor.fetchall()
             return render_template('estoqueEPI.html', EPIs=EPIs)
-        print('chegou 2')
     except Exception as e:
         return print("Erro ao buscar dados:", e)
         
