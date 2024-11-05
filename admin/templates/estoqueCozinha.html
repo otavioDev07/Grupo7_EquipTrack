@@ -1,4 +1,3 @@
-
 {% extends 'model.html' %}
 
 {% block conteudo %}
@@ -27,7 +26,7 @@
         margin-left: 25%;
     }
 
-    /* Container da barra de pesquisa */
+    /* Container do menu */
     .menu-container {
         display: flex;
         align-items: center;
@@ -45,7 +44,7 @@
         width: 20px;
         height: 20px;
         margin-right: 10px;
-        color: #FF8C00; /* Cor laranja */
+        color: #FF8C00;
         cursor: pointer;
     }
 
@@ -70,7 +69,7 @@
     .search-icon {
         width: 20px;
         height: 20px;
-        color: #0056b3; /* Cor azul do ícone */
+        color: #0056b3;
         position: absolute;
         right: 0;
         margin-right: 5px;
@@ -78,7 +77,7 @@
 
     /* Menu de opções de filtro */
     .filter-options {
-        display: none; /* Oculto por padrão */
+        display: none;
         position: absolute;
         top: 40px;
         left: 0;
@@ -101,73 +100,88 @@
         background-color: #f0f0f0;
     }
 
+    /* Botões */
     .botao {
-      display: inline-block;
-      padding: 10px 10px;
-      margin: 5px;
-      border-radius: 10px;
-      text-align: center;
-      cursor: pointer;
-      color: white;
-      width: 200px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        padding: 10px 10px;
+        margin: 5px;
+        border-radius: 10px;
+        text-align: center;
+        cursor: pointer;
+        color: white;
+        width: 200px;
     }
 
     .no-prazo {
-        background-color: transparent; /* Fundo transparente */
-        color: white; /* Cor do texto branca */
-        border: 2px solid white; /* Borda branca */
-        border-radius: 25px; /* Borda arredondada */
-        padding: 10px 20px; /* Espaçamento interno */
-        font-size: 16px; /* Tamanho da fonte */
-        cursor: pointer; /* Cursor de ponteiro */
-        transition: background-color 0.3s, color 0.3s; /* Animação de transição */
+        background-color: transparent;
+        color: white;
+        border: 2px solid white;
+        border-radius: 25px;
+        padding: 10px 20px;
+        font-size: 16px;
+        cursor: pointer;
+        transition: background-color 0.3s, color 0.3s;
+        display: flex;
+        align-items: center;
+        justify-content: center;
     }
 
     .perto-vencimento {
-        background-color: transparent; /* Fundo transparente */
-        color: white; /* Cor do texto branca */
-        border: 2px solid white; /* Borda branca */
-        border-radius: 25px; /* Borda arredondada */
-        padding: 10px 20px; /* Espaçamento interno */
-        font-size: 16px; /* Tamanho da fonte */
-        cursor: pointer; /* Cursor de ponteiro */
-        transition: background-color 0.3s, color 0.3s; /* Animação de transição */
+        background-color: transparent;
+        color: white;
+        border: 2px solid white;
+        border-radius: 25px;
+        padding: 10px 20px;
+        font-size: 16px;
+        cursor: pointer;
+        transition: background-color 0.3s, color 0.3s;
     }
 
     .vencido {
-        background-color: transparent; /* Fundo transparente */
-        color: white; /* Cor do texto branca */
-        border: 2px solid white; /* Borda branca */
-        border-radius: 25px; /* Borda arredondada */
-        padding: 10px 20px; /* Espaçamento interno */
-        font-size: 16px; /* Tamanho da fonte */
-        cursor: pointer; /* Cursor de ponteiro */
-        transition: background-color 0.3s, color 0.3s; /* Animação de transição */
+        background-color: transparent;
+        color: white;
+        border: 2px solid white;
+        border-radius: 25px;
+        padding: 10px 20px;
+        font-size: 16px;
+        cursor: pointer;
+        transition: background-color 0.3s, color 0.3s;
     }
 
-    /* Efeito hover que faz todos os botões parecerem o primeiro */
+    /* Efeito hover */
     .botao:hover {
-      background-color: white;
-      color: black;
+        background-color: white;
+        color: black;
+    }
+
+    /* Bolinhas de status */
+    .bolinha {
+        width: 15px;
+        height: 15px;
+        border-radius: 50%;
+        margin-right: 10px;
+    }
+
+    .bolinha-verde {
+        background-color: #4CAF50; /* Verde */
+    }
+
+    .bolinha-amarela {
+        background-color: yellow;
+    }
+
+    .bolinha-vermelho {
+        background-color: red; 
     }
 
     .card-status-vencido {
-        width: 20px;
-        height: 20px;
-        border-radius: 50%;
         background-color: red;
-        position: absolute;
-        top: 10px;
-        right: 10px;
     }
+
     .card-status-prazo {
-        width: 20px;
-        height: 20px;
-        border-radius: 50%;
         background-color: #198754;
-        position: absolute;
-        top: 10px;
-        right: 10px;
     }
 
     .status-text-vencido {
@@ -179,18 +193,87 @@
         color: #198754;
         font-weight: bold;
     }
+
+    /* Grid para organizar as caixas */
+    .grid-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            grid-gap: 20px;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        /* Estilos dos cards */
+        .card {
+            background-color: #fff;
+            border: 2px solid #28a745; /* Borda verde */
+            border-radius: 8px;
+            padding: 15px;
+            box-shadow: 0px 2px 10px rgba(0, 0, 0, 0.1);
+            position: relative;
+            transition: transform 0.2s;
+        }
+
+        .card:hover {
+            transform: scale(1.02);
+        }
+
+        /* Círculo de status no topo */
+        .status-circle {
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+            background-color: #28a745; /* Cor verde */
+            position: absolute;
+            top: 15px;
+            right: 15px;
+        }
+
+        /* Estilos dos textos do card */
+        .card h4 {
+            font-size: 16px;
+            margin: 10px 0;
+        }
+
+        .card p {
+            font-size: 14px;
+            color: #555;
+            margin: 5px 0;
+        }
+
+        /* Status "No Prazo" */
+        .status {
+            font-weight: bold;
+            color: #28a745; /* Cor verde do status */
+        }
+
+        /* Botão "Ver mais" */
+        .ver-mais {
+            background-color: #FF8C00; /* Laranja */
+            color: white;
+            border: none;
+            padding: 8px 12px;
+            border-radius: 20px;
+            font-size: 14px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+
+        .ver-mais:hover {
+            background-color: #e67e00; /* Efeito de hover no botão */
+        }
 </style>
 </head>
 <body>
 
 <!-- Barra de pesquisa -->
 <div class="search-container">
-    <!-- Ícone de filtro para abrir o menu de opções -->
+    <!-- Ícone de filtro -->
     <svg class="filter-icon" onclick="toggleFilterOptions()" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
         <polygon points="3 3 21 3 14 10 14 21 10 21 10 10 3 3"></polygon>
     </svg>
     
-    <!-- Campo de pesquisa e ícone de lupa -->
+    <!-- Campo de pesquisa -->
     <div class="search-bar">
         <input type="text" placeholder="Busque aqui...">
         <svg class="search-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
@@ -208,14 +291,24 @@
     </div>
 </div>
 
-<!-- Menu de opções  -->
-<div class="menu" style="padding-top: 2%; "> 
-<div class="menu-container">
-<div class="botao no-prazo"><div class="card-status-vencido">No prazo</div></div>
-<div class="botao perto-vencimento">Perto do prazo</div>
-<div class="botao vencido">Vencido</div>
+<!-- Menu de opções -->
+<div class="menu" style="padding-top: 2%;"> 
+    <div class="menu-container">
+        <div class="botao no-prazo">
+            <div class="bolinha bolinha-verde"></div>
+            No prazo
+        </div>
+            <div class="botao perto-vencimento">
+                <div class="bolinha bolinha-amarela"></div>
+                Perto do prazo
+            </div>
+                <div class="botao vencido">
+                    <div class="bolinha bolinha-vermelho"></div>
+                    Vencido
+                </div>
+    </div>
 </div>
-</div>
+
 
 <script>
     // Função para alternar a visibilidade das opções de filtro
@@ -242,5 +335,4 @@
 
 </body>
 </html>
-
 {% endblock %}
