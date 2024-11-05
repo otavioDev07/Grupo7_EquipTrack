@@ -75,75 +75,79 @@ button:hover {
 </style>
 
 <div class="form-container">
-    <form class="epi-form">
-    <div class="dashed-border">
-    <form>
-        <div style="margin-bottom: 10px;" class="form-group">
-            <label for="nome-completo">Nome Completo</label>
-            <input type="text" id="nome-completo" placeholder="Escreva aqui...">
-        </div>
+    <form action="/cadastroFuncionario" method="post">
+        <div class="dashed-border">
+            <div style="margin-bottom: 10px;" class="form-group">
+                <label for="nome-completo">Nome Completo</label>
+                <input type="text" id="nome-completo" name="nome" placeholder="Escreva aqui...">
+            </div>
+            <div style="margin-bottom: 10px;" class="form-group">
+                <label for="cpf">CPF</label>
+                <input type="text" id="cpf" name="cpf" placeholder="Escreva aqui...">
+            </div>
 
-        <div style="margin-bottom: 10px;" class="form-group">
-            <label for="nif">Número de Identificação NIF</label>
-            <input type="text" id="nif" placeholder="Escreva aqui...">
-        </div>
+            <div style="margin-bottom: 10px;" class="form-group">
+                <label for="nif">Número de Identificação NIF</label>
+                <input type="text" id="nif" name="nif" placeholder="Escreva aqui...">
+            </div>
 
-        <div style="margin-bottom: 10px;" class="form-group">
-            <label for="cargo">Cargo/Posição</label>
-            <input type="text" id="cargo" placeholder="Escreva aqui...">
-        </div>
+            <div style="margin-bottom: 10px;" class="form-group">
+                <label for="cargo">Cargo/Posição</label>
+                <input type="text" id="cargo" name="cargo" placeholder="Escreva aqui...">
+            </div>
 
-        <div style="margin-bottom: 10px;" class="form-group">
-            <label for="setor">Setor</label>
-            <select id="setor">
-                <option value="">Selecione o setor</option>
-                <option value="">Cozinha</option>
-                <option value="">Manutenção</option>
-                <option value="">Professores</option>
-                <option value="">Inspetores</option>
-            </select>
-        </div>
+            <div style="margin-bottom: 10px;" class="form-group">
+                <label for="setor">Setor</label>
+                <select id="setor" name="idSetor">
+                    <option value="">Selecione o setor</option>
+                    {% for setor in setores %}
+                        <option value="{{ setor[0] }}">{{ setor[1] }}</option>
+                    {% endfor %}
+                </select>
+            </div>
 
-        <div style="margin-bottom: 10px;" class="form-group">
-            <label for="tamanho-roupa">Tamanho de Roupas</label>
-            <select id="setor">
-                <option value="">Selecione o tamanho</option>
-                <option value="">P</option>
-                <option value="">M</option>
-                <option value="">G</option>
-                <option value="">GG</option>
-            </select>
-        </div>
+            <div style="margin-bottom: 10px;" class="form-group">
+                <label for="tamanho-roupa">Tamanho de Roupas</label>
+                <select id="tamanho-roupa" name="tamanhoRoupa">
+                    <option value="">Selecione o tamanho</option>
+                    <option value="P">P</option>
+                    <option value="M">M</option>
+                    <option value="G">G</option>
+                    <option value="GG">GG</option>
+                </select>
+            </div>
 
-        <div style="margin-bottom: 10px;" class="form-group">
-            <label for="calcados">Calçados</label>
-            <select id="calcados">
-                <option>Selecione o tamanho</option>
-                <option value="">33</option>
-                <option value="">34</option>
-                <option value="">35</option>
-                <option value="">36</option>
-                <option value="">37</option>
-                <option value="">38</option>
-                <option value="">39</option>
-                <option value="">40</option>
-                <option value="">41</option>
-                <option value="">42</option>
-                <option value="">43</option>
-            </select>
-        </div>
+            <div style="margin-bottom: 10px;" class="form-group">
+                <label for="calcados">Calçados</label>
+                <select id="calcados" name="calcados">
+                    <option>Selecione o tamanho</option>
+                    <option value="33">33</option>
+                    <option value="34">34</option>
+                    <option value="35">35</option>
+                    <option value="36">36</option>
+                    <option value="37">37</option>
+                    <option value="38">38</option>
+                    <option value="39">39</option>
+                    <option value="40">40</option>
+                    <option value="41">41</option>
+                    <option value="42">42</option>
+                    <option value="43">43</option>
+                    <option value="44">44</option>
+                    <option value="45">45</option>
+                </select>
+            </div>
 
-        <div style="margin-bottom: 10px;" class="form-group">
-            <label for="condicoes-especiais">Condições Especiais</label>
-            <input type="text" id="condicoes-especiais" placeholder="Restrições ou condições que possam exigir EPIs especiais">
+            <div style="margin-bottom: 10px;" class="form-group">
+                <label for="condicoes-especiais">Condições Especiais</label>
+                <input type="text" id="condicoes-especiais" name="condicoesEspeciais" placeholder="Restrições ou condições que possam exigir EPIs especiais">
+            </div>
+            <div class="form-group">
+                <button type="submit">Cadastrar</button>
+            </div>
         </div>
-
     </form>
 </div>
-</div>
-</div>
 
-<div class="form-group">
-    <button type="submit">Cadastrar</button>
-</div>
+
+
 {% endblock %}
