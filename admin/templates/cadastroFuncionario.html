@@ -3,100 +3,99 @@
 {% block conteudo %}
 
 <style>
-/* Layout geral do contêiner */
-.container {
-    display: flex;
-    justify-content: center; /* Centraliza o conteúdo */
-    margin-top: 5%;
-}
-
-/* Bordas tracejadas */
-.dashed-border {
-    border: 2px dashed orange;
-    border-radius: 10px;
-    padding: 15px;
-    margin: 10px;
-    width: 70%; /* Ajuste para preencher mais espaço e deixar alinhado */
-}
-
-/* Contêiner do formulário */
-.form-container {
-    display: flex;
-    justify-content: center;
-    width: 90%; /* Ajuste da largura do contêiner do formulário */
-    padding: 9px;
-    margin-left: 11%;
-}
-
-.epi-form {
-    display: flex;
-    justify-content: space-between;
-    width: 100%;
-}
-label {
-    display: block;
-    margin-bottom: 5px;
-    color: #000;
-}
-
-input[type="text"],
-select {
-    width: 100%;
-    padding: 10px;
-    border: 1px solid #ccc;
-    border-radius: 4px;
-    font-size: 16px;
-    border: 1px solid #ddd;
-    border: 1px solid orange; /* Adiciona borda laranja */
-}
-
-input[type="text"]::placeholder {
-    color: #ccc;
-    
-}
-
-button {
-    background-color: #015799;
+    .container {
+        display: flex;
+        justify-content: center;
+        margin-top: 5%;
+    }
+    .dashed-border {
+        border: 2px dashed orange;
+        border-radius: 10px;
+        padding: 15px;
+        margin: 10px;
+        width: 70%;
+    }
+    .form-container {
+        display: flex;
+        justify-content: center;
+        width: 90%;
+        padding: 10px;
+        margin-left: 11%;
+    }
+    input[type="text"],
+    select {
+        width: 100%;
+        padding: 10px;
+        border: 1px solid orange;
+        border-radius: 4px;
+        font-size: 16px;
+    }
+    input[type="text"]::placeholder {
+        color: #ccc;
+    }
+    button {
+        background-color: #015799;
+        color: white;
+        padding: 10px 20px;
+        border: none;
+        border-radius: 15px;
+        font-size: 16px;
+        cursor: pointer;
+        margin-left: 48%;
+        transition: all 200ms;
+    }
+    button:hover {
+        background-color: #ff914d;
+        transform: scale(1.05);
+    }
+    .sidebar {
+    background-color: #0056b3;
+    height: 100vh;
+    padding: 20px;
     color: white;
-    padding: 10px 20px;
-    border: none;
-    border-radius: 15px;
-    font-size: 16px;
-    cursor: pointer;
-    margin-left: 48%;
-    transition: all 200ms;
-    display: inline-block;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center; /* Centraliza verticalmente no meio da barra */
+    gap: 10px; /* Espaço entre logo e título */
 }
 
-button:hover {
-    background-color: #ff914d;
-    transform: scale(1.05);
+.sidebar-logo {
+    max-width: 80%;
+    margin: 0; /* Remove margens extras */
+    margin-bottom: 10px; /* Ajuste conforme necessário */
 }
+
+.sidebar-title {
+    font-size: 24px;
+    font-weight: bold;
+    margin: 0; /* Remove margens extras */
+}
+
+
 </style>
+
 
 <div class="form-container">
     <form action="/cadastroFuncionario" method="post">
         <div class="dashed-border">
-            <div style="margin-bottom: 10px;" class="form-group">
+            <div class="form-group">
                 <label for="nome-completo">Nome Completo</label>
                 <input type="text" id="nome-completo" name="nome" placeholder="Escreva aqui...">
             </div>
-            <div style="margin-bottom: 10px;" class="form-group">
+            <div class="form-group">
                 <label for="cpf">CPF</label>
                 <input type="text" id="cpf" name="cpf" placeholder="Escreva aqui...">
             </div>
-
-            <div style="margin-bottom: 10px;" class="form-group">
+            <div class="form-group">
                 <label for="nif">Número de Identificação NIF</label>
                 <input type="text" id="nif" name="nif" placeholder="Escreva aqui...">
             </div>
-
-            <div style="margin-bottom: 10px;" class="form-group">
+            <div class="form-group">
                 <label for="cargo">Cargo/Posição</label>
                 <input type="text" id="cargo" name="cargo" placeholder="Escreva aqui...">
             </div>
-
-            <div style="margin-bottom: 10px;" class="form-group">
+            <div class="form-group">
                 <label for="setor">Setor</label>
                 <select id="setor" name="idSetor">
                     <option value="">Selecione o setor</option>
@@ -105,8 +104,7 @@ button:hover {
                     {% endfor %}
                 </select>
             </div>
-
-            <div style="margin-bottom: 10px;" class="form-group">
+            <div class="form-group">
                 <label for="tamanho-roupa">Tamanho de Roupas</label>
                 <select id="tamanho-roupa" name="tamanhoRoupa">
                     <option value="">Selecione o tamanho</option>
@@ -116,28 +114,16 @@ button:hover {
                     <option value="GG">GG</option>
                 </select>
             </div>
-
-            <div style="margin-bottom: 10px;" class="form-group">
+            <div class="form-group">
                 <label for="calcados">Calçados</label>
                 <select id="calcados" name="calcados">
                     <option>Selecione o tamanho</option>
-                    <option value="33">33</option>
-                    <option value="34">34</option>
-                    <option value="35">35</option>
-                    <option value="36">36</option>
-                    <option value="37">37</option>
-                    <option value="38">38</option>
-                    <option value="39">39</option>
-                    <option value="40">40</option>
-                    <option value="41">41</option>
-                    <option value="42">42</option>
-                    <option value="43">43</option>
-                    <option value="44">44</option>
-                    <option value="45">45</option>
+                    {% for numero in range(33, 46) %}
+                        <option value="{{ numero }}">{{ numero }}</option>
+                    {% endfor %}
                 </select>
             </div>
-
-            <div style="margin-bottom: 10px;" class="form-group">
+            <div class="form-group">
                 <label for="condicoes-especiais">Condições Especiais</label>
                 <input type="text" id="condicoes-especiais" name="condicoesEspeciais" placeholder="Restrições ou condições que possam exigir EPIs especiais">
             </div>
@@ -147,7 +133,5 @@ button:hover {
         </div>
     </form>
 </div>
-
-
 
 {% endblock %}
