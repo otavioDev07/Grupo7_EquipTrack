@@ -143,25 +143,37 @@ main {
 <div class="row" style="padding-top: 2%;">
     <div class="col-md-4 info-box">
         <span class="info-header">Setor</span>
-        <span>{{ epi.idSetor }}</span>
+        <span>{{ epi.nomeSetor[0] }}</span>
     </div>
     <div class="col-md-4 info-box" style="margin-left: 2%;">
         <span class="info-header">Marca</span>
         <span>{{ epi.marca }}</span>
     </div>
     <div class="col-md-3">
+        {% if epi.dataLocacao %}
         <div class="label">Data de locação</div>
         <div class="date">
             <div>{{ epi.dataLocacao }}</div>
         </div>
+        {% else %}
+        <div class="label">Data de locação</div>
+        <div class="date">
+            <div>Não alocado</div>
+        </div>
+        {% endif %}
     </div>
 </div>
 
 <div class="row" style="padding-top: 2%;">
     <div class="col-md-4 info-box">
+        {% if not epi.nomeColaborador %}
         <span class="info-header">Nome do colaborador</span>
-        <span>{{ epi.nomeColaborador }}</span>
-    </div>
+        <span>Não alocado</span>
+        {% else %}
+        <span class="info-header">Nome do colaborador</span>
+        <span>{{ epi.nomeColaborador[0] }}</span>
+        {% endif %}
+</div>
     <div class="col-md-4 info-box" style="margin-left: 2%;">
         <span class="info-header">Observações</span>
         <span>{{ epi.observacoes }}</span>
@@ -178,16 +190,15 @@ main {
         <span>{{ epi.tamanho }}</span>
     </div>
 </div>
-
 <div class="row" style="padding-top: 2%; margin-left: 20%;">
     <div class="col-md-2">
         <button>Editar</button>
     </div>
     <div class="col-md-2">
-        <button>Alocar</button>
+        <a href="{{ url_for('alocar.alocar_equipamento', idEPI=epi.idEPI) }}"><button>Alocar</button></a>
     </div>
     <div class="col-md-2">
-        <button class="descarte">Descartar</button>
+        <a href="{{ url_for('admin.cadastroDescarte', idEPI=epi.idEPI)}}"><button class="descarte">Descartar</button></a>
     </div>
 </div>
 </div>

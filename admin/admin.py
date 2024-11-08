@@ -129,6 +129,12 @@ def descricaoEPI(idEPI):
             cursor.execute('SELECT * FROM epi WHERE idEPI = %s', (idEPI,))
             result = cursor.fetchone()
 
+            cursor.execute('SELECT f.nomeFuncionário FROM funcionário f INNER JOIN epi ep ON f.idFuncionario = ep.idFuncionario WHERE idEPI = %s', (idEPI,))
+            nomeColaborador = cursor.fetchone()
+
+            cursor.execute('SELECT se.nomeSetor FROM setor se INNER JOIN epi ep ON se.idSetor = ep.idSetor WHERE idEPI = %s', (idEPI,))
+            nomeSetor = cursor.fetchone()
+
             if result:
                 epi = {
                     'idEPI': result[0],
@@ -144,7 +150,8 @@ def descricaoEPI(idEPI):
                     'dataAquisicao': result[10],
                     'tamanho': result[11],
                     'quantidade': result[12],
-                    'idSetor': result[13],
+                    'nomeSetor': nomeSetor,
+                    'nomeColaborador': nomeColaborador
                 }
                 return render_template('descricaoEPI.html', epi=epi)
             else:
