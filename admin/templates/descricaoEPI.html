@@ -85,12 +85,12 @@ button:hover {
     background-color: #c16f3c;
 }
 main {
-    padding: 50px; /* Adiciona espaçamento em torno do conteúdo principal */
+    padding: 50px;
 }
 
 @media (max-width: 768px) {
     main {
-        padding: 10px; /* Reduz o padding em telas menores para melhorar o layout */
+        padding: 10px;
     }
 }
 </style>
@@ -100,53 +100,42 @@ main {
 <div class="container mt-4">
 <div class="row">
     <div class="col-md-12">
-        <h3>Luvas</h3>
-        <p ><strong>Material:</strong> Algodão</p>
-        <p>Luva confeccionada em tecido de algodão e tricotada em 3 fios. Sua característica permite respirabilidade com menos fadiga para a mão.</p>
-        
-        <p><strong>Indicações de uso:</strong></p>
-        <ul>
-            <li>Esta luva de baixo custo pode ser utilizada para diversos fins, como manipulação de itens sensíveis, bem como manter as mãos secas em caso de trabalho úmido.</li>
-            <li>Material utilizado amplamente na construção civil.</li>
-        </ul>
-
-        <p><strong>Cuidados de manutenção:</strong></p>
-        <p>Após utilizar as luvas, deixe-as ressecar em ambiente seco para preservar as suas características naturais.</p>
+        <h3>{{ epi.nomeEquipamento }}</h3>
+        <p><strong>Material:</strong> {{ epi.marca }}</p>
+        <p>{{ epi.observacoes }}</p>
     </div>
 </div>
 
 <div class="row">
     <div class="col-md-4 info-box">
         <span class="info-header">Número de série CA</span>
-        <span>345252517</span>
+        <span>{{ epi.codigoCA }}</span>
     </div>
     <div class="col-md-4 info-box" style="margin-left: 2%;">
         <span class="info-header">Modelo</span>
-        <span style="margin-left: 14%;">Luvas de algodão com pigmentos de PVC</span>
+        <span>{{ epi.modelo }}</span>
     </div>
     <div class="col-md-3">
-            <div class="label">Data de Aquisição<br><small>Início</small></div>
-            <div class="date">
-                <div>Jun 10, 2024</div>
-                <div>9:41 AM</div>
-            </div>
+        <div class="label">Data de Aquisição<br><small>Início</small></div>
+        <div class="date">
+            <div>{{ epi.dataAquisicao }}</div>
+        </div>
     </div>
 </div>
 
 <div class="row" style="padding-top: 2%;">
     <div class="col-md-4 info-box">
         <span class="info-header">Quantidade</span>
-        <span>5</span>
+        <span>{{ epi.quantidade }}</span>
     </div>
     <div class="col-md-4 info-box" style="margin-left: 2%;">
         <span class="info-header">Categoria</span>
-        <span style="margin-left: 14%;">Luvas de algodão com pigmentos de PVC</span>
+        <span>{{ epi.categoria }}</span>
     </div>
     <div class="col-md-3">
-    <div class="label">Data de vencimento<br><small>Fim</small></div>
+        <div class="label">Data de vencimento<br><small>Fim</small></div>
         <div class="date">
-            <div>Jun 10, 2024</div>
-            <div>9:41 AM</div>
+            <div>{{ epi.dataVencimento }}</div>
         </div>
     </div>
 </div>
@@ -154,17 +143,16 @@ main {
 <div class="row" style="padding-top: 2%;">
     <div class="col-md-4 info-box">
         <span class="info-header">Setor</span>
-        <span>Manutenção</span>
+        <span>{{ epi.idSetor }}</span>
     </div>
     <div class="col-md-4 info-box" style="margin-left: 2%;">
         <span class="info-header">Marca</span>
-        <span>Flexcut</span>
+        <span>{{ epi.marca }}</span>
     </div>
     <div class="col-md-3">
-    <div class="label">Data de locação</div>
+        <div class="label">Data de locação</div>
         <div class="date">
-            <div>Jun 10, 2024</div>
-            <div>9:41 AM</div>
+            <div>{{ epi.dataLocacao }}</div>
         </div>
     </div>
 </div>
@@ -172,25 +160,24 @@ main {
 <div class="row" style="padding-top: 2%;">
     <div class="col-md-4 info-box">
         <span class="info-header">Nome do colaborador</span>
-        <span>Luiz Walter</span>
+        <span>{{ epi.nomeColaborador }}</span>
     </div>
     <div class="col-md-4 info-box" style="margin-left: 2%;">
         <span class="info-header">Observações</span>
-        <span>Luvas úmidas</span>
+        <span>{{ epi.observacoes }}</span>
     </div>
-    
-    <div class="row" style="padding-top: 2%;">
-        <div class="col-md-4 info-box">
-            <span class="info-header">Status</span>
-            <span>Desativado</span>
-        </div>
-        <div class="col-md-4 info-box" style="margin-left: 3%;">
-            <span class="info-header">Tamanho</span>
-            <span>P,M e G</span>
-        </div>
-        
+</div>
 
-
+<div class="row" style="padding-top: 2%;">
+    <div class="col-md-4 info-box">
+        <span class="info-header">Status</span>
+        <span>{{ epi.status }}</span>
+    </div>
+    <div class="col-md-4 info-box" style="margin-left: 3%;">
+        <span class="info-header">Tamanho</span>
+        <span>{{ epi.tamanho }}</span>
+    </div>
+</div>
 
 <div class="row" style="padding-top: 2%; margin-left: 20%;">
     <div class="col-md-2">
