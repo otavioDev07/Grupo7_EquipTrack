@@ -30,11 +30,7 @@ CREATE TABLE IF NOT EXISTS `equiptrack`.`supervisor` (
   UNIQUE INDEX `nomeFuncionario_UNIQUE` (`nomeSupervisor` ASC) VISIBLE,
   UNIQUE INDEX `CPF_UNIQUE` (`CPF` ASC) VISIBLE)
 ENGINE = InnoDB
-<<<<<<< HEAD
-AUTO_INCREMENT = 2
-=======
 AUTO_INCREMENT = 3
->>>>>>> main
 DEFAULT CHARACTER SET = utf8mb3;
 
 
