@@ -59,40 +59,61 @@
     .card h3 {
         color: white;
         margin-bottom: 15px;
-        font-size: 1.2rem; /* Ajuste do tamanho da fonte para evitar quebras */
+        font-size: 1.2rem; /* Ajuste do tamanho da fonte */
     }
-    
+
     .indicators {
-        background-color: #EAF0F7;
-        border-radius: 15px;
-        padding: 10px;
         display: flex;
         justify-content: space-around;
-        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        padding: 10px;
     }
-    
+
     .indicator {
-        width: 35px;
-        height: 35px;
-        border-radius: 50%;
         display: flex;
+        flex-direction: column;
         align-items: center;
         justify-content: center;
+        text-align: center;
+    }
+
+    .circle {
+        width: 20px;
+        height: 20px;
+        border-radius: 50%;
+    }
+
+    .indicator.red .circle {
+        background-color: red;
+    }
+
+    .indicator.yellow .circle {
+        background-color: yellow;
+    }
+
+    .indicator .number {
+        margin-top: 8px;
         font-size: 16px;
         font-weight: bold;
-        color: white;
-        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
-    }
-    
-    .indicator.red {
-        background-color: red;
-        border: 2px solid #ffcccc;
-    }
-    
-    .indicator.yellow {
-        background-color: yellow;
         color: black;
+        background-color: #f9f9f9;
+        padding: 3px 8px;
+        border-radius: 5px;
+        border: 2px solid transparent;
     }
+
+    .indicator.red .number {
+        border-color: red;
+    }
+
+    .indicator.yellow .number {
+        border-color: yellow;
+    }
+
+    .card-container {
+        display: flex;
+        justify-content: space-around;
+    }
+
     
     .btn-padrao {
         background-color: #EAF0F7;
@@ -324,12 +345,14 @@ button:hover {
                 <div class="collapse navbar-collapse" id="navbarSupportedContent">
                     <ul class="navbar-nav me-auto mb-2 mb-lg-0">
                         <li class="nav-item">
-                            <a href="/cadastro">
+                            <a href="{{ url_for('admin.cadastro_EPI')}}">
                                 <button class="btn-padrao">Cadastro</button>
                             </a>
                         </li>
                         <li class="nav-item">
-                            <button class="btn-padrao">Estoque</button>
+                            <a href="{{ url_for('estoqueEPI.get_estoque') }}">
+                                <button class="btn-padrao">Estoque</button>
+                            </a>
                         </li>
                         <li class="nav-item">
                             <button class="btn-padrao">Descarte</button>
@@ -365,13 +388,18 @@ button:hover {
                 <h3>Cozinha</h3>
                 <div class="icon">
                     <div class="indicators">
-                        <div class="indicator red">5</div>
-                        <div class="indicator yellow">2</div>
+                        <div class="indicator red">
+                            <div class="circle"></div>
+                            <span class="number">5</span>
+                        </div>
+                        <div class="indicator yellow">
+                            <div class="circle"></div>
+                            <span class="number">2</span>
+                        </div>
                     </div>
                 </div>
             </div>
-
-
+        
             <div class="card">
                 <div class="icon">
                     <img src="/static/images/manutenção.png" alt="Manutenção">
@@ -379,13 +407,18 @@ button:hover {
                 <h3>Manutenção</h3>
                 <div class="icon">
                     <div class="indicators">
-                        <div class="indicator red">5</div>
-                        <div class="indicator yellow">2</div>
+                        <div class="indicator red">
+                            <div class="circle"></div>
+                            <span class="number">5</span>
+                        </div>
+                        <div class="indicator yellow">
+                            <div class="circle"></div>
+                            <span class="number">2</span>
+                        </div>
                     </div>
                 </div>
             </div>
-
-
+        
             <div class="card">
                 <div class="icon">
                     <img src="/static/images/profs.png" alt="Professores">
@@ -393,13 +426,18 @@ button:hover {
                 <h3>Professores</h3>
                 <div class="icon">
                     <div class="indicators">
-                        <div class="indicator red">5</div>
-                        <div class="indicator yellow">2</div>
+                        <div class="indicator red">
+                            <div class="circle"></div>
+                            <span class="number">5</span>
+                        </div>
+                        <div class="indicator yellow">
+                            <div class="circle"></div>
+                            <span class="number">2</span>
+                        </div>
                     </div>
                 </div>
             </div>
-
-
+        
             <div class="card">
                 <div class="icon">
                     <img src="/static/images/inspetores.png" alt="Inspetores">
@@ -407,50 +445,14 @@ button:hover {
                 <h3>Inspetores</h3>
                 <div class="icon">
                     <div class="indicators">
-                        <div class="indicator red">5</div>
-                        <div class="indicator yellow">2</div>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-<!-- Atividade Mensal -->
-        <div class="container2">
-            <div class="box">
-                <h2>Atividade Mensal</h2>
-                <div class="coluna">
-                    <div class="atividade">
-                        <div class="icone green"></div>
-                        <p><strong>Luis</strong> retirou 3 EPI's esta semana.</p>
-                    </div>
-                    <div class="atividade">
-                        <div class="icone purple"></div>
-                        <p><strong>Carol</strong> editou 3 EPI's esta semana.</p>
-                    </div>
-                    <div class="atividade">
-                        <div class="icone orange"></div>
-                        <p><strong>Carlos</strong> descartou 5 EPI's esta semana.</p>
-                    </div>
-                </div>
-            </div>
-    
-            <div class="ver-mais">
-                <button>Ver mais</button>
-            </div>
-    
-            <div class="box">
-                <div class="coluna">
-                    <div class="atividade">
-                        <div class="icone green"></div>
-                        <p><strong>Luis</strong> retirou 2 EPI's esta semana.</p>
-                    </div>
-                    <div class="atividade">
-                        <div class="icone purple"></div>
-                        <p><strong>Carol</strong> editou 3 EPI's semana passada.</p>
-                    </div>
-                    <div class="atividade">
-                        <div class="icone orange"></div>
-                        <p><strong>Fernanda</strong> cadastrou 5 EPI's no dia 02/10.</p>
+                        <div class="indicator red">
+                            <div class="circle"></div>
+                            <span class="number">5</span>
+                        </div>
+                        <div class="indicator yellow">
+                            <div class="circle"></div>
+                            <span class="number">2</span>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -474,14 +476,55 @@ button:hover {
         </div>
     </div>
 </div>
+<!-- Atividade Mensal -->
+<div class="container2" style="margin-top: 3%;">
+    <div class="box">
+        <h2>Atividade Mensal</h2>
+        <div class="coluna">
+            <div class="atividade">
+                <div class="icone green"></div>
+                <p><strong>Luis</strong> retirou 3 EPI's esta semana.</p>
+            </div>
+            <div class="atividade">
+                <div class="icone purple"></div>
+                <p><strong>Carol</strong> editou 3 EPI's esta semana.</p>
+            </div>
+            <div class="atividade">
+                <div class="icone orange"></div>
+                <p><strong>Carlos</strong> descartou 5 EPI's esta semana.</p>
+            </div>
+        </div>
+    </div>
+
+    <div class="ver-mais">
+        <button>Ver mais</button>
+    </div>
+
+    <div class="box">
+        <div class="coluna">
+            <div class="atividade">
+                <div class="icone green"></div>
+                <p><strong>Luis</strong> retirou 2 EPI's esta semana.</p>
+            </div>
+            <div class="atividade">
+                <div class="icone purple"></div>
+                <p><strong>Carol</strong> editou 3 EPI's semana passada.</p>
+            </div>
+            <div class="atividade">
+                <div class="icone orange"></div>
+                <p><strong>Fernanda</strong> cadastrou 5 EPI's no dia 02/10.</p>
+            </div>
+        </div>
+    </div>
+</div>
     </main>
 
     <footer class="border-top bg-light shadow border-3 border-dark border-opacity-25">
         <div class="container">
             <div class="row py-2">
                 <div class="col-12 col-md-4 text-center">
-                    &copy; 2023 - Quitanda do Zé LTDA-ME<br>
-                    Rua Érico Pimentel Dias, 187, Itapeva/SP
+                    &copy; 2024 - EquipTrack LTDA-ME<br>
+                    SESI SENAI, Itapeva/SP
                     <br>CNPJ 99.999.999/0001-99
                 </div>
                 <div class="col-12 col-md-4 text-center">
@@ -492,7 +535,7 @@ button:hover {
                     </a>
                 </div>
                 <div class="col-12 col-md-4 text-center">
-                    Contato pelo Site<br>E-mail: contato@quitandadoze.com.br<br>Cel: (15) 99999-9999
+                    Contato pelo Site<br>E-mail: contato@equiptrack.com.br<br>Cel: (15) 99999-9999
                     <br>
                 </div>
             </div>

@@ -1,0 +1,183 @@
+html, body {
+    margin: 0;
+    padding: 0;
+    /*overflow: hidden;*/
+    /*rolagem*/
+    min-height: 100%;
+    /* Garante que o corpo ocupe 100% da altura da tela */
+}
+
+body {
+    background-color: #ffffff;
+}
+
+.sidebar {
+    background-color: #0056b3;
+    min-height: 100vh;
+    padding: 20px;
+    color: white;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+
+.sidebar-logo {
+    max-width: 130%;
+    margin-bottom: 10px;
+    transition: transform 0.3s ease;
+    /* Animação ao passar o mouse sobre a logo */
+}
+
+.sidebar-logo:hover {
+    transform: scale(1.1);
+    /* Efeito de zoom ao passar o mouse */
+}
+
+.sidebar-title {
+    font-size: 28px;
+    font-weight: bold;
+    margin-top: -20px;
+    /* Subindo o texto um pouco mais */
+    transition: transform 0.3s ease, color 0.3s ease;
+    /* Animação para o título */
+}
+
+.sidebar-title:hover {
+    transform: translateY(-5px);
+    /* Efeito de subir o texto ao passar o mouse */
+    color: #ffcc00;
+    /* Troca de cor ao passar o mouse */
+}
+
+
+.btn-back {
+    position: absolute;
+    top: 20px;
+    left: 20px;
+    background-color: transparent;
+    color: #F08424;
+    border: 2px solid #F08424;
+    padding: 10px 20px;
+    border-radius: 50px;
+    font-weight: bold;
+    text-decoration: none;
+    display: inline-flex;
+    align-items: center;
+    transition: background-color 0.3s ease, transform 0.3s ease;
+    /* Animação para o botão de voltar */
+}
+
+.btn-back:hover {
+    background-color: #f08424;
+    color: white;
+    transform: scale(1.05);
+    /* Leve aumento no tamanho ao passar o mouse */
+}
+
+.btn-back i {
+    margin-right: 8px;
+}
+
+/* Ajustes de responsividade */
+@media (max-width: 768px) {
+    .sidebar {
+        min-height: auto;
+    }
+
+    .sidebar-logo {
+        max-width: 100%;
+        /* Ajusta o tamanho da logo para telas menores */
+    }
+
+    .sidebar-title {
+        font-size: 24px;
+    }
+}
+/* Bordas tracejadas */
+.dashed-border {
+    border: 2px dashed orange;
+    border-radius: 10px;
+    padding: 2%;
+    /* Reduzido para economizar espaço */
+    margin: 2%;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+
+/* Efeito de seleção de box */
+.box:hover {
+    cursor: pointer;
+    /* Muda o cursor ao passar o mouse */
+}
+
+.box:focus-within {
+    flex-grow: 2;
+    /* Aumenta a box selecionada */
+}
+
+.box:not(:focus-within) {
+    flex-grow: 1;
+    /* Diminui as outras boxes */
+}
+
+/* Estilo dos rótulos */
+label {
+    display: block;
+    margin-bottom: 5px;
+    font-weight: bold;
+}
+
+/* Campos de entrada */
+input[type="text"],
+input[type="date"],
+select,
+input[type="number"] {
+    width: 100%;
+    padding: 8px;
+    /* Reduzido para um layout mais compacto */
+    border-radius: 5px;
+    border: 1px solid #ddd;
+    border: 1px solid orange;
+    /* Adiciona borda laranja */
+    margin-bottom: 0.5em;
+    /* Margem entre os campos */
+}
+
+/* Botão de submissão */
+.button-container {
+    width: 100%;
+    text-align: center;
+}
+
+button.submit-btn {
+    background-color: #015799;
+    color: white;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 5px;
+    width: 10em;
+}
+
+button.submit-btn:hover {
+    background-color: #003c7e;
+}
+
+.botao {
+    background-color: #015799;
+    color: white;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 15px;
+    font-size: 16px;
+    cursor: pointer;
+    margin-left: 46%;
+    transition: all 200ms;
+    display: inline-block;
+}
+
+button:hover {
+    background-color: #ff914d;
+    transform: scale(1.05);
+}
+
