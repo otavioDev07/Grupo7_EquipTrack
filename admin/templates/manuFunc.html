@@ -15,7 +15,7 @@
         display: flex;
         align-items: center;
         width: 400px;
-        border: 1px solid #015799;
+        border: 2px solid #015799;
         border-radius: 15px;
         padding: 5px 10px;
         background-color: #f3f3f3;
@@ -45,36 +45,45 @@
         }
 
         .card {
-            width: 100%;
-            max-width: 250px;
-            padding: 20px;
+            width: 90%;
+            max-width: 200px;
+            padding: 25px;
             border-radius: 10px;
             background-color: #f9f9f9;
             box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
             position: relative;
-            text-align: left;
+            text-align: left;   
         }
 
-        /* Cartão com borda vermelha e indicador */
         .card.alert {
-            border: 2px solid red;
-        }
+        border: 2px solid red;
+    }
 
-        .card.alert::before {
-            content: "";
-            width: 12px;
-            height: 12px;
-            background-color: red;
-            border-radius: 50%;
-            position: absolute;
-            top: 10px;
-            right: 10px;
-        }
+    .card.alert::before {
+        content: "";
+        width: 12px;
+        height: 12px;
+        background-color: red;
+        border-radius: 50%;
+        position: absolute;
+        top: 10px;
+        right: 10px;
+    }
 
-        /* Cartão com borda verde */
-        .card.approved {
-            border: 2px solid green;
-        }
+    .card.approved {
+        border: 2px solid green;
+    }
+
+    .card.approved::before {
+        content: "";
+        width: 12px;
+        height: 12px;
+        background-color: green;
+        border-radius: 50%;
+        position: absolute;
+        top: 10px;
+        right: 10px;
+    }
 
         .button {
             background-color: #FF8C00; /* Laranja */
@@ -84,8 +93,10 @@
             border-radius: 20px;
             font-size: 14px;
             cursor: pointer;
+            text-decoration: none;
             transition: background-color 0.3s;
             width: 100px;
+            text-align: center;
         }
 
         .button:hover {
@@ -124,6 +135,22 @@
     
         <!-- Cartão aprovado -->
         <div class="card approved">
+            <p><strong>Maria da Silva</strong></p>
+            <p>NIF: 2134879</p>
+            <p>Cozinheira</p>
+            <a href="#" class="button">Ver mais</a>
+        </div>
+
+        <!-- Cartão com alerta -->
+        <div class="card approved">
+            <p><strong>Maria da Silva</strong></p>
+            <p>NIF: 2134879</p>
+            <p>Cozinheira</p>
+            <a href="#" class="button">Ver mais</a>
+        </div>
+
+        <!-- Cartão com alerta -->
+        <div class="card alert">
             <p><strong>Maria da Silva</strong></p>
             <p>NIF: 2134879</p>
             <p>Cozinheira</p>
