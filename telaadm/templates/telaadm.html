@@ -11,7 +11,7 @@
     }
 
     .form-container {
-        margin-bottom: 6px;
+        margin-bottom: 30px;
         padding: 15px;
         border: 2px dashed #F08424;
         border-radius: 8px;
@@ -28,6 +28,7 @@
     }
 
     .form-container input[type="text"],
+    .form-container input[type="password"],
     .form-container select {
         width: 100%;
         padding: 10px;
@@ -52,29 +53,33 @@
 
     .cards-container {
         display: flex;
-        flex-wrap: wrap; /* Permite que os cards quebrem para a próxima linha */
+        flex-wrap: wrap;
         gap: 20px;
-        padding: 20px 0;
-        justify-content: flex-start; /* Alinha os cards ao início */
     }
 
-    .cards-container .card {
-        flex: 0 0 250px; /* Largura fixa para cada card */
-        margin-bottom: 20px; /* Espaçamento entre linhas de cards */
+    .card {
+        width: 250px;
+        margin: 10px;
     }
 
     .card-status {
         width: 10px;
         height: 10px;
         border-radius: 50%;
-        background-color: red;
         position: absolute;
         top: 10px;
         right: 10px;
     }
 
+    .status-ativo {
+        background-color: green;
+    }
+
+    .status-inativo {
+        background-color: red;
+    }
+
     .status-text {
-        color: red;
         font-weight: bold;
     }
 
@@ -95,52 +100,43 @@
 
 <div class="custom-container">
     <div class="form-container">
-        <h4>Cadastrar Novo CIPEIRO OU ADMINISTRADOR</h4>
-        <form action="/cadastrarUsuario" method="post">
+        <h4>Cadastrar Novo CIPEIRO</h4>
+        <form action="/cadastrarCipeiro" method="post">
             <div class="form-group">
-                <label for="nome">Nome Completo</label>
-                <input type="text" id="nome" name="nome" placeholder="Digite o nome completo">
+                <label for="nomeSupervisor">Nome Completo</label>
+                <input type="text" id="nomeSupervisor" name="nomeSupervisor" placeholder="Digite o nome completo" required>
             </div>
             <div class="form-group">
-                <label for="tipo">Tipo de Usuário</label>
-                <select id="tipo" name="tipo">
-                    <option value="ADM">Administrador</option>
-                    <option value="CIPEIRO">Cipeiro</option>
+                <label for="CPF">CPF</label>
+                <input type="text" id="CPF" name="CPF" placeholder="Digite o CPF" required>
+            </div>
+            <div class="form-group">
+                <label for="senhaAcesso">Senha de Acesso</label>
+                <input type="password" id="senhaAcesso" name="senhaAcesso" placeholder="Digite a senha de acesso" required>
+            </div>
+            <div class="form-group">
+                <label for="status">Status</label>
+                <select id="status" name="status" required>
+                    <option value="ativo">Ativo</option>
+                    <option value="inativo">Inativo</option>
                 </select>
             </div>
             <div class="form-group">
-                <button type="submit">Cadastrar</button>
+                <button type="submit">Cadastrar CIPEIRO</button>
             </div>
         </form>
     </div>
 
-    <h4>Usuários Cadastrados</h4>
+    <h4>CIPEIROS Cadastrados</h4>
     <div class="cards-container">
-        <!-- Exemplo de Card para um ADM -->
-        <div class="card shadow-sm border-primary">
+        {% for supervisor in supervisores %}
+        <div class="card shadow-sm border-{{ 'success' if supervisor.status == 'ativo' else 'danger' }}">
             <div class="card-body position-relative">
-                <h5 class="card-title">Nome: João Silva</h5>
-                <p class="card-text">Tipo: Administrador</p>
-                <a href="#" class="btn btn-custom">Ver mais</a>
-            </div>
-        </div>
-
-        <!-- Exemplo de Card para um CIPEIRO -->
-        <div class="card shadow-sm border-success">
-            <div class="card-body position-relative">
-                <h5 class="card-title">Nome: Maria Oliveira</h5>
-                <p class="card-text">Tipo: Cipeiro</p>
-                <a href="#" class="btn btn-custom">Ver mais</a>
-            </div>
-        </div>
-
-        <!-- Repetir os cards acima para cada usuário cadastrado -->
-        {% for usuario in usuarios %}
-        <div class="card shadow-sm border-{{ 'primary' if usuario.tipo == 'ADM' else 'success' }}">
-            <div class="card-body position-relative">
-                <h5 class="card-title">Nome: {{ usuario.nome }}</h5>
-                <p class="card-text">Tipo: {{ usuario.tipo }}</p>
-                <a href="/usuario/{{ usuario.id }}" class="btn btn-custom">Ver mais</a>
+                <div class="card-status {{ 'status-ativo' if supervisor.status == 'ativo' else 'status-inativo' }}"></div>
+                <h5 class="card-title">Nome: {{ supervisor.nomeSupervisor }}</h5>
+                <p class="card-text">CPF: {{ supervisor.CPF }}</p>
+                <p class="card-text">Status: <span class="status-text">{{ supervisor.status }}</span></p>
+                <a href="/supervisor/{{ supervisor.idSupervisor }}" class="btn btn-custom">Ver mais</a>
             </div>
         </div>
         {% endfor %}
