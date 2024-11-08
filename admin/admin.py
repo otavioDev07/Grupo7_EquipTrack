@@ -111,6 +111,6 @@ def descricaoFuncionario():
 def estoqueCozinha():
     return render_template('estoqueCozinha.html')
 
-@admin_blueprint.route('/manutencaoFunci.html')
-def manutencaoFunci():
-    return render_template('manutencaoFunci.html')
+@admin_blueprint.route('/manuFunc')
+def manuFunc():
+    return render_template('manuFunc.html')
