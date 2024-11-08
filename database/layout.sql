@@ -48,11 +48,7 @@ CREATE TABLE IF NOT EXISTS `equiptrack`.`backlog` (
     FOREIGN KEY (`idSupervisor`)
     REFERENCES `equiptrack`.`supervisor` (`idSupervisor`))
 ENGINE = InnoDB
-<<<<<<< HEAD
-AUTO_INCREMENT = 7
-=======
 AUTO_INCREMENT = 10
->>>>>>> main
 DEFAULT CHARACTER SET = utf8mb3;
 
 
@@ -69,9 +65,6 @@ CREATE TABLE IF NOT EXISTS `equiptrack`.`setor` (
     FOREIGN KEY (`idSupervisor`)
     REFERENCES `equiptrack`.`supervisor` (`idSupervisor`))
 ENGINE = InnoDB
-<<<<<<< HEAD
-AUTO_INCREMENT = 2
-=======
 AUTO_INCREMENT = 4
 DEFAULT CHARACTER SET = utf8mb3;
 
@@ -97,7 +90,6 @@ CREATE TABLE IF NOT EXISTS `equiptrack`.`funcionário` (
     REFERENCES `equiptrack`.`setor` (`idSetor`))
 ENGINE = InnoDB
 AUTO_INCREMENT = 3
->>>>>>> main
 DEFAULT CHARACTER SET = utf8mb3;
 
 
@@ -119,31 +111,21 @@ CREATE TABLE IF NOT EXISTS `equiptrack`.`epi` (
   `tamanho` VARCHAR(45) NULL DEFAULT NULL,
   `quantidade` INT NOT NULL,
   `idSetor` INT NOT NULL,
-<<<<<<< HEAD
-=======
   `idFuncionario` INT NULL DEFAULT NULL,
->>>>>>> main
   PRIMARY KEY (`idEPI`),
   UNIQUE INDEX `codigoCA_UNIQUE` (`codigoCA` ASC) VISIBLE,
   UNIQUE INDEX `numeroSerie_UNIQUE` (`numeroSerie` ASC) VISIBLE,
   INDEX `fk_EPI_Setor1_idx` (`idSetor` ASC) VISIBLE,
-<<<<<<< HEAD
-=======
   INDEX `fk_EPI_Funcionario` (`idFuncionario` ASC) VISIBLE,
   CONSTRAINT `fk_EPI_Funcionario`
     FOREIGN KEY (`idFuncionario`)
     REFERENCES `equiptrack`.`funcionário` (`idFuncionario`)
     ON DELETE SET NULL,
->>>>>>> main
   CONSTRAINT `fk_EPI_Setor1`
     FOREIGN KEY (`idSetor`)
     REFERENCES `equiptrack`.`setor` (`idSetor`))
 ENGINE = InnoDB
-<<<<<<< HEAD
-AUTO_INCREMENT = 15
-=======
 AUTO_INCREMENT = 19
->>>>>>> main
 DEFAULT CHARACTER SET = utf8mb3;
 
 
@@ -168,33 +150,6 @@ DEFAULT CHARACTER SET = utf8mb3;
 
 
 -- -----------------------------------------------------
-<<<<<<< HEAD
--- Table `equiptrack`.`funcionário`
--- -----------------------------------------------------
-CREATE TABLE IF NOT EXISTS `equiptrack`.`funcionário` (
-  `idFuncionario` INT NOT NULL AUTO_INCREMENT,
-  `nomeFuncionário` VARCHAR(45) NOT NULL,
-  `NIF` VARCHAR(10) NOT NULL,
-  `CPF` CHAR(11) NOT NULL,
-  `idSetor` INT NOT NULL,
-  `condições especiais` VARCHAR(300) NOT NULL,
-  `cargo` VARCHAR(45) NOT NULL,
-  `tamCalcado` CHAR(2) NOT NULL,
-  `tamRoupa` VARCHAR(45) NOT NULL,
-  `status` ENUM('ativo', 'inativo') NOT NULL,
-  PRIMARY KEY (`idFuncionario`),
-  INDEX `fk_Funcionário_Setor_idx` (`idSetor` ASC) VISIBLE,
-  CONSTRAINT `fk_Funcionário_Setor`
-    FOREIGN KEY (`idSetor`)
-    REFERENCES `equiptrack`.`setor` (`idSetor`))
-ENGINE = InnoDB
-AUTO_INCREMENT = 2
-DEFAULT CHARACTER SET = utf8mb3;
-
-
--- -----------------------------------------------------
-=======
->>>>>>> main
 -- Table `equiptrack`.`epi_funcionário`
 -- -----------------------------------------------------
 CREATE TABLE IF NOT EXISTS `equiptrack`.`epi_funcionário` (
@@ -213,11 +168,7 @@ CREATE TABLE IF NOT EXISTS `equiptrack`.`epi_funcionário` (
     FOREIGN KEY (`idEquipamento`)
     REFERENCES `equiptrack`.`epi` (`idEPI`))
 ENGINE = InnoDB
-<<<<<<< HEAD
-AUTO_INCREMENT = 2
-=======
 AUTO_INCREMENT = 3
->>>>>>> main
 DEFAULT CHARACTER SET = utf8mb3;
 
 
