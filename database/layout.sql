@@ -30,7 +30,7 @@ CREATE TABLE IF NOT EXISTS `equiptrack`.`supervisor` (
   UNIQUE INDEX `nomeFuncionario_UNIQUE` (`nomeSupervisor` ASC) VISIBLE,
   UNIQUE INDEX `CPF_UNIQUE` (`CPF` ASC) VISIBLE)
 ENGINE = InnoDB
-AUTO_INCREMENT = 2
+AUTO_INCREMENT = 1
 DEFAULT CHARACTER SET = utf8mb3;
 
 
@@ -48,7 +48,7 @@ CREATE TABLE IF NOT EXISTS `equiptrack`.`backlog` (
     FOREIGN KEY (`idSupervisor`)
     REFERENCES `equiptrack`.`supervisor` (`idSupervisor`))
 ENGINE = InnoDB
-AUTO_INCREMENT = 7
+AUTO_INCREMENT = 1
 DEFAULT CHARACTER SET = utf8mb3;
 
 
@@ -65,7 +65,7 @@ CREATE TABLE IF NOT EXISTS `equiptrack`.`setor` (
     FOREIGN KEY (`idSupervisor`)
     REFERENCES `equiptrack`.`supervisor` (`idSupervisor`))
 ENGINE = InnoDB
-AUTO_INCREMENT = 2
+AUTO_INCREMENT = 1
 DEFAULT CHARACTER SET = utf8mb3;
 
 
@@ -95,7 +95,7 @@ CREATE TABLE IF NOT EXISTS `equiptrack`.`epi` (
     FOREIGN KEY (`idSetor`)
     REFERENCES `equiptrack`.`setor` (`idSetor`))
 ENGINE = InnoDB
-AUTO_INCREMENT = 15
+AUTO_INCREMENT = 1
 DEFAULT CHARACTER SET = utf8mb3;
 
 
@@ -115,7 +115,7 @@ CREATE TABLE IF NOT EXISTS `equiptrack`.`descarte` (
     FOREIGN KEY (`idEquipamento`)
     REFERENCES `equiptrack`.`epi` (`idEPI`))
 ENGINE = InnoDB
-AUTO_INCREMENT = 2
+AUTO_INCREMENT = 1
 DEFAULT CHARACTER SET = utf8mb3;
 
 
@@ -128,18 +128,18 @@ CREATE TABLE IF NOT EXISTS `equiptrack`.`funcionário` (
   `NIF` VARCHAR(10) NOT NULL,
   `CPF` CHAR(11) NOT NULL,
   `idSetor` INT NOT NULL,
-  `condições especiais` VARCHAR(300) NOT NULL,
+  `condicoesEspeciais` VARCHAR(300) NULL DEFAULT NULL,
   `cargo` VARCHAR(45) NOT NULL,
   `tamCalcado` CHAR(2) NOT NULL,
-  `tamRoupa` VARCHAR(45) NOT NULL,
-  `status` ENUM('ativo', 'inativo') NOT NULL,
+  `tamRoupa` VARCHAR(2) NOT NULL,
+  `status` ENUM('ativo', 'inativo') NOT NULL DEFAULT 'ativo',
   PRIMARY KEY (`idFuncionario`),
   INDEX `fk_Funcionário_Setor_idx` (`idSetor` ASC) VISIBLE,
   CONSTRAINT `fk_Funcionário_Setor`
     FOREIGN KEY (`idSetor`)
     REFERENCES `equiptrack`.`setor` (`idSetor`))
 ENGINE = InnoDB
-AUTO_INCREMENT = 2
+AUTO_INCREMENT = 1
 DEFAULT CHARACTER SET = utf8mb3;
 
 
@@ -162,7 +162,7 @@ CREATE TABLE IF NOT EXISTS `equiptrack`.`epi_funcionário` (
     FOREIGN KEY (`idEquipamento`)
     REFERENCES `equiptrack`.`epi` (`idEPI`))
 ENGINE = InnoDB
-AUTO_INCREMENT = 2
+AUTO_INCREMENT = 1
 DEFAULT CHARACTER SET = utf8mb3;
 
 
