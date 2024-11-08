@@ -94,18 +94,18 @@ input[type="text"],
     <div class="dashed-border">
     <form>
         <div style="margin-bottom: 10px;" class="form-group">
-            <label for="nome-completo">Por que você está descartando essa EPI?</label>
-            <input type="text" id="porque-descarte" placeholder="Escreva aqui...">
+            <label for="nome-completo">Por que você está descartando esse EPI?</label>
+            <input type="text" id="porque-descarte" placeholder="Escreva aqui..." name="motivoDescarte">
         </div>
 
         <div style="margin-bottom: 10px;" class="form-group">
-            <label for="nif">Onde foi descartada essa EPI?</label>
-            <input type="text" id="local" placeholder="Escreva aqui...">
+            <label for="nif">Onde foi/será descartado esse EPI?</label>
+            <input type="text" id="local" placeholder="Escreva aqui..." name="localDescarte">
         </div>
 
         <div class="form-group">
-                <label for="data-vencimento">Data de Vencimento</label>
-                <input type="date" id="data-vencimento">
+                <label for="quantidade">Quantidade:</label>
+                <input type="number" max="{{quantidade}}" id="quantidade" name="quantidade">
         </div>
 
     </form>

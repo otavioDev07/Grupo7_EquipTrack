@@ -114,9 +114,44 @@ def cadastro_Funcionario():
 def descarte():
     return render_template('descarte.html')
 
-@admin_blueprint.route('/cadastroDescarte')
-def cadastroDescarte():
-    return render_template('cadastroDescarte.html')
+@admin_blueprint.route('/cadastroDescarte/<int:idEPI>', methods=['GET','POST'])
+def cadastroDescarte(idEPI):
+    if request.method == 'GET':
+        with conecta_db() as (conexao, cursor):
+            try:
+                cursor.execute('SELECT quantidade FROM epi WHERE idEPI = %s', (idEPI,))
+                quantidade = cursor.fetchone()[0]
+            except Exception as e:
+                return f"Erro de BackEnd: {e}"
+            return render_template('cadastroDescarte.html', quantidade=quantidade)
+        
+    if request.method == 'POST':
+        with conecta_db() as (conexao, cursor):
+            try:
+                motivo = request.form('motivoDescarte')
+                localDescarte = request.form('localDescarte')
+                idSupervisor = 2 #Virá através da autenticação (Não feito ainda)
+
+                cursor.execute('SELECT quantidade FROM epi WHERE idEPI = %s', (idEPI,))
+                quantidade = cursor.fetchone()[0]
+
+                comando = f'INSERT INTO descarte (motivoDescarte, localDescarte, dataDescarte, idEquipamento, quantidade) VALUES (%s, %s, NOW(), %s, %s)'
+                cursor.execute(comando, (motivo, localDescarte, idEPI, quantidade))
+                conexao.commit()
+
+                cursor.execute('SELECT nomeEquipamento FROM epi WHERE idEPI = %s', (idEPI,))
+                nomeEPI = cursor.fetchone()[0]
+
+                comando_backlog = '''
+                    INSERT INTO Backlog (dataHora, acao, idSupervisor) 
+                    VALUES (NOW(), %s, %s)
+                '''
+                acao = f"Descarte de EPI: {nomeEPI}" 
+                cursor.execute(comando_backlog, (acao, idSupervisor))   
+                conexao.commit()
+
+            except Exception as e:
+                return f"Erro de BackEnd: {e}"
 
 @admin_blueprint.route('/descricaoDescarte')
 def descricaoDescarte():
