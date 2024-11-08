@@ -60,7 +60,7 @@
             font-weight: bold;
         }
 button {
-    background-color: #015799;
+    background-color: #0056b3;
     color: white;
     padding: 10px 20px;
     border: none;
@@ -77,13 +77,20 @@ button:hover {
     background-color: #ff914d;
     transform: scale(1.05);
 }
+
+.descarte {
+    background-color: #ff914d;
+}
+.descarte:hover {
+    background-color: #c16f3c;
+}
 main {
-    padding: 50px; /* Adiciona espaçamento em torno do conteúdo principal */
+    padding: 50px;
 }
 
 @media (max-width: 768px) {
     main {
-        padding: 10px; /* Reduz o padding em telas menores para melhorar o layout */
+        padding: 10px;
     }
 }
 </style>
@@ -93,53 +100,42 @@ main {
 <div class="container mt-4">
 <div class="row">
     <div class="col-md-12">
-        <h3>Luvas</h3>
-        <p ><strong>Material:</strong> Algodão</p>
-        <p>Luva confeccionada em tecido de algodão e tricotada em 3 fios. Sua característica permite respirabilidade com menos fadiga para a mão.</p>
-        
-        <p><strong>Indicações de uso:</strong></p>
-        <ul>
-            <li>Esta luva de baixo custo pode ser utilizada para diversos fins, como manipulação de itens sensíveis, bem como manter as mãos secas em caso de trabalho úmido.</li>
-            <li>Material utilizado amplamente na construção civil.</li>
-        </ul>
-
-        <p><strong>Cuidados de manutenção:</strong></p>
-        <p>Após utilizar as luvas, deixe-as ressecar em ambiente seco para preservar as suas características naturais.</p>
+        <h3>{{ epi.nomeEquipamento }}</h3>
+        <p><strong>Material:</strong> {{ epi.marca }}</p>
+        <p>{{ epi.observacoes }}</p>
     </div>
 </div>
 
 <div class="row">
     <div class="col-md-4 info-box">
         <span class="info-header">Número de série CA</span>
-        <span>345252517</span>
+        <span>{{ epi.codigoCA }}</span>
     </div>
     <div class="col-md-4 info-box" style="margin-left: 2%;">
         <span class="info-header">Modelo</span>
-        <span style="margin-left: 14%;">Luvas de algodão com pigmentos de PVC</span>
+        <span>{{ epi.modelo }}</span>
     </div>
     <div class="col-md-3">
-            <div class="label">Data de Aquisição<br><small>Início</small></div>
-            <div class="date">
-                <div>Jun 10, 2024</div>
-                <div>9:41 AM</div>
-            </div>
+        <div class="label">Data de Aquisição<br><small>Início</small></div>
+        <div class="date">
+            <div>{{ epi.dataAquisicao }}</div>
+        </div>
     </div>
 </div>
 
 <div class="row" style="padding-top: 2%;">
     <div class="col-md-4 info-box">
         <span class="info-header">Quantidade</span>
-        <span>5</span>
+        <span>{{ epi.quantidade }}</span>
     </div>
     <div class="col-md-4 info-box" style="margin-left: 2%;">
         <span class="info-header">Categoria</span>
-        <span style="margin-left: 14%;">Luvas de algodão com pigmentos de PVC</span>
+        <span>{{ epi.categoria }}</span>
     </div>
     <div class="col-md-3">
-    <div class="label">Data de vencimento<br><small>Fim</small></div>
+        <div class="label">Data de vencimento<br><small>Fim</small></div>
         <div class="date">
-            <div>Jun 10, 2024</div>
-            <div>9:41 AM</div>
+            <div>{{ epi.dataVencimento }}</div>
         </div>
     </div>
 </div>
@@ -147,60 +143,62 @@ main {
 <div class="row" style="padding-top: 2%;">
     <div class="col-md-4 info-box">
         <span class="info-header">Setor</span>
-        <span>Manutenção</span>
+        <span>{{ epi.nomeSetor[0] }}</span>
     </div>
     <div class="col-md-4 info-box" style="margin-left: 2%;">
         <span class="info-header">Marca</span>
-        <span>Flexcut</span>
+        <span>{{ epi.marca }}</span>
     </div>
     <div class="col-md-3">
-    <div class="label">Data de locação</div>
+        {% if epi.dataLocacao %}
+        <div class="label">Data de locação</div>
         <div class="date">
-            <div>Jun 10, 2024</div>
-            <div>9:41 AM</div>
+            <div>{{ epi.dataLocacao }}</div>
         </div>
+        {% else %}
+        <div class="label">Data de locação</div>
+        <div class="date">
+            <div>Não alocado</div>
+        </div>
+        {% endif %}
     </div>
 </div>
 
 <div class="row" style="padding-top: 2%;">
     <div class="col-md-4 info-box">
+        {% if not epi.nomeColaborador %}
         <span class="info-header">Nome do colaborador</span>
-        <span>Luiz Walter</span>
-    </div>
+        <span>Não alocado</span>
+        {% else %}
+        <span class="info-header">Nome do colaborador</span>
+        <span>{{ epi.nomeColaborador[0] }}</span>
+        {% endif %}
+</div>
     <div class="col-md-4 info-box" style="margin-left: 2%;">
         <span class="info-header">Observações</span>
-        <span>Luvas úmidas</span>
-    </div>
-    <div class="col-md-3">
-    <div class="label col-md-4">Data de descarte</div>
-        <div class="date">
-            <div>Jun 10, 2024</div>
-            <div>9:41 AM</div>
-        </div>
+        <span>{{ epi.observacoes }}</span>
     </div>
 </div>
 
 <div class="row" style="padding-top: 2%;">
     <div class="col-md-4 info-box">
         <span class="info-header">Status</span>
-        <span>Desativado</span>
+        <span>{{ epi.status }}</span>
     </div>
-    <div class="col-md-4 info-box" style="margin-left: 2%;">
+    <div class="col-md-4 info-box" style="margin-left: 3%;">
         <span class="info-header">Tamanho</span>
-        <span>P,M e G</span>
+        <span>{{ epi.tamanho }}</span>
     </div>
-
-<div class="row">
-        <h5 class="section-header">Informações do descarte</h5>
-        <p style="color: #F08424"><strong>Por que você está descartando este EPI?</strong></p>
-        <p>Durante uma inspeção de rotina no almoxarifado de uma obra em construção de um prédio comercial, foi identificado que um lote de capacetes de segurança, assim como os equipamentos indicados pela norma de segurança vigente, não apresentavam conformidade com o regulamento. Alguns capacetes apresentavam rachaduras e danos visíveis, além da ausência de especificações atípicas para resistir a altas temperaturas.</p>
-        <p style="color: #F08424"><strong>Onde foi descartada essa EPI?</strong></p>
-        <p>Após a constatação das falhas, os capacetes foram recolhidos e descartados de acordo com as normas ambientais e de segurança. O descarte ocorreu em uma unidade de tratamento de resíduos industriais, localizada em uma cidade vizinha à obra, que é licenciada para realizar o descarte seguro de materiais não recicláveis. Todo o processo foi acompanhado por técnicos especializados para garantir que o material não representasse riscos ao meio ambiente.</p>
-    </div>
-
-<div class="row">
-    <div class="col-md-12">
+</div>
+<div class="row" style="padding-top: 2%; margin-left: 20%;">
+    <div class="col-md-2">
         <button>Editar</button>
+    </div>
+    <div class="col-md-2">
+        <a href="{{ url_for('alocar.alocar_equipamento', idEPI=epi.idEPI) }}"><button>Alocar</button></a>
+    </div>
+    <div class="col-md-2">
+        <a href="{{ url_for('admin.cadastroDescarte', idEPI=epi.idEPI)}}"><button class="descarte">Descartar</button></a>
     </div>
 </div>
 </div>

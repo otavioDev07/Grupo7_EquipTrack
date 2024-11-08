@@ -3,8 +3,8 @@ from database.conection import conecta_db
 
 alocar_blueprint = Blueprint('alocar', __name__, template_folder="templates", static_folder="static")
 
-@alocar_blueprint.route('/alocar/<int:id>', methods=['GET', 'POST'])
-def alocar_equipamento(id):
+@alocar_blueprint.route('/alocar/<int:idEPI>', methods=['GET', 'POST'])
+def alocar_equipamento(idEPI):
     if request.method == 'GET':
         # Carregar dados dos funcionários e do equipamento usando o id do EPI
         with conecta_db() as (conexao, cursor):
