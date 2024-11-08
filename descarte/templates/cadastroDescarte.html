@@ -1,0 +1,189 @@
+{% extends 'model.html' %}
+
+{% block conteudo %}
+
+<style>
+/* Layout geral do contêiner */
+.form-container {
+    display: flex;
+    justify-content: center; /* Centraliza o conteúdo */
+    margin-top: 5%;
+}
+
+/* Bordas tracejadas */
+.dashed-border {
+    border: 2px dashed orange;
+    border-radius: 10px;
+    padding: 20px;
+    margin: 10px;
+    width: 80%; /* Aumenta a largura da caixa central */
+    height: auto;
+    min-height: 400px; /* Define uma altura mínima para a caixa */
+}
+
+/* Contêiner do formulário */
+.form-container {
+    display: flex;
+    justify-content: center;
+    width: 100%; /* Ajuste da largura do contêiner do formulário */
+    padding: 10px;
+}
+
+.epi-form {
+    width: 100%;
+    max-width: 700px; /* Aumenta a largura máxima do formulário */
+}
+
+label {
+    display: block;
+    margin-bottom: 5px;
+    color: #000;
+}
+
+input[type="text"],
+select {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    font-size: 16px;
+    border: 1px solid orange; /* Adiciona borda laranja */
+}
+
+input[type="text"]::placeholder {
+    color: #ccc;
+}
+
+button {
+    background-color: #015799;
+    color: white;
+    padding: 8px 16px; /* Reduz o tamanho do botão */
+    border: none;
+    border-radius: 15px;
+    font-size: 14px; /* Diminui o tamanho da fonte */
+    cursor: pointer;
+    transition: all 200ms;
+    display: inline-block;
+    margin-top: 20px;
+    margin-left: auto;
+    margin-right: auto;
+    display: block; /* Centraliza o botão */
+    width: 50%; /* Reduz a largura do botão */
+}
+
+button:hover {
+    background-color: #ff914d;
+    transform: scale(1.05);
+}
+
+/* Campos de entrada */
+input[type="text"],
+input[type="date"],
+select,
+input[type="number"] {
+    width: 100%;
+    padding: 8px;
+    border-radius: 5px;
+    border: 1px solid orange;
+    margin-bottom: 0.5em;
+}
+
+/* Modal de confirmação */
+.modal {
+    display: none; /* Escondido por padrão */
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5); /* Fundo escurecido */
+    justify-content: center;
+    align-items: center;
+}
+
+.modal-content {
+    background-color: #015799;
+    border-radius: 10px;
+    padding: 20px;
+    text-align: center;
+    color: white;
+    width: 300px;
+}
+
+.modal-content p {
+    font-size: 18px;
+    margin: 0 0 20px;
+}
+
+.modal-content .confirm-button,
+.modal-content .cancel-button {
+    padding: 10px 20px;
+    font-size: 16px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    margin: 5px;
+}
+
+.confirm-button {
+    background-color: #e91e1e; /* Vermelho */
+}
+
+.cancel-button {
+    background-color: #015799; /* Azul */
+}
+</style>
+
+<div class="form-container">
+    <form class="epi-form">
+        <div class="dashed-border">
+            <div style="margin-bottom: 10px;" class="form-group">
+                <label for="nome-completo">Por que você está descartando essa EPI?</label>
+                <input type="text" id="porque-descarte" placeholder="Escreva aqui...">
+            </div>
+
+            <div style="margin-bottom: 10px;" class="form-group">
+                <label for="nif">Onde foi descartada essa EPI?</label>
+                <input type="text" id="local" placeholder="Escreva aqui...">
+            </div>
+
+            <div class="form-group">
+                <label for="data-vencimento">Data de Vencimento</label>
+                <input type="date" id="data-vencimento">
+            </div>
+        </div>
+        <!-- Botão de Descartar agora está logo abaixo do formulário -->
+        <div class="form-group">
+            <button type="button" onclick="showModal()">Descartar</button>
+        </div>
+    </form>
+</div>
+
+<!-- Modal de confirmação -->
+<div id="confirmationModal" class="modal">
+    <div class="modal-content">
+        <p>Tem certeza? <br>Que deseja descartar esse produto</p>
+        <button class="confirm-button" onclick="confirmDiscard()">Sim</button>
+        <button class="cancel-button" onclick="closeModal()">Voltar</button>
+    </div>
+</div>
+
+<script>
+// Função para mostrar o modal
+function showModal() {
+    document.getElementById("confirmationModal").style.display = "flex";
+}
+
+// Função para fechar o modal
+function closeModal() {
+    document.getElementById("confirmationModal").style.display = "none";
+}
+
+// Função de confirmação
+function confirmDiscard() {
+    closeModal();
+    alert("Produto descartado com sucesso!"); // Substitua por lógica de descarte real
+}
+</script>
+
+{% endblock %}
