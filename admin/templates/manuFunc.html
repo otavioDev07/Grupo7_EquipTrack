@@ -10,33 +10,68 @@
         font-weight: normal;
     }
 
-    /* Estilos para a barra de busca */
-    .search-bar {
+    /* Container da barra de pesquisa */
+    .search-container {
         display: flex;
         align-items: center;
-        width: 400px;
-        border: 2px solid #015799;
-        border-radius: 15px;
-        padding: 5px 10px;
-        background-color: #f3f3f3;
+        background-color: #d9dde3;
+        border: 2px solid #0056b3;
+        border-radius: 25px;
+        padding: 8px 15px;
+        width: 550px;
+        position: relative;
+        margin-left: 25%;
     }
 
-    /* Estilos para o input da barra de busca */
+    /* Container do menu */
+    .menu-container {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        background: linear-gradient(to right, #D2D2D2, #015799);
+        border-radius: 25px;
+        padding: 8px 15px;
+        width: 800px;
+        position: relative;
+        margin-left: 15%;
+    }
+
+    /* Ícone de filtro */
+    .filter-icon {
+        width: 20px;
+        height: 20px;
+        margin-right: 10px;
+        color: #FF8C00;
+        cursor: pointer;
+    }
+
+    /* Barra de pesquisa */
+    .search-bar {
+        flex-grow: 1;
+        display: flex;
+        align-items: center;
+        position: relative;
+    }
+
     .search-bar input {
         width: 100%;
         border: none;
         outline: none;
+        background: none;
         font-size: 16px;
         color: #555;
-        background-color: transparent;
     }
 
-    /* Estilos para o ícone de busca */
-    .search-bar .icon {
-        color: #555;
-        font-size: 18px;
-        cursor: pointer;
+    /* Ícone de lupa */
+    .search-icon {
+        width: 20px;
+        height: 20px;
+        color: #0056b3;
+        position: absolute;
+        right: 0;
+        margin-right: 5px;
     }
+    
     .card-container {
             display: flex;
             flex-wrap: wrap;
