@@ -168,7 +168,7 @@
                 <div class="dashed-border p-5">
                     <h1>EPI: {% if equipamento and request.method == 'GET' %}{{ equipamento[0][0] }}{% else %}Equipamento não encontrado{% endif %}</h1>
 
-                    <form action="/alocar/{{ id }}" method="post">
+                    <form action="/alocar/{{ idEPI }}" method="post">
                         <div class="mb-3">
                             <label for="funcionario" class="form-label">Funcionário</label>
                             <select id="funcionario" name="idFuncionario" class="form-select">
@@ -180,18 +180,9 @@
                         </div>
 
                         <div class="mb-3">
-                            <label for="dataAlocacao" class="form-label">Data de alocação</label>
-                            <input type="date" id="dataAlocacao" name="dataAlocacao" class="form-control">
-                        </div>
-
-                        <div class="mb-3">
                             <label for="quantidade" class="form-label">Quantidade</label>
-                            <select id="quantidade" name="quantidade" class="form-select">
-                                <option selected>Selecione...</option>
-                                <option value="1">1</option>
-                                <option value="2">2</option>
-                                <option value="3">3</option>
-                            </select>
+                            <input type="number" id="quantidade" name="quantidade" class="form-control" max="{{ equipamento[0][1] }}" min="1" required>
+                            <p>Máx: {{ equipamento[0][1]}}</p>
                         </div>
 
                         <button type="submit" class="btn btn-primary w-100">Cadastrar</button>

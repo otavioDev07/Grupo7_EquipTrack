@@ -1,4 +1,4 @@
-from flask import render_template, Blueprint, request, redirect, flash
+from flask import render_template, Blueprint, request, redirect
 from database.conection import conecta_db
 
 alocar_blueprint = Blueprint('alocar', __name__, template_folder="templates", static_folder="static")
@@ -6,51 +6,47 @@ alocar_blueprint = Blueprint('alocar', __name__, template_folder="templates", st
 @alocar_blueprint.route('/alocar/<int:idEPI>', methods=['GET', 'POST'])
 def alocar_equipamento(idEPI):
     if request.method == 'GET':
-        # Carregar dados dos funcionários e do equipamento usando o id do EPI
         with conecta_db() as (conexao, cursor):
-            cursor.execute('SELECT idFuncionario, nomeFuncionário FROM funcionário WHERE idSetor = (SELECT idSetor FROM epi WHERE idEPI = %s)', (id,))
+            cursor.execute('SELECT idFuncionario, nomeFuncionário FROM funcionário WHERE idSetor = (SELECT idSetor FROM epi WHERE idEPI = %s)', (idEPI,))
             funcionarios = cursor.fetchall()
             
-            cursor.execute('SELECT nomeEquipamento, quantidade FROM epi WHERE idEPI = %s', (id,))
+            cursor.execute('SELECT nomeEquipamento, quantidade FROM epi WHERE idEPI = %s', (idEPI,))
             equipamento = cursor.fetchall()
             
-            return render_template('alocar.html', funcionarios=funcionarios, equipamento=equipamento, id=id)
+            return render_template('alocar.html', funcionarios=funcionarios, equipamento=equipamento, idEPI=idEPI)
 
     if request.method == 'POST':
         with conecta_db() as (conexao, cursor):
             try:
-                # Capturar dados do formulário
                 idFuncionario = request.form['idFuncionario']
                 quantidade = int(request.form['quantidade'])
+                idSupervisor = 2 #Virá através da autenticação (Não feito ainda)
 
-                # Verificar a quantidade disponível
-                cursor.execute('SELECT quantidade FROM epi WHERE idEPI = %s', (id,))
-                resultado = cursor.fetchone()
-
-                if resultado is None:
-                    flash('Equipamento não encontrado.', 'error')
-                    return redirect(request.url)
-
-                quantidade_disponivel = resultado[0]
-
-                if quantidade > quantidade_disponivel:
-                    flash('Quantidade solicitada excede a quantidade disponível.', 'error')
-                    return redirect(request.url)
-
-                # Atualizar quantidade do equipamento e registrar a alocação
-                nova_quantidade = quantidade_disponivel - quantidade
-                cursor.execute('UPDATE epi SET quantidade = %s WHERE idEPI = %s', (nova_quantidade, id))
-
-                dataAlocacao = request.form['dataAlocacao']
-                cursor.execute(
-                    'INSERT INTO epi_funcionário (idEquipamento, idFuncionario, dataHora, quantidade) VALUES (%s, %s, %s, %s)',
-                    (id, idFuncionario, dataAlocacao, quantidade)
-                )
+                comando = 'INSERT INTO epi_funcionário (idEquipamento, idFuncionario, dataHora, quantidade) VALUES (%s, %s, NOW(), %s)'
+                cursor.execute(comando, (idEPI, idFuncionario, quantidade))
                 conexao.commit()
 
-                flash('Equipamento alocado com sucesso!', 'success')
-                return redirect('/')
+                atualizar_epi = 'UPDATE epi SET quantidade = quantidade - %s, idFuncionario = %s, dataLocacao = NOW() WHERE idEPI = %s'
+                cursor.execute(atualizar_epi, (quantidade, idFuncionario, idEPI))
+                conexao.commit()    
 
+                #backlog
+                cursor.execute('SELECT nomeFuncionário FROM funcionário WHERE idFuncionario = %s', (idFuncionario,))
+                funcionario = cursor.fetchone()[0]
+
+                cursor.execute('SELECT nomeEquipamento FROM epi WHERE idEPI = %s', (idEPI,))
+                equipamento = cursor.fetchone()[0]
+
+                comando_backlog = '''
+                    INSERT INTO Backlog (dataHora, acao, idSupervisor) 
+                    VALUES (NOW(), %s, %s)
+                '''
+                acao = f"Locação de EPI: {equipamento} para colaborador {funcionario}" 
+                cursor.execute(comando_backlog, (acao, idSupervisor))   
+                conexao.commit()
+                print('Cadastro realizado com sucesso!', 'success')
+                return redirect('/')
             except Exception as e:
-                flash(f'Erro ao alocar equipamento: {str(e)}', 'error')
+                conexao.rollback()
+                print(f'Erro ao alocar equipamento: {str(e)}', 'error')
                 return redirect(request.url)
