@@ -122,6 +122,33 @@ def cadastroDescarte():
 def descricaoDescarte():
     return render_template('descricaoDescarte.html')
 
-@admin_blueprint.route('/descricaoEPI')
-def descricaoEPI():
-    return render_template('descricaoEPI.html')
+@admin_blueprint.route('/descricaoEPI/<int:idEPI>', methods=['GET'])
+def descricaoEPI(idEPI):
+    with conecta_db() as (conexao, cursor):
+        try:
+            cursor.execute(f'SELECT * FROM epi WHERE idEPI = {id}')
+            result = cursor.fetchone()
+
+            epi = {
+            'idEPI': result[0],
+            'codigoCA': result[1],
+            'numeroSerie': result[2],
+            'marca': result[3],
+            'modelo': result[4],
+            'dataLocacao': result[5],
+            'dataVencimento': result[6],
+            'status': result[7],
+            'observacoes': result[8],
+            'nomeEquipamento': result[9],
+            'dataAquisicao': result[10],
+            'tamanho': result[11],
+            'quantidade': result[12],
+            'idSetor': result[13],
+            }
+            return render_template('descricaoEPI.html', epi=epi)
+        
+        except Exception as e:
+            return f"Erro de BackEnd: {e}"
+        except Error as e:
+            return f"Erro de BD:{e}"
+    
