@@ -86,7 +86,6 @@ def cadastro_Funcionario():
                 calcados = request.form['calcados']
                 especial = request.form.get('condicoesEspeciais')
                 idSupervisor = 1 #Virá através da autenticação (Não feito ainda)
-                print('CHEGOU AQUI')
                 comando = '''
                     INSERT INTO funcionário (nomeFuncionário, NIF, CPF, idSetor, condicoesEspeciais, cargo, tamCalcado, tamRoupa) VALUES (%s, %s, %s, %s, %s, %s, %s, %s)
                 '''
@@ -130,7 +129,7 @@ def descricaoDescarte(idEPI):
             epi = cursor.fetchone()
 
             cursor.execute('SELECT se.nomeSetor FROM setor se INNER JOIN epi ep ON se.idSetor = ep.idSetor WHERE idEPI = %s', (idEPI,))
-            nomeSetor = cursor.fetchone()
+            nomeSetor = cursor.fetchone()[0]
 
             cursor.execute('SELECT * FROM descarte WHERE idEquipamento = %s', (idEPI,))
             descarte = cursor.fetchone()
@@ -142,7 +141,6 @@ def descricaoDescarte(idEPI):
                     'numeroSerie': epi[2],
                     'marca': epi[3],
                     'modelo': epi[4],
-                    'dataLocacao': epi[5],
                     'dataVencimento': epi[6],
                     'status': epi[7],
                     'observacoes': epi[8],
@@ -165,66 +163,65 @@ def descricaoDescarte(idEPI):
     except Exception as e:
         return f"Ocorreu um erro: {e}", 500
         
-    @admin_blueprint.route('/cadastroDescarte/<int:idEPI>', methods=['GET', 'POST'])
-    def cadastroDescarte(idEPI):
-        if request.method == 'GET':
-            with conecta_db() as (conexao, cursor):
-                try:
-                    # Obtém a quantidade atual do EPI
-                    cursor.execute('SELECT quantidade FROM epi WHERE idEPI = %s', (idEPI,))
-                    quantidade = cursor.fetchone()[0]
-                except Exception as e:
-                    return f"Erro de BackEnd: {e}"
-                return render_template('cadastroDescarte.html', quantidade=quantidade, idEPI=idEPI)
-            
-        if request.method == 'POST':
-            with conecta_db() as (conexao, cursor):
-                try:
-                    quantidade_descartar = int(request.form['quantidade'])
-                    motivo = request.form['motivoDescarte']
-                    localDescarte = request.form['localDescarte']
-                    idSupervisor = 1  # Vai vir através da autenticação (não implementado ainda)
+@admin_blueprint.route('/cadastroDescarte/<int:idEPI>', methods=['GET', 'POST'])
+def cadastroDescarte(idEPI):
+    if request.method == 'GET':
+        with conecta_db() as (conexao, cursor):
+            try:
+                cursor.execute('SELECT quantidade FROM epi WHERE idEPI = %s', (idEPI,))
+                quantidade = cursor.fetchone()[0]
+            except Exception as e:
+                return f"Erro de BackEnd: {e}"
+            return render_template('cadastroDescarte.html', quantidade=quantidade, idEPI=idEPI)
+        
+    if request.method == 'POST':
+        with conecta_db() as (conexao, cursor):
+            try:
+                quantidade_descartar = int(request.form['quantidade'])
+                motivo = request.form['motivoDescarte']
+                localDescarte = request.form['localDescarte']
+                idSupervisor = 1  # Vai vir através da autenticação (não implementado ainda)
 
-                    cursor.execute('SELECT quantidade FROM epi WHERE idEPI = %s', (idEPI,))
-                    quantidade_atual = cursor.fetchone()[0]
+                cursor.execute('SELECT quantidade FROM epi WHERE idEPI = %s', (idEPI,))
+                quantidade_atual = cursor.fetchone()[0]
 
-                    if quantidade_atual <= 0:
-                        return "Erro: Não há quantidade disponível para descarte.", 400
-                    elif quantidade_descartar > quantidade_atual:
-                        return "Erro: Quantidade a ser descartada excede a quantidade disponível.", 400
+                if quantidade_atual <= 0:
+                    return "Erro: Não há quantidade disponível para descarte.", 400
+                elif quantidade_descartar > quantidade_atual:
+                    return "Erro: Quantidade a ser descartada excede a quantidade disponível.", 400
 
-                    comando = '''
-                        INSERT INTO descarte (motivoDescarte, localDescarte, dataDescarte, idEquipamento, quantidade)
-                        VALUES (%s, %s, NOW(), %s, %s)
-                    '''
-                    cursor.execute(comando, (motivo, localDescarte, idEPI, quantidade_descartar))
-                    conexao.commit()
+                comando = '''
+                    INSERT INTO descarte (motivoDescarte, localDescarte, dataDescarte, idEquipamento, quantidade)
+                    VALUES (%s, %s, NOW(), %s, %s)
+                '''
+                cursor.execute(comando, (motivo, localDescarte, idEPI, quantidade_descartar))
+                conexao.commit()
 
-                    comando_update = 'UPDATE epi SET quantidade = quantidade - %s WHERE idEPI = %s'
-                    cursor.execute(comando_update, (quantidade_descartar, idEPI))
-                    conexao.commit()
+                comando_update = 'UPDATE epi SET quantidade = quantidade - %s WHERE idEPI = %s'
+                cursor.execute(comando_update, (quantidade_descartar, idEPI))
+                conexao.commit()
 
-                    cursor.execute('SELECT quantidade FROM epi WHERE idEPI = %s', (idEPI,))
-                    quantidade_atual = cursor.fetchone()[0]
+                cursor.execute('SELECT quantidade FROM epi WHERE idEPI = %s', (idEPI,))
+                quantidade_atual = cursor.fetchone()[0]
 
-                    if quantidade_atual == 0:
-                        comando_update = 'UPDATE epi SET status = %s WHERE idEPI = %s'
-                        cursor.execute(comando_update, ('Descartado', idEPI))
-                        conexao.commit()
+                if quantidade_atual == 0:
+                    comando_update = 'UPDATE epi SET status = %s WHERE idEPI = %s'
+                    cursor.execute(comando_update, ('Descartado', idEPI))
+                    conexao.commit() #erro provavelmente está aqui
 
-                    cursor.execute('SELECT nomeEquipamento FROM epi WHERE idEPI = %s', (idEPI,))
-                    nomeEPI = cursor.fetchone()[0]
+                cursor.execute('SELECT nomeEquipamento FROM epi WHERE idEPI = %s', (idEPI,))
+                nomeEPI = cursor.fetchone()[0]
 
-                    comando_backlog = '''
-                        INSERT INTO Backlog (dataHora, acao, idSupervisor) 
-                        VALUES (NOW(), %s, %s)
-                    '''
-                    acao = f"Descarte de EPI: {nomeEPI}"
-                    cursor.execute(comando_backlog, (acao, idSupervisor))   
-                    conexao.commit()
-                    return redirect('/estoque')
-                except Exception as e:
-                    return f"Erro de BackEnd: {e}"
+                comando_backlog = '''
+                    INSERT INTO Backlog (dataHora, acao, idSupervisor) 
+                    VALUES (NOW(), %s, %s)
+                '''
+                acao = f"Descarte de EPI: {nomeEPI}"
+                cursor.execute(comando_backlog, (acao, idSupervisor))   
+                conexao.commit()
+                return redirect('/estoque')
+            except Exception as e:
+                return f"Erro de BackEnd: {e}"
             
 
 @admin_blueprint.route('/editDescarte/<int:idEPI>', methods=['GET', 'POST'])
