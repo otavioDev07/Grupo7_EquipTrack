@@ -104,7 +104,7 @@ CREATE TABLE IF NOT EXISTS `equiptrack`.`epi` (
   `modelo` VARCHAR(45) NULL DEFAULT NULL,
   `dataLocacao` DATE NULL DEFAULT NULL,
   `dataVencimento` DATE NOT NULL,
-  `status` ENUM('Em uso', 'Estoque') NOT NULL DEFAULT 'Estoque',
+  `status` ENUM('Em uso', 'Estoque', 'Descartado') NOT NULL DEFAULT 'Estoque',
   `observacoes` VARCHAR(300) NULL DEFAULT NULL,
   `nomeEquipamento` VARCHAR(45) NOT NULL,
   `dataAquisicao` DATE NOT NULL,
@@ -145,7 +145,7 @@ CREATE TABLE IF NOT EXISTS `equiptrack`.`descarte` (
     FOREIGN KEY (`idEquipamento`)
     REFERENCES `equiptrack`.`epi` (`idEPI`))
 ENGINE = InnoDB
-AUTO_INCREMENT = 2
+AUTO_INCREMENT = 5
 DEFAULT CHARACTER SET = utf8mb3;
 
 
