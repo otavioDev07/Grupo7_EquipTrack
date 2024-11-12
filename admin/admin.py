@@ -113,4 +113,4 @@ def estoqueCozinha():
 
 @admin_blueprint.route('/manuFunc')
 def manuFunc():
-    return render_template('manuFunc.html')
+    return render_template('manuFunc.html', titulo_pagina="Funcionários")
