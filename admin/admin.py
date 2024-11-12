@@ -112,8 +112,62 @@ def cadastro_Funcionario():
 
 @admin_blueprint.route('/descarte')
 def descarte():
-    return render_template('descarte.html')
+    query = 'SELECT e.idEPI, e.codigoCA, e.nomeEquipamento, e.quantidade FROM epi e INNER JOIN descarte d ON d.idEquipamento = e.idEPI'
+    try:
+        with conecta_db() as (conexao, cursor):
+            cursor.execute(query)
+            EPIs = cursor.fetchall()
+            return render_template('descarte.html', EPIs=EPIs)
+    except Exception as e:
+        print("Erro ao buscar dados:", e)
+        return "Erro ao buscar dados", 500
+    
+@admin_blueprint.route('/descricaoDescarte/<int:idEPI>', methods=['GET'])
+def descricaoDescarte(idEPI):
+    try:
+        with conecta_db() as (conexao, cursor):
+            cursor.execute('SELECT * FROM epi WHERE idEPI = %s', (idEPI,))
+            epi = cursor.fetchone()
 
+            cursor.execute('SELECT se.nomeSetor FROM setor se INNER JOIN epi ep ON se.idSetor = ep.idSetor WHERE idEPI = %s', (idEPI,))
+            nomeSetor = cursor.fetchone()
+
+            cursor.execute('SELECT f.nomeFuncionário FROM funcionário f INNER JOIN epi e ON f.idFuncionario = e.idFuncionario WHERE e.idEPI = %s', (idEPI,))
+            nomeFuncionário = cursor.fetchone()[0] 
+
+            cursor.execute('SELECT * FROM descarte WHERE idEquipamento = %s', (idEPI,))
+            descarte = cursor.fetchone()
+
+            if epi and nomeFuncionário and descarte:
+                epi = {
+                    'idEPI': epi[0],
+                    'codigoCA': epi[1],
+                    'numeroSerie': epi[2],
+                    'marca': epi[3],
+                    'modelo': epi[4],
+                    'dataLocacao': epi[5],
+                    'dataVencimento': epi[6],
+                    'status': epi[7],
+                    'observacoes': epi[8],
+                    'nomeEquipamento': epi[9],
+                    'dataAquisicao': epi[10],
+                    'tamanho': epi[11],
+                    'quantidade': epi[12],
+                    'nomeSetor': nomeSetor
+                }
+
+                descarte = {
+                    'quantidade': descarte[5],
+                    'motivoDescarte': descarte[1],
+                    'localDescarte': descarte[2],
+                    'dataDescarte': descarte[3]
+                }
+                return render_template('descricaoDescarte.html', epi=epi, descarte=descarte, nomeFuncionário=nomeFuncionário)
+            else:
+                return "EPI não encontrado", 404
+    except Exception as e:
+        return f"Ocorreu um erro: {e}", 500
+        
 @admin_blueprint.route('/cadastroDescarte/<int:idEPI>', methods=['GET','POST'])
 def cadastroDescarte(idEPI):
     if request.method == 'GET':
@@ -152,10 +206,11 @@ def cadastroDescarte(idEPI):
 
             except Exception as e:
                 return f"Erro de BackEnd: {e}"
+            
 
-@admin_blueprint.route('/descricaoDescarte')
-def descricaoDescarte():
-    return render_template('descricaoDescarte.html')
+@admin_blueprint.route('/editDescarte/<int:idEPI>', methods=['GET', 'POST'])
+def editDescarte(idEPI):
+    pass
 
 @admin_blueprint.route('/descricaoEPI/<int:idEPI>', methods=['GET'])
 def descricaoEPI(idEPI):
