@@ -30,7 +30,6 @@ CREATE TABLE IF NOT EXISTS `equiptrack`.`supervisor` (
   UNIQUE INDEX `nomeFuncionario_UNIQUE` (`nomeSupervisor` ASC) VISIBLE,
   UNIQUE INDEX `CPF_UNIQUE` (`CPF` ASC) VISIBLE)
 ENGINE = InnoDB
-AUTO_INCREMENT = 3
 DEFAULT CHARACTER SET = utf8mb3;
 
 
@@ -48,7 +47,6 @@ CREATE TABLE IF NOT EXISTS `equiptrack`.`backlog` (
     FOREIGN KEY (`idSupervisor`)
     REFERENCES `equiptrack`.`supervisor` (`idSupervisor`))
 ENGINE = InnoDB
-AUTO_INCREMENT = 14
 DEFAULT CHARACTER SET = utf8mb3;
 
 
@@ -65,7 +63,6 @@ CREATE TABLE IF NOT EXISTS `equiptrack`.`setor` (
     FOREIGN KEY (`idSupervisor`)
     REFERENCES `equiptrack`.`supervisor` (`idSupervisor`))
 ENGINE = InnoDB
-AUTO_INCREMENT = 5
 DEFAULT CHARACTER SET = utf8mb3;
 
 
@@ -89,7 +86,6 @@ CREATE TABLE IF NOT EXISTS `equiptrack`.`funcionário` (
     FOREIGN KEY (`idSetor`)
     REFERENCES `equiptrack`.`setor` (`idSetor`))
 ENGINE = InnoDB
-AUTO_INCREMENT = 3
 DEFAULT CHARACTER SET = utf8mb3;
 
 
@@ -104,7 +100,7 @@ CREATE TABLE IF NOT EXISTS `equiptrack`.`epi` (
   `modelo` VARCHAR(45) NULL DEFAULT NULL,
   `dataLocacao` DATE NULL DEFAULT NULL,
   `dataVencimento` DATE NOT NULL,
-  `status` ENUM('Em uso', 'Estoque', 'Descartado') NOT NULL DEFAULT 'Estoque',
+  `status` ENUM('Em uso', 'Estoque') NOT NULL DEFAULT 'Estoque',
   `observacoes` VARCHAR(300) NULL DEFAULT NULL,
   `nomeEquipamento` VARCHAR(45) NOT NULL,
   `dataAquisicao` DATE NOT NULL,
@@ -125,7 +121,6 @@ CREATE TABLE IF NOT EXISTS `equiptrack`.`epi` (
     FOREIGN KEY (`idSetor`)
     REFERENCES `equiptrack`.`setor` (`idSetor`))
 ENGINE = InnoDB
-AUTO_INCREMENT = 20
 DEFAULT CHARACTER SET = utf8mb3;
 
 
@@ -145,7 +140,6 @@ CREATE TABLE IF NOT EXISTS `equiptrack`.`descarte` (
     FOREIGN KEY (`idEquipamento`)
     REFERENCES `equiptrack`.`epi` (`idEPI`))
 ENGINE = InnoDB
-AUTO_INCREMENT = 5
 DEFAULT CHARACTER SET = utf8mb3;
 
 
@@ -168,7 +162,6 @@ CREATE TABLE IF NOT EXISTS `equiptrack`.`epi_funcionário` (
     FOREIGN KEY (`idEquipamento`)
     REFERENCES `equiptrack`.`epi` (`idEPI`))
 ENGINE = InnoDB
-AUTO_INCREMENT = 4
 DEFAULT CHARACTER SET = utf8mb3;
 
 
