@@ -90,30 +90,28 @@ input[type="text"],
 </style>
 
 <div class="form-container">
-    <form class="epi-form">
     <div class="dashed-border">
-    <form>
+    <form class="epi-form" action="/cadastroDescarte" method="post">
         <div style="margin-bottom: 10px;" class="form-group">
             <label for="nome-completo">Por que você está descartando esse EPI?</label>
-            <input type="text" id="porque-descarte" placeholder="Escreva aqui..." name="motivoDescarte">
+            <input type="text" id="motivoDescarte" placeholder="Escreva aqui..." name="motivoDescarte">
         </div>
 
         <div style="margin-bottom: 10px;" class="form-group">
             <label for="nif">Onde foi/será descartado esse EPI?</label>
-            <input type="text" id="local" placeholder="Escreva aqui..." name="localDescarte">
+            <input type="text" id="localDescarte" placeholder="Escreva aqui..." name="localDescarte">
         </div>
 
         <div class="form-group">
                 <label for="quantidade">Quantidade:</label>
                 <input type="number" max="{{quantidade}}" id="quantidade" name="quantidade">
         </div>
-
     </form>
 </div>
 </div>
 </div>
 
 <div class="form-group">
-    <button type="submit">Cadastrar</button>
+    <button type="submit">Descartar</button>
 </div>
 {% endblock %}
