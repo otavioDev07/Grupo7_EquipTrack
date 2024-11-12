@@ -4,4 +4,4 @@ telaadm_blueprint = Blueprint('telaadm', __name__, template_folder="templates")
 
 @telaadm_blueprint.route('/telaadm')
 def telaadm():
-    return render_template('telaadm.html')
+    return render_template('telaadm.html', titulo_pagina="Gerenciamento")
