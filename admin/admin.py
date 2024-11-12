@@ -27,7 +27,7 @@ def cadastro_EPI():
                 dataVencimento = request.form['dataVencimento']
 
                 idSetor = request.form['idSetor'] #Verificar se o valor está vindo 
-                idSupervisor = 2 #Virá através da autenticação (Não feito ainda)
+                idSupervisor = 1 #Virá através da autenticação (Não feito ainda)
 
                 # Campos opcionais
                 modelo = request.form.get('modelo')
@@ -85,7 +85,7 @@ def cadastro_Funcionario():
                 roupa = request.form['tamanhoRoupa']
                 calcados = request.form['calcados']
                 especial = request.form.get('condicoesEspeciais')
-                idSupervisor = 2 #Virá através da autenticação (Não feito ainda)
+                idSupervisor = 1 #Virá através da autenticação (Não feito ainda)
                 print('CHEGOU AQUI')
                 comando = '''
                     INSERT INTO funcionário (nomeFuncionário, NIF, CPF, idSetor, condicoesEspeciais, cargo, tamCalcado, tamRoupa) VALUES (%s, %s, %s, %s, %s, %s, %s, %s)
@@ -186,7 +186,7 @@ def cadastroDescarte(idEPI):
                 quantidade_descartar = int(request.form['quantidade'])
                 motivo = request.form['motivoDescarte']
                 localDescarte = request.form['localDescarte']
-                idSupervisor = 2  # Vai vir através da autenticação (não implementado ainda)
+                idSupervisor = 1  # Vai vir através da autenticação (não implementado ainda)
 
                 cursor.execute('SELECT quantidade FROM epi WHERE idEPI = %s', (idEPI,))
                 quantidade_atual = cursor.fetchone()[0]
