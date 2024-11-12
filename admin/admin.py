@@ -1,4 +1,4 @@
-from flask import render_template, Blueprint, request, flash, redirect
+from flask import render_template, Blueprint, request, redirect
 from database.conection import *
 from datetime import datetime
 from mysql.connector import Error
@@ -112,7 +112,7 @@ def cadastro_Funcionario():
 
 @admin_blueprint.route('/descarte')
 def descarte():
-    query = 'SELECT e.idEPI, e.codigoCA, e.nomeEquipamento, e.quantidade FROM epi e INNER JOIN descarte d ON d.idEquipamento = e.idEPI'
+    query = 'SELECT e.idEPI, e.codigoCA, e.nomeEquipamento, d.quantidade FROM epi e INNER JOIN descarte d ON d.idEquipamento = e.idEPI'
     try:
         with conecta_db() as (conexao, cursor):
             cursor.execute(query)
@@ -168,29 +168,43 @@ def descricaoDescarte(idEPI):
     except Exception as e:
         return f"Ocorreu um erro: {e}", 500
         
-@admin_blueprint.route('/cadastroDescarte/<int:idEPI>', methods=['GET','POST'])
+@admin_blueprint.route('/cadastroDescarte/<int:idEPI>', methods=['GET', 'POST'])
 def cadastroDescarte(idEPI):
     if request.method == 'GET':
         with conecta_db() as (conexao, cursor):
             try:
+                # Obtém a quantidade atual do EPI
                 cursor.execute('SELECT quantidade FROM epi WHERE idEPI = %s', (idEPI,))
                 quantidade = cursor.fetchone()[0]
             except Exception as e:
                 return f"Erro de BackEnd: {e}"
-            return render_template('cadastroDescarte.html', quantidade=quantidade)
+            return render_template('cadastroDescarte.html', quantidade=quantidade, idEPI=idEPI)
         
     if request.method == 'POST':
         with conecta_db() as (conexao, cursor):
             try:
-                motivo = request.form('motivoDescarte')
-                localDescarte = request.form('localDescarte')
-                idSupervisor = 2 #Virá através da autenticação (Não feito ainda)
+                quantidade_descartar = int(request.form['quantidade'])
+                motivo = request.form['motivoDescarte']
+                localDescarte = request.form['localDescarte']
+                idSupervisor = 2  # Vai vir através da autenticação (não implementado ainda)
 
                 cursor.execute('SELECT quantidade FROM epi WHERE idEPI = %s', (idEPI,))
-                quantidade = cursor.fetchone()[0]
+                quantidade_atual = cursor.fetchone()[0]
 
-                comando = f'INSERT INTO descarte (motivoDescarte, localDescarte, dataDescarte, idEquipamento, quantidade) VALUES (%s, %s, NOW(), %s, %s)'
-                cursor.execute(comando, (motivo, localDescarte, idEPI, quantidade))
+                if quantidade_atual <= 0:
+                    return "Erro: Não há quantidade disponível para descarte.", 400
+                elif quantidade_descartar > quantidade_atual:
+                    return "Erro: Quantidade a ser descartada excede a quantidade disponível.", 400
+
+                comando = '''
+                    INSERT INTO descarte (motivoDescarte, localDescarte, dataDescarte, idEquipamento, quantidade)
+                    VALUES (%s, %s, NOW(), %s, %s)
+                '''
+                cursor.execute(comando, (motivo, localDescarte, idEPI, quantidade_descartar))
+                conexao.commit()
+
+                comando_update = 'UPDATE epi SET status = %s, quantidade = quantidade - %s WHERE idEPI = %s'
+                cursor.execute(comando_update, ('Descartado', quantidade_descartar, idEPI))
                 conexao.commit()
 
                 cursor.execute('SELECT nomeEquipamento FROM epi WHERE idEPI = %s', (idEPI,))
@@ -200,10 +214,10 @@ def cadastroDescarte(idEPI):
                     INSERT INTO Backlog (dataHora, acao, idSupervisor) 
                     VALUES (NOW(), %s, %s)
                 '''
-                acao = f"Descarte de EPI: {nomeEPI}" 
+                acao = f"Descarte de EPI: {nomeEPI}"
                 cursor.execute(comando_backlog, (acao, idSupervisor))   
                 conexao.commit()
-
+                return redirect('/estoque')
             except Exception as e:
                 return f"Erro de BackEnd: {e}"
             
