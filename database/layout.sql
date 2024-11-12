@@ -25,7 +25,7 @@ CREATE TABLE IF NOT EXISTS `equiptrack`.`supervisor` (
   `nomeSupervisor` VARCHAR(45) NOT NULL,
   `CPF` VARCHAR(11) NOT NULL,
   `senhaAcesso` VARCHAR(60) NOT NULL,
-  `status` ENUM('ativo', 'inativo') NOT NULL,
+  `status` ENUM('ativo', 'inativo') NOT NULL DEFAULT 'ativo',
   PRIMARY KEY (`idSupervisor`),
   UNIQUE INDEX `nomeFuncionario_UNIQUE` (`nomeSupervisor` ASC) VISIBLE,
   UNIQUE INDEX `CPF_UNIQUE` (`CPF` ASC) VISIBLE)
@@ -48,7 +48,7 @@ CREATE TABLE IF NOT EXISTS `equiptrack`.`backlog` (
     FOREIGN KEY (`idSupervisor`)
     REFERENCES `equiptrack`.`supervisor` (`idSupervisor`))
 ENGINE = InnoDB
-AUTO_INCREMENT = 10
+AUTO_INCREMENT = 14
 DEFAULT CHARACTER SET = utf8mb3;
 
 
@@ -65,7 +65,7 @@ CREATE TABLE IF NOT EXISTS `equiptrack`.`setor` (
     FOREIGN KEY (`idSupervisor`)
     REFERENCES `equiptrack`.`supervisor` (`idSupervisor`))
 ENGINE = InnoDB
-AUTO_INCREMENT = 4
+AUTO_INCREMENT = 5
 DEFAULT CHARACTER SET = utf8mb3;
 
 
@@ -125,7 +125,7 @@ CREATE TABLE IF NOT EXISTS `equiptrack`.`epi` (
     FOREIGN KEY (`idSetor`)
     REFERENCES `equiptrack`.`setor` (`idSetor`))
 ENGINE = InnoDB
-AUTO_INCREMENT = 19
+AUTO_INCREMENT = 20
 DEFAULT CHARACTER SET = utf8mb3;
 
 
@@ -168,7 +168,7 @@ CREATE TABLE IF NOT EXISTS `equiptrack`.`epi_funcionário` (
     FOREIGN KEY (`idEquipamento`)
     REFERENCES `equiptrack`.`epi` (`idEPI`))
 ENGINE = InnoDB
-AUTO_INCREMENT = 3
+AUTO_INCREMENT = 4
 DEFAULT CHARACTER SET = utf8mb3;
 
 
