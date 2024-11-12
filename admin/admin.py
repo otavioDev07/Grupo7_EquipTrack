@@ -203,9 +203,17 @@ def cadastroDescarte(idEPI):
                 cursor.execute(comando, (motivo, localDescarte, idEPI, quantidade_descartar))
                 conexao.commit()
 
-                comando_update = 'UPDATE epi SET status = %s, quantidade = quantidade - %s WHERE idEPI = %s'
-                cursor.execute(comando_update, ('Descartado', quantidade_descartar, idEPI))
+                comando_update = 'UPDATE epi SET quantidade = quantidade - %s WHERE idEPI = %s'
+                cursor.execute(comando_update, (quantidade_descartar, idEPI))
                 conexao.commit()
+
+                cursor.execute('SELECT quantidade FROM epi WHERE idEPI = %s', (idEPI,))
+                quantidade_atual = cursor.fetchone()[0]
+
+                if quantidade_atual == 0:
+                    comando_update = 'UPDATE epi SET status = %s WHERE idEPI = %s'
+                    cursor.execute(comando_update, ('Descartado', idEPI))
+                    conexao.commit()
 
                 cursor.execute('SELECT nomeEquipamento FROM epi WHERE idEPI = %s', (idEPI,))
                 nomeEPI = cursor.fetchone()[0]
