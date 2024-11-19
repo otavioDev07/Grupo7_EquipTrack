@@ -165,17 +165,16 @@ def descricaoDescarte(idEPI):
         
 @admin_blueprint.route('/cadastroDescarte/<int:idEPI>', methods=['GET', 'POST'])
 def cadastroDescarte(idEPI):
-    if request.method == 'GET':
-        with conecta_db() as (conexao, cursor):
-            try:
-                cursor.execute('SELECT quantidade FROM epi WHERE idEPI = %s', (idEPI,))
-                quantidade = cursor.fetchone()[0]
-            except Exception as e:
-                return f"Erro de BackEnd: {e}"
-            return render_template('cadastroDescarte.html', quantidade=quantidade, idEPI=idEPI)
-        
-    if request.method == 'POST':
-        with conecta_db() as (conexao, cursor):
+    with conecta_db() as (conexao, cursor):
+        if request.method == 'GET':
+                try:
+                    cursor.execute('SELECT quantidade FROM epi WHERE idEPI = %s', (idEPI,))
+                    quantidade = cursor.fetchone()[0]
+                except Exception as e:
+                    return f"Erro de BackEnd: {e}"
+                return render_template('cadastroDescarte.html', quantidade=quantidade, idEPI=idEPI)
+            
+        if request.method == 'POST':
             try:
                 quantidade_descartar = int(request.form['quantidade'])
                 motivo = request.form['motivoDescarte']
@@ -203,11 +202,6 @@ def cadastroDescarte(idEPI):
 
                 cursor.execute('SELECT quantidade FROM epi WHERE idEPI = %s', (idEPI,))
                 quantidade_atual = cursor.fetchone()[0]
-
-                if quantidade_atual == 0:
-                    comando_update = 'UPDATE epi SET status = %s WHERE idEPI = %s'
-                    cursor.execute(comando_update, ('Descartado', idEPI))
-                    conexao.commit() #erro provavelmente está aqui
 
                 cursor.execute('SELECT nomeEquipamento FROM epi WHERE idEPI = %s', (idEPI,))
                 nomeEPI = cursor.fetchone()[0]
