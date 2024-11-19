@@ -172,7 +172,7 @@ def cadastroDescarte(idEPI):
                     quantidade = cursor.fetchone()[0]
                 except Exception as e:
                     return f"Erro de BackEnd: {e}"
-                return render_template('cadastroDescarte.html', quantidade=quantidade, idEPI=idEPI)
+                return render_template('cadastroDescarte.html', quantidade=quantidade, idEPI=idEPI , titulo_pagina="Descarte ")
             
         if request.method == 'POST':
             try:
