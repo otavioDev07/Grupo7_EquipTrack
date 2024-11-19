@@ -254,4 +254,55 @@ def descricaoEPI(idEPI):
 
         except Exception as e:
             return f"Erro de BackEnd: {e}"
+        
+@admin_blueprint.route('/funcionarios/<int:idSetor>', methods=['GET'])
+def get_funcionarios(idSetor):
+    try:
+        with conecta_db() as (conexao, cursor):
+            cursor.execute('SELECT idFuncionario, nomeFuncionário, NIF, cargo FROM funcionário WHERE idSetor = %s', (idSetor,))
+            result = cursor.fetchall()
+
+            cursor.execute('SELECT nomeSetor FROM setor WHERE idSetor = %s', (idSetor,))
+            nomeSetor = cursor.fetchone()[0]
+
+            if result:
+                funcionario = {
+                    'idFuncionario': result[0],
+                    'nomeFuncionario': result[1],
+                    'NIF': result[2],
+                    'cargo': result[3]
+                }
+                return render_template('manuFunc.html', funcionarios=funcionario, nomeSetor=nomeSetor)
+            else:
+                return 'Funcionarios não encontrados', 404
     
+    except Exception as e:
+        return f"Erro de BackEnd: {e}"
+    
+
+@admin_blueprint.route('/descFuncionario/<int:idFuncionario>', methods=['GET'])
+def descFuncionario(idFuncionario, nomeSetor):
+    try:
+        with conecta_db() as (conexao, cursor):
+            comando = 'SELECT idFuncionario, nomeFuncionário, NIF, cargo, condicoesEspeciais, tamCalcado, tamRoupa FROM funcionário WHERE idFuncionario = %s'
+            cursor.execute(comando, idFuncionario)
+            dados = cursor.fetchone()
+
+            if funcionario:
+                funcionario = {
+                    'idFuncionario': dados[0],
+                    'nomeFuncionario': dados[1],
+                    'NIF': dados[2],
+                    'cargo': dados[3],
+                    'condicoesEspeciais': dados[4],
+                    'tamCalcado': dados[5],
+                    'tamRoupa': dados[6],
+                    'nomeSetor': nomeSetor
+                }
+            
+            comando = 'SELECT idEPI, codigoCA, nomeEquipamento, dataVencimento FROM epi WHERE idFuncionario = %s'
+            cursor.execute(comando, dados[0])
+            EPIs = cursor.fetchall()
+
+    except Exception as e:
+        return f"Erro de BackEnd: {e}"

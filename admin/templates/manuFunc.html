@@ -167,52 +167,17 @@
     </div>
     </div>
 
-    <h2 style="margin-left: 35%;">Funcionários da cozinha</h2>
+    <h2 style="margin-left: 35%;">Funcionários {{nomeSetor}}</h2>
     <div class="card-container">
-        
         <!-- Cartão com alertaa -->
+         {% for i in funcionario %}
         <div class="card alerta">
-            <p><strong>Maria da Silva</strong></p>
-            <p>NIF: 2134879</p>
-            <p>Cozinheira</p>
-            <a href="#" class="button">Ver mais</a>
+            <p><strong>{{i.nomeFuncionario}}</strong></p>
+            <p>NIF: {{i.NIF}}</p>
+            <p>{{i.cargo}}</p>
+            <a href="{{ url_for('admin.descricaoFuncionario', idFuncionario=i.idFuncionario, nomeSetor=nomeSetor) }}" class="button">Ver mais</a>
         </div>
-        <!-- Cartão com alertaa -->
-        <div class="card alerta">
-            <p><strong>Maria da Silva</strong></p>
-            <p>NIF: 2134879</p>
-            <p>Cozinheira</p>
-            <a href="#" class="button">Ver mais</a>
-        </div>
-        <div class="card alerta">
-            <p><strong>Maria da Silva</strong></p>
-            <p>NIF: 2134879</p>
-            <p>Cozinheira</p>
-            <a href="#" class="button">Ver mais</a>
-        </div>
-        <div class="card alerta">
-            <p><strong>Maria da Silva</strong></p>
-            <p>NIF: 2134879</p>
-            <p>Cozinheira</p>
-            <a href="#" class="button">Ver mais</a>
-        </div>
-
-        <!-- Cartão com alertaa -->
-        <div class="card approved">
-            <p><strong>Maria da Silva</strong></p>
-            <p>NIF: 2134879</p>
-            <p>Cozinheira</p>
-            <a href="#" class="button">Ver mais</a>
-        </div>
-
-        <!-- Cartão aprovado -->
-        <div class="card approved">
-            <p><strong>Maria da Silva</strong></p>
-            <p>NIF: 2134879</p>
-            <p>Cozinheira</p>
-            <a href="#" class="button">Ver mais</a>
-        </div>
-        
+        {% endfor %}
     </div>
 </div>
 
