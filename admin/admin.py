@@ -1,6 +1,7 @@
 from flask import render_template, Blueprint, request, redirect
 from database.conection import *
 from datetime import datetime
+from datetime import date
 from mysql.connector import Error
 
 admin_blueprint = Blueprint('admin', __name__, template_folder="templates")
@@ -157,6 +158,7 @@ def descricaoDescarte(idEPI):
                     'localDescarte': descarte[2],
                     'dataDescarte': descarte[3]
                 }
+                print(epi, descarte)
                 return render_template('descricaoDescarte.html', epi=epi, descarte=descarte)
             else:
                 return "EPI não encontrado", 404
@@ -254,55 +256,93 @@ def descricaoEPI(idEPI):
 
         except Exception as e:
             return f"Erro de BackEnd: {e}"
+            
         
 @admin_blueprint.route('/funcionarios/<int:idSetor>', methods=['GET'])
 def get_funcionarios(idSetor):
     try:
         with conecta_db() as (conexao, cursor):
+            # Consulta para buscar todos os funcionários do setor
             cursor.execute('SELECT idFuncionario, nomeFuncionário, NIF, cargo FROM funcionário WHERE idSetor = %s', (idSetor,))
-            result = cursor.fetchall()
+            funcionarios = cursor.fetchall() 
 
+            # Consulta para buscar o nome do setor
             cursor.execute('SELECT nomeSetor FROM setor WHERE idSetor = %s', (idSetor,))
-            nomeSetor = cursor.fetchone()[0]
+            nomeSetor = cursor.fetchone() 
 
-            if result:
-                funcionario = {
-                    'idFuncionario': result[0],
-                    'nomeFuncionario': result[1],
-                    'NIF': result[2],
-                    'cargo': result[3]
+            # Verifica se os dados foram encontrados
+            if not nomeSetor:
+                return 'Setor não encontrado', 404
+
+            if not funcionarios:
+                return 'Funcionários não encontrados', 404
+            
+            lista_funcionarios = [
+                {
+                    'idFuncionario': funcionario[0],
+                    'nomeFuncionario': funcionario[1],
+                    'NIF': funcionario[2],
+                    'cargo': funcionario[3]
                 }
-                return render_template('manuFunc.html', funcionarios=funcionario, nomeSetor=nomeSetor)
-            else:
-                return 'Funcionarios não encontrados', 404
-    
+                for funcionario in funcionarios
+            ]
+
+            return render_template('funcionarios.html', funcionario=lista_funcionarios, nomeSetor=nomeSetor[0])
+
     except Exception as e:
-        return f"Erro de BackEnd: {e}"
+        return f"Erro de BackEnd: {e}", 500
     
 
 @admin_blueprint.route('/descFuncionario/<int:idFuncionario>', methods=['GET'])
-def descFuncionario(idFuncionario, nomeSetor):
+def descFuncionario(idFuncionario):
     try:
         with conecta_db() as (conexao, cursor):
-            comando = 'SELECT idFuncionario, nomeFuncionário, NIF, cargo, condicoesEspeciais, tamCalcado, tamRoupa FROM funcionário WHERE idFuncionario = %s'
-            cursor.execute(comando, idFuncionario)
+            comando_funcionario = '''
+                SELECT f.idFuncionario, f.nomeFuncionário, f.NIF, f.cargo, f.condicoesEspeciais, f.tamCalcado, f.tamRoupa, s.nomeSetor
+                FROM funcionário f
+                INNER JOIN setor s ON f.idSetor = s.idSetor
+                WHERE f.idFuncionario = %s
+            '''
+            cursor.execute(comando_funcionario, (idFuncionario,))
             dados = cursor.fetchone()
 
-            if funcionario:
-                funcionario = {
-                    'idFuncionario': dados[0],
-                    'nomeFuncionario': dados[1],
-                    'NIF': dados[2],
-                    'cargo': dados[3],
-                    'condicoesEspeciais': dados[4],
-                    'tamCalcado': dados[5],
-                    'tamRoupa': dados[6],
-                    'nomeSetor': nomeSetor
-                }
-            
-            comando = 'SELECT idEPI, codigoCA, nomeEquipamento, dataVencimento FROM epi WHERE idFuncionario = %s'
-            cursor.execute(comando, dados[0])
+            if not dados:
+                return "Funcionário não encontrado", 404
+
+            funcionario = {
+                'idFuncionario': dados[0],
+                'nomeFuncionario': dados[1],
+                'NIF': dados[2],
+                'cargo': dados[3],
+                'condicoesEspeciais': dados[4],
+                'tamCalcado': dados[5],
+                'tamRoupa': dados[6],
+                'nomeSetor': dados[7]
+            }
+
+            # Consulta os EPIs associados ao funcionário
+            comando_epis = '''
+                SELECT e.idEPI, e.codigoCA, e.nomeEquipamento, e.dataVencimento
+                FROM epi e
+                WHERE e.idFuncionario = %s AND status != "Descartado"
+            '''
+            cursor.execute(comando_epis, (idFuncionario,))
             EPIs = cursor.fetchall()
 
+            lista_epis = [
+                {
+                    'idEPI': epi[0],
+                    'codigoCA': epi[1],
+                    'nomeEquipamento': epi[2],
+                    'dataVencimento': epi[3]
+                }
+                for epi in EPIs
+            ]
+            
+            now = date.today()
+        # Renderiza a página com os dados do funcionário e dos EPIs
+        return render_template('descricaoFuncionario.html', funcionario=funcionario, EPIs=lista_epis, now=now)
+
     except Exception as e:
-        return f"Erro de BackEnd: {e}"
+        return f"Erro de BackEnd: {e}", 500
+        
