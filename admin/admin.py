@@ -27,7 +27,7 @@ def cadastro_EPI():
                 dataVencimento = request.form['dataVencimento']
 
                 idSetor = request.form['idSetor'] #Verificar se o valor está vindo 
-                idSupervisor = 2 #Virá através da autenticação (Não feito ainda)
+                idSupervisor = 1 #Virá através da autenticação (Não feito ainda)
 
                 # Campos opcionais
                 modelo = request.form.get('modelo')
@@ -85,8 +85,7 @@ def cadastro_Funcionario():
                 roupa = request.form['tamanhoRoupa']
                 calcados = request.form['calcados']
                 especial = request.form.get('condicoesEspeciais')
-                idSupervisor = 2 #Virá através da autenticação (Não feito ainda)
-                print('CHEGOU AQUI')
+                idSupervisor = 1 #Virá através da autenticação (Não feito ainda)
                 comando = '''
                     INSERT INTO funcionário (nomeFuncionário, NIF, CPF, idSetor, condicoesEspeciais, cargo, tamCalcado, tamRoupa) VALUES (%s, %s, %s, %s, %s, %s, %s, %s)
                 '''
@@ -130,22 +129,18 @@ def descricaoDescarte(idEPI):
             epi = cursor.fetchone()
 
             cursor.execute('SELECT se.nomeSetor FROM setor se INNER JOIN epi ep ON se.idSetor = ep.idSetor WHERE idEPI = %s', (idEPI,))
-            nomeSetor = cursor.fetchone()
-
-            cursor.execute('SELECT f.nomeFuncionário FROM funcionário f INNER JOIN epi e ON f.idFuncionario = e.idFuncionario WHERE e.idEPI = %s', (idEPI,))
-            nomeFuncionário = cursor.fetchone()[0] 
+            nomeSetor = cursor.fetchone()[0]
 
             cursor.execute('SELECT * FROM descarte WHERE idEquipamento = %s', (idEPI,))
             descarte = cursor.fetchone()
 
-            if epi and nomeFuncionário and descarte:
+            if epi and descarte:
                 epi = {
                     'idEPI': epi[0],
                     'codigoCA': epi[1],
                     'numeroSerie': epi[2],
                     'marca': epi[3],
                     'modelo': epi[4],
-                    'dataLocacao': epi[5],
                     'dataVencimento': epi[6],
                     'status': epi[7],
                     'observacoes': epi[8],
@@ -162,7 +157,7 @@ def descricaoDescarte(idEPI):
                     'localDescarte': descarte[2],
                     'dataDescarte': descarte[3]
                 }
-                return render_template('descricaoDescarte.html', epi=epi, descarte=descarte, nomeFuncionário=nomeFuncionário)
+                return render_template('descricaoDescarte.html', epi=epi, descarte=descarte)
             else:
                 return "EPI não encontrado", 404
     except Exception as e:
@@ -170,23 +165,21 @@ def descricaoDescarte(idEPI):
         
 @admin_blueprint.route('/cadastroDescarte/<int:idEPI>', methods=['GET', 'POST'])
 def cadastroDescarte(idEPI):
-    if request.method == 'GET':
-        with conecta_db() as (conexao, cursor):
-            try:
-                # Obtém a quantidade atual do EPI
-                cursor.execute('SELECT quantidade FROM epi WHERE idEPI = %s', (idEPI,))
-                quantidade = cursor.fetchone()[0]
-            except Exception as e:
-                return f"Erro de BackEnd: {e}"
-            return render_template('cadastroDescarte.html', quantidade=quantidade, idEPI=idEPI)
-        
-    if request.method == 'POST':
-        with conecta_db() as (conexao, cursor):
+    with conecta_db() as (conexao, cursor):
+        if request.method == 'GET':
+                try:
+                    cursor.execute('SELECT quantidade FROM epi WHERE idEPI = %s', (idEPI,))
+                    quantidade = cursor.fetchone()[0]
+                except Exception as e:
+                    return f"Erro de BackEnd: {e}"
+                return render_template('cadastroDescarte.html', quantidade=quantidade, idEPI=idEPI)
+            
+        if request.method == 'POST':
             try:
                 quantidade_descartar = int(request.form['quantidade'])
                 motivo = request.form['motivoDescarte']
                 localDescarte = request.form['localDescarte']
-                idSupervisor = 2  # Vai vir através da autenticação (não implementado ainda)
+                idSupervisor = 1  # Vai vir através da autenticação (não implementado ainda)
 
                 cursor.execute('SELECT quantidade FROM epi WHERE idEPI = %s', (idEPI,))
                 quantidade_atual = cursor.fetchone()[0]
@@ -203,9 +196,12 @@ def cadastroDescarte(idEPI):
                 cursor.execute(comando, (motivo, localDescarte, idEPI, quantidade_descartar))
                 conexao.commit()
 
-                comando_update = 'UPDATE epi SET status = %s, quantidade = quantidade - %s WHERE idEPI = %s'
-                cursor.execute(comando_update, ('Descartado', quantidade_descartar, idEPI))
+                comando_update = 'UPDATE epi SET quantidade = quantidade - %s WHERE idEPI = %s'
+                cursor.execute(comando_update, (quantidade_descartar, idEPI))
                 conexao.commit()
+
+                cursor.execute('SELECT quantidade FROM epi WHERE idEPI = %s', (idEPI,))
+                quantidade_atual = cursor.fetchone()[0]
 
                 cursor.execute('SELECT nomeEquipamento FROM epi WHERE idEPI = %s', (idEPI,))
                 nomeEPI = cursor.fetchone()[0]
@@ -233,9 +229,6 @@ def descricaoEPI(idEPI):
             cursor.execute('SELECT * FROM epi WHERE idEPI = %s', (idEPI,))
             result = cursor.fetchone()
 
-            cursor.execute('SELECT f.nomeFuncionário FROM funcionário f INNER JOIN epi ep ON f.idFuncionario = ep.idFuncionario WHERE idEPI = %s', (idEPI,))
-            nomeColaborador = cursor.fetchone()
-
             cursor.execute('SELECT se.nomeSetor FROM setor se INNER JOIN epi ep ON se.idSetor = ep.idSetor WHERE idEPI = %s', (idEPI,))
             nomeSetor = cursor.fetchone()
 
@@ -246,7 +239,6 @@ def descricaoEPI(idEPI):
                     'numeroSerie': result[2],
                     'marca': result[3],
                     'modelo': result[4],
-                    'dataLocacao': result[5],
                     'dataVencimento': result[6],
                     'status': result[7],
                     'observacoes': result[8],
@@ -254,8 +246,7 @@ def descricaoEPI(idEPI):
                     'dataAquisicao': result[10],
                     'tamanho': result[11],
                     'quantidade': result[12],
-                    'nomeSetor': nomeSetor,
-                    'nomeColaborador': nomeColaborador
+                    'nomeSetor': nomeSetor
                 }
                 return render_template('descricaoEPI.html', epi=epi)
             else:

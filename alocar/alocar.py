@@ -20,7 +20,7 @@ def alocar_equipamento(idEPI):
             try:
                 idFuncionario = request.form['idFuncionario']
                 quantidade = int(request.form['quantidade'])
-                idSupervisor = 2 #Virá através da autenticação (Não feito ainda)
+                idSupervisor = 1 #Virá através da autenticação (Não feito ainda)
 
                 comando = 'INSERT INTO epi_funcionário (idEquipamento, idFuncionario, dataHora, quantidade) VALUES (%s, %s, NOW(), %s)'
                 cursor.execute(comando, (idEPI, idFuncionario, quantidade))
