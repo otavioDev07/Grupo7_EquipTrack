@@ -170,20 +170,29 @@ def cadastroDescarte(idEPI):
         if request.method == 'GET':
             try:
                 cursor.execute('SELECT quantidade FROM epi WHERE idEPI = %s', (idEPI,))
-                quantidade = cursor.fetchone()[0]
+                result = cursor.fetchone()
+                if result:
+                    quantidade = result[0]
+                else:
+                    return "Erro: EPI não encontrado.", 404
             except Exception as e:
                 return f"Erro de BackEnd: {e}"
-            return render_template('cadastroDescarte.html', quantidade=quantidade, idEPI=idEPI)
             
-        if request.method == 'POST':
+            return render_template('cadastroDescarte.html', quantidade=quantidade, idEPI=idEPI)
+        
+        elif request.method == 'POST':
             try:
                 quantidade_descartar = int(request.form['quantidade'])
                 motivo = request.form['motivoDescarte']
                 localDescarte = request.form['localDescarte']
-                idSupervisor = 1  # Vai vir através da autenticação (não implementado ainda)
+                idSupervisor = 1  
 
                 cursor.execute('SELECT quantidade FROM epi WHERE idEPI = %s', (idEPI,))
-                quantidade_atual = cursor.fetchone()[0]
+                result = cursor.fetchone()
+                if result:
+                    quantidade_atual = result[0]
+                else:
+                    return "Erro: EPI não encontrado.", 404
 
                 if quantidade_atual <= 0:
                     return "Erro: Não há quantidade disponível para descarte.", 400
@@ -202,18 +211,25 @@ def cadastroDescarte(idEPI):
                 conexao.commit()
 
                 cursor.execute('SELECT nomeEquipamento FROM epi WHERE idEPI = %s', (idEPI,))
-                nomeEPI = cursor.fetchone()[0]
-
+                result = cursor.fetchone()
+                if result:
+                    nomeEPI = result[0]
+                else:
+                    nomeEPI = "Desconhecido"
+                    
                 comando_backlog = '''
                     INSERT INTO Backlog (dataHora, acao, idSupervisor) 
                     VALUES (NOW(), %s, %s)
                 '''
                 acao = f"Descarte de EPI: {nomeEPI}"
-                cursor.execute(comando_backlog, (acao, idSupervisor))   
+                cursor.execute(comando_backlog, (acao, idSupervisor))
                 conexao.commit()
+
+                # Redireciona para a página de estoque após o sucesso
                 return redirect('/estoque')
+
             except Exception as e:
-                return f"Erro de BackEnd: {e}"
+                return f"Erro de BackEnd: {e}", 500
             
 
 @admin_blueprint.route('/editDescarte/<int:idEPI>', methods=['GET', 'POST'])
