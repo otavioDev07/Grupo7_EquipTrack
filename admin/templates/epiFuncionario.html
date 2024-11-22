@@ -124,11 +124,17 @@ main {
             <div>{{ epi.dataAquisicao }}</div>
         </div>
     </div>
+    <div class="col-md-3">
+        <div class="label">Data de Locação<br><small>Início</small></div>
+        <div class="date">
+            <div>{{ epi.dataLocacao }}</div>
+        </div>
+    </div>
 </div>
 
 <div class="row" style="padding-top: 2%;">
     <div class="col-md-4 info-box">
-        <span class="info-header">Quantidade (no estoque) </span>
+        <span class="info-header">Quantidade alocada</span>
         <span>{{ epi.quantidade }}</span>
     </div>
     <div class="col-md-3">
@@ -142,7 +148,7 @@ main {
 <div class="row" style="padding-top: 2%;">
     <div class="col-md-4 info-box">
         <span class="info-header">Setor</span>
-        <span>{{ epi.nomeSetor[0] }}</span>
+        <span>{{ epi.nomeSetor }}</span>
     </div>
     <div class="col-md-4 info-box" style="margin-left: 2%;">
         <span class="info-header">Marca</span>
@@ -166,12 +172,6 @@ main {
     </div>
 </div>
 <div class="row" style="padding-top: 2%; margin-left: 20%;">
-    <div class="col-md-2">
-        <button>Editar</button>
-    </div>
-    <div class="col-md-2">
-        <a href="{{ url_for('alocar.alocar_equipamento', idEPI=epi.idEPI) }}"><button>Alocar</button></a>
-    </div>
     <div class="col-md-2">
         <a href="{{ url_for('admin.cadastroDescarte', idEPI=epi.idEPI)}}"><button class="descarte">Descartar</button></a>
     </div>
