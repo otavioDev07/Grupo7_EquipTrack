@@ -20,5 +20,6 @@ app.register_blueprint(alocar_blueprint)
 app.register_blueprint(admin_blueprint)
 app.register_blueprint(estoque_blueprint)
 
+
 if __name__ == '__main__':
     app.run(debug=True)

@@ -1,212 +1,202 @@
-{% extends 'model.html' %}
+    {% extends 'model.html' %}
 
-{% block conteudo %}
-<style>
-    .info-box {
-        background-color: #f7c191;
-        padding: 10px;
-        border-radius: 5px;
-        margin-bottom: 10px;
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-    }
-    .info-header {
-        font-weight: bold;
-        color: #1c1c1c;
-    }
-    .btn-edit {
-        background-color: #007bff;
-        color: white;
-        font-size: 16px;
-    }
-    .section-header {
-        font-weight: bold;
-        margin-top: 20px;
-    }
-    .info-section {
-        margin-bottom: 30px;
-    }
-    .discard-info {
-        background-color: #fafafa;
-        padding: 20px;
-        border-radius: 5px;
-        border: 1px solid #ddd;
-    }
-    .info-box .date {
-        display: block;
-        text-align: right;
-    }
-        .label {
-            font-size: 14px;
-            color: #333;
-            margin-bottom: 5px;
-        }
-        .label small {
-            color: #999;
-            font-size: 12px;
-        }
-        .date {
-            display: flex;
-            align-items: center;
-            gap: 10px;
-        }
-        .date div {
-            background-color: #f0f0f0;
-            padding: 8px 12px;
+    {% block conteudo %}
+    <style>
+        .info-box {
+            background-color: #f7c191;
+            padding: 10px;
             border-radius: 5px;
-            font-size: 14px;
-            color: #007bff;
-            font-weight: bold;
+            margin-bottom: 10px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
         }
-button {
-    background-color: #015799;
-    color: white;
-    padding: 10px 20px;
-    border: none;
-    border-radius: 15px;
-    font-size: 16px;
-    cursor: pointer;
-    margin-left: 45%;
-    margin-top: 2%;
-    transition: all 200ms;
-    display: inline-block;
-}
-
-button:hover {
-    background-color: #ff914d;
-    transform: scale(1.05);
-}
-main {
-    padding: 50px; /* Adiciona espaçamento em torno do conteúdo principal */
-}
-
-@media (max-width: 768px) {
-    main {
-        padding: 10px; /* Reduz o padding em telas menores para melhorar o layout */
+        .info-header {
+            font-weight: bold;
+            color: #1c1c1c;
+        }
+        .btn-edit {
+            background-color: #007bff;
+            color: white;
+            font-size: 16px;
+        }
+        .section-header {
+            font-weight: bold;
+            margin-top: 20px;
+        }
+        .info-section {
+            margin-bottom: 30px;
+        }
+        .discard-info {
+            background-color: #fafafa;
+            padding: 20px;
+            border-radius: 5px;
+            border: 1px solid #ddd;
+        }
+        .info-box .date {
+            display: block;
+            text-align: right;
+        }
+            .label {
+                font-size: 14px;
+                color: #333;
+                margin-bottom: 5px;
+            }
+            .label small {
+                color: #999;
+                font-size: 12px;
+            }
+            .date {
+                display: flex;
+                align-items: center;
+                gap: 10px;
+            }
+            .date div {
+                background-color: #f0f0f0;
+                padding: 8px 12px;
+                border-radius: 5px;
+                font-size: 14px;
+                color: #007bff;
+                font-weight: bold;
+            }
+    button {
+        background-color: #015799;
+        color: white;
+        padding: 10px 20px;
+        border: none;
+        border-radius: 15px;
+        font-size: 16px;
+        cursor: pointer;
+        margin-left: 45%;
+        margin-top: 2%;
+        transition: all 200ms;
+        display: inline-block;
     }
-}
-</style>
-</head>
-<body>
-<main>
-<div class="container mt-4">
-<div class="row">
-    <div class="col-md-12">
-        <h3>Luvas</h3>
-        <p ><strong>Material:</strong> Algodão</p>
-        <p>Luva confeccionada em tecido de algodão e tricotada em 3 fios. Sua característica permite respirabilidade com menos fadiga para a mão.</p>
-        
-        <p><strong>Indicações de uso:</strong></p>
-        <ul>
-            <li>Esta luva de baixo custo pode ser utilizada para diversos fins, como manipulação de itens sensíveis, bem como manter as mãos secas em caso de trabalho úmido.</li>
-            <li>Material utilizado amplamente na construção civil.</li>
-        </ul>
 
-        <p><strong>Cuidados de manutenção:</strong></p>
-        <p>Após utilizar as luvas, deixe-as ressecar em ambiente seco para preservar as suas características naturais.</p>
-    </div>
-</div>
+    button:hover {
+        background-color: #ff914d;
+        transform: scale(1.05);
+    }
+    main {
+        padding: 50px; /* Adiciona espaçamento em torno do conteúdo principal */
+    }
 
-<div class="row">
-    <div class="col-md-4 info-box">
-        <span class="info-header">Número de série CA</span>
-        <span>345252517</span>
-    </div>
-    <div class="col-md-4 info-box" style="margin-left: 2%;">
-        <span class="info-header">Modelo</span>
-        <span style="margin-left: 14%;">Luvas de algodão com pigmentos de PVC</span>
-    </div>
-    <div class="col-md-3">
-            <div class="label">Data de Aquisição<br><small>Início</small></div>
-            <div class="date">
-                <div>Jun 10, 2024</div>
-                <div>9:41 AM</div>
+    @media (max-width: 768px) {
+        main {
+            padding: 10px; /* Reduz o padding em telas menores para melhorar o layout */
+        }
+    }
+    </style>
+    </head>
+    <body>
+    <main>
+        <div class="container mt-4">
+            <div class="row">
+                <div class="col-md-12">
+                    <h3>{{ epi.nomeEquipamento }}</h3>
+                </div>
             </div>
-    </div>
-</div>
-
-<div class="row" style="padding-top: 2%;">
-    <div class="col-md-4 info-box">
-        <span class="info-header">Quantidade</span>
-        <span>5</span>
-    </div>
-    <div class="col-md-4 info-box" style="margin-left: 2%;">
-        <span class="info-header">Categoria</span>
-        <span style="margin-left: 14%;">Luvas de algodão com pigmentos de PVC</span>
-    </div>
-    <div class="col-md-3">
-    <div class="label">Data de vencimento<br><small>Fim</small></div>
-        <div class="date">
-            <div>Jun 10, 2024</div>
-            <div>9:41 AM</div>
+        
+            <div class="row">
+                <div class="col-md-4 info-box">
+                    <span class="info-header">Código CA</span>
+                    <span>{{ epi.codigoCA }}</span>
+                </div>
+                <div class="col-md-4 info-box">
+                    <span class="info-header">Numero de Série</span>
+                    <span>{{ epi.numeroSerie }}</span>
+                </div>
+                <div class="col-md-4 info-box" style="margin-left: 2%;">
+                    <span class="info-header">Modelo</span>
+                    <span style="margin-left: 14%;">{{ epi.modelo }}</span>
+                </div>
+                <div class="col-md-3">
+                    <div class="label">Data de Aquisição<br><small>Início</small></div>
+                    <div class="date">
+                        <div>{{ epi.dataAquisicao }}</div>
+                    </div>
+                </div>
+            </div>
+        
+            <div class="row" style="padding-top: 2%;">
+                <div class="col-md-4 info-box">
+                    <span class="info-header">Quantidade</span>
+                    <span>{{ descarte.quantidade }}</span>
+                </div>
+                <div class="col-md-3">
+                    <div class="label">Data de vencimento<br><small>Fim</small></div>
+                    <div class="date">
+                        <div>{{ epi.dataVencimento }}</div>
+                    </div>
+                </div>
+            </div>
+        
+            <div class="row" style="padding-top: 2%;">
+                <div class="col-md-4 info-box">
+                    <span class="info-header">Setor</span>
+                    <span>{{ epi.nomeSetor[0] }}</span> <!-- Substitua por nome do setor se disponível -->
+                </div>
+                <div class="col-md-4 info-box" style="margin-left: 2%;">
+                    <span class="info-header">Marca</span>
+                    <span>{{ epi.marca }}</span>
+                </div>
+                <div class="col-md-3">
+                    {% if epi.dataLocacao %}
+                    <div class="label">Data de locação</div>
+                    <div class="date">
+                        <div>{{ epi.dataLocacao }}</div>
+                    </div>
+                    {% else %}
+                    <div class="label">Data de locação</div>
+                    <div class="date">
+                        <div>Não alocado</div>
+                    </div>
+                    {% endif %}
+                </div>
+            </div>
+        
+            <div class="row" style="padding-top: 2%;">
+                {% if not nomeFuncionário %}
+                <span class="info-header">Nome do colaborador</span>
+                <span>Não alocado</span>
+                {% else %}
+                <span class="info-header">Nome do colaborador</span>
+                <span>{{ nomeFuncionário }}</span>
+                {% endif %}
+                <div class="col-md-4 info-box" style="margin-left: 2%;">
+                    <span class="info-header">Observações</span>
+                    <span>{{ epi.observacoes }}</span>
+                </div>
+                <div class="col-md-3">
+                    <div class="label col-md-4">Data de descarte</div>
+                    <div class="date">
+                        <div>{{ descarte.dataDescarte }}</div>
+                    </div>
+                </div>
+            </div>
+        
+            <div class="row" style="padding-top: 2%;">
+                <div class="col-md-4 info-box" style="margin-left: 2%;">
+                    <span class="info-header">Tamanho</span>
+                    <span>{{ epi.tamanho }}</span>
+                </div>
+            </div>
+        
+            <div class="row">
+                <h5 class="section-header">Informações do descarte</h5>
+                <p style="color: #F08424"><strong>Por que você está descartando este EPI?</strong></p>
+                <p>{{ descarte.motivoDescarte }}</p>
+                <p style="color: #F08424"><strong>Onde foi descartada essa EPI?</strong></p>
+                <p>{{ descarte.localDescarte }}</p>
+            </div>
+        
+            <div class="row">
+                <div class="col-md-12">
+                    <a href="{{ url_for('admin.editDescarte', idEPI=epi.idEPI)}}"><button>Editar</button></a>
+                </div>
+            </div>
         </div>
-    </div>
-</div>
-
-<div class="row" style="padding-top: 2%;">
-    <div class="col-md-4 info-box">
-        <span class="info-header">Setor</span>
-        <span>Manutenção</span>
-    </div>
-    <div class="col-md-4 info-box" style="margin-left: 2%;">
-        <span class="info-header">Marca</span>
-        <span>Flexcut</span>
-    </div>
-    <div class="col-md-3">
-    <div class="label">Data de locação</div>
-        <div class="date">
-            <div>Jun 10, 2024</div>
-            <div>9:41 AM</div>
-        </div>
-    </div>
-</div>
-
-<div class="row" style="padding-top: 2%;">
-    <div class="col-md-4 info-box">
-        <span class="info-header">Nome do colaborador</span>
-        <span>Luiz Walter</span>
-    </div>
-    <div class="col-md-4 info-box" style="margin-left: 2%;">
-        <span class="info-header">Observações</span>
-        <span>Luvas úmidas</span>
-    </div>
-    <div class="col-md-3">
-    <div class="label col-md-4">Data de descarte</div>
-        <div class="date">
-            <div>Jun 10, 2024</div>
-            <div>9:41 AM</div>
-        </div>
-    </div>
-</div>
-
-<div class="row" style="padding-top: 2%;">
-    <div class="col-md-4 info-box">
-        <span class="info-header">Status</span>
-        <span>Desativado</span>
-    </div>
-    <div class="col-md-4 info-box" style="margin-left: 2%;">
-        <span class="info-header">Tamanho</span>
-        <span>P,M e G</span>
-    </div>
-
-<div class="row">
-        <h5 class="section-header">Informações do descarte</h5>
-        <p style="color: #F08424"><strong>Por que você está descartando este EPI?</strong></p>
-        <p>Durante uma inspeção de rotina no almoxarifado de uma obra em construção de um prédio comercial, foi identificado que um lote de capacetes de segurança, assim como os equipamentos indicados pela norma de segurança vigente, não apresentavam conformidade com o regulamento. Alguns capacetes apresentavam rachaduras e danos visíveis, além da ausência de especificações atípicas para resistir a altas temperaturas.</p>
-        <p style="color: #F08424"><strong>Onde foi descartada essa EPI?</strong></p>
-        <p>Após a constatação das falhas, os capacetes foram recolhidos e descartados de acordo com as normas ambientais e de segurança. O descarte ocorreu em uma unidade de tratamento de resíduos industriais, localizada em uma cidade vizinha à obra, que é licenciada para realizar o descarte seguro de materiais não recicláveis. Todo o processo foi acompanhado por técnicos especializados para garantir que o material não representasse riscos ao meio ambiente.</p>
-    </div>
-
-<div class="row">
-    <div class="col-md-12">
-        <button>Editar</button>
-    </div>
-</div>
-</div>
-
-<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.2/dist/js/bootstrap.bundle.min.js"></script>
-</main>
-</body>
-{% endblock %}
+        </main>
+        <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.2/dist/js/bootstrap.bundle.min.js"></script>
+        {% endblock %}
