@@ -158,7 +158,6 @@ def descricaoDescarte(idEPI):
                     'localDescarte': descarte[2],
                     'dataDescarte': descarte[3]
                 }
-                print(epi, descarte)
                 return render_template('descricaoDescarte.html', epi=epi, descarte=descarte)
             else:
                 return "EPI não encontrado", 404
@@ -169,12 +168,12 @@ def descricaoDescarte(idEPI):
 def cadastroDescarte(idEPI):
     with conecta_db() as (conexao, cursor):
         if request.method == 'GET':
-                try:
-                    cursor.execute('SELECT quantidade FROM epi WHERE idEPI = %s', (idEPI,))
-                    quantidade = cursor.fetchone()[0]
-                except Exception as e:
-                    return f"Erro de BackEnd: {e}"
-                return render_template('cadastroDescarte.html', quantidade=quantidade, idEPI=idEPI)
+            try:
+                cursor.execute('SELECT quantidade FROM epi WHERE idEPI = %s', (idEPI,))
+                quantidade = cursor.fetchone()[0]
+            except Exception as e:
+                return f"Erro de BackEnd: {e}"
+            return render_template('cadastroDescarte.html', quantidade=quantidade, idEPI=idEPI)
             
         if request.method == 'POST':
             try:
@@ -201,9 +200,6 @@ def cadastroDescarte(idEPI):
                 comando_update = 'UPDATE epi SET quantidade = quantidade - %s WHERE idEPI = %s'
                 cursor.execute(comando_update, (quantidade_descartar, idEPI))
                 conexao.commit()
-
-                cursor.execute('SELECT quantidade FROM epi WHERE idEPI = %s', (idEPI,))
-                quantidade_atual = cursor.fetchone()[0]
 
                 cursor.execute('SELECT nomeEquipamento FROM epi WHERE idEPI = %s', (idEPI,))
                 nomeEPI = cursor.fetchone()[0]
@@ -360,9 +356,8 @@ def epi_funcionario(id):
                     e.numeroSerie,
                     e.marca,
                     e.modelo,
-                    e.dataLocacao,
+                    ef.dataHora,
                     e.dataVencimento,
-                    e.status,
                     e.observacoes,
                     e.nomeEquipamento,
                     e.dataAquisicao,
@@ -382,28 +377,96 @@ def epi_funcionario(id):
             if not dados:
                 return "EPI ou Funcionário não encontrado", 404
 
-            # Monta o dicionário de dados para o template
             epi = {
                 'idEPI': dados[0],
                 'codigoCA': dados[1],
                 'numeroSerie': dados[2],
                 'marca': dados[3],
                 'modelo': dados[4],
-                'dataLocacao': dados[5],
+                'dataHora': dados[5],
                 'dataVencimento': dados[6],
-                'status': dados[7],
-                'observacoes': dados[8],
-                'nomeEquipamento': dados[9],
-                'dataAquisicao': dados[10],
-                'tamanho': dados[11],
-                'quantidade': dados[12],
-                'nomeSetor': dados[13],
-                'nomeFuncionario': dados[14],
+                'observacoes': dados[7],
+                'nomeEquipamento': dados[8],
+                'dataAquisicao': dados[9],
+                'tamanho': dados[10],
+                'quantidade': dados[11],
+                'nomeSetor': dados[12],
+                'nomeFuncionario': dados[13],
+                'idEPI_Funcionario':id
             }
 
-        # Renderiza o template com os dados do EPI
         return render_template('epiFuncionario.html', epi=epi)
 
     except Exception as e:
         print(f"Erro ao buscar dados do EPI alocado: {e}")
         return "Erro ao buscar dados", 500
+
+@admin_blueprint.route('/DescarteEPIalocado/<int:id>', methods=['GET', 'POST'])
+def descarteEPI_alocado(id):
+    with conecta_db() as (conexao, cursor):
+        if request.method == 'GET':
+            try:
+                cursor.execute('SELECT quantidade FROM epi_funcionário WHERE idEPI_Funcionario = %s', (id,))
+                quantidade = cursor.fetchone()[0]
+            except Exception as e:
+                return f"Erro de BackEnd: {e}"
+            return render_template('cadastroDescarteFuncionario.html', quantidade=quantidade, idEPI=id)
+
+        if request.method == 'POST':
+            try:
+                cursor.execute('SELECT quantidade FROM epi_funcionário WHERE idEPI_Funcionario = %s', (id,))
+                quantidade_atual = cursor.fetchone()[0]
+
+                quantidade_descartar = int(request.form['quantidade'])
+                motivo = request.form['motivoDescarte']
+                localDescarte = request.form['localDescarte']
+                idSupervisor = 1  
+
+                if quantidade_atual <= 0:
+                    return "Erro: Não há quantidade disponível para descarte.", 400
+                elif quantidade_descartar > quantidade_atual:
+                    return "Erro: Quantidade a ser descartada excede a quantidade disponível.", 400
+
+                cursor.execute('SELECT idEquipamento FROM epi_funcionário WHERE idEPI_Funcionario = %s', (id,))
+                idEPI = cursor.fetchone()[0]
+
+                comando_inserir_descarte = '''
+                    INSERT INTO descarte (motivoDescarte, localDescarte, dataDescarte, idEquipamento, quantidade)
+                    VALUES (%s, %s, NOW(), %s, %s)
+                ''' 
+                cursor.execute(comando_inserir_descarte, (motivo, localDescarte, idEPI, quantidade_descartar))
+                conexao.commit()
+
+                comando_update_estoque = 'UPDATE epi SET quantidade = quantidade - %s WHERE idEPI = %s'
+                cursor.execute(comando_update_estoque, (quantidade_descartar, idEPI))
+                conexao.commit()
+
+                # Atualiza a tabela epi_funcionário
+                comando_update_epi_funcionario = '''
+                    UPDATE epi_funcionário 
+                    SET quantidade = quantidade - %s 
+                    WHERE idEPI_Funcionario = %s
+                '''
+                cursor.execute(comando_update_epi_funcionario, (quantidade_descartar, id))
+                conexao.commit()
+
+                if quantidade_descartar == quantidade_atual:
+                    comando_delete_epi_funcionario = 'DELETE FROM epi_funcionário WHERE idEPI_Funcionario = %s'
+                    cursor.execute(comando_delete_epi_funcionario, (id,))
+                    conexao.commit()
+
+                cursor.execute('SELECT nomeEquipamento FROM epi WHERE idEPI = %s', (idEPI,))
+                nomeEPI = cursor.fetchone()[0]
+
+                comando_inserir_backlog = '''
+                    INSERT INTO Backlog (dataHora, acao, idSupervisor) 
+                    VALUES (NOW(), %s, %s)
+                '''
+                acao = f"Descarte de EPI: {nomeEPI}"
+                cursor.execute(comando_inserir_backlog, (acao, idSupervisor))
+                conexao.commit()
+
+                return redirect('/estoque')
+
+            except Exception as e:
+                return f"Erro de BackEnd: {e}", 500

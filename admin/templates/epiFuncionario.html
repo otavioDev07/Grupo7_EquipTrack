@@ -127,7 +127,7 @@ main {
     <div class="col-md-3">
         <div class="label">Data de Locação<br><small>Início</small></div>
         <div class="date">
-            <div>{{ epi.dataLocacao }}</div>
+            <div>{{ epi.dataHora }}</div>
         </div>
     </div>
 </div>
@@ -164,7 +164,7 @@ main {
 <div class="row" style="padding-top: 2%;">
     <div class="col-md-4 info-box">
         <span class="info-header">Status</span>
-        <span>{{ epi.status }}</span>
+        <span>Em uso</span>
     </div>
     <div class="col-md-4 info-box" style="margin-left: 3%;">
         <span class="info-header">Tamanho</span>
@@ -173,7 +173,7 @@ main {
 </div>
 <div class="row" style="padding-top: 2%; margin-left: 20%;">
     <div class="col-md-2">
-        <a href="{{ url_for('admin.cadastroDescarte', idEPI=epi.idEPI)}}"><button class="descarte">Descartar</button></a>
+        <a href="{{ url_for('admin.descarteEPI_alocado', id=epi.idEPI_Funcionario)}}"><button class="descarte">Descartar</button></a>
     </div>
 </div>
 </div>
