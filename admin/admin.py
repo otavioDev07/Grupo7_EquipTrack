@@ -297,6 +297,7 @@ def get_funcionarios(idSetor):
 def descFuncionario(idFuncionario):
     try:
         with conecta_db() as (conexao, cursor):
+            # Busca os dados do funcionário
             comando_funcionario = '''
                 SELECT f.idFuncionario, f.nomeFuncionário, f.NIF, f.cargo, f.condicoesEspeciais, f.tamCalcado, f.tamRoupa, s.nomeSetor
                 FROM funcionário f
@@ -320,11 +321,11 @@ def descFuncionario(idFuncionario):
                 'nomeSetor': dados[7]
             }
 
-            # Consulta os EPIs associados ao funcionário
             comando_epis = '''
-                SELECT e.idEPI, e.codigoCA, e.nomeEquipamento, e.dataVencimento
+                SELECT e.idEPI, e.codigoCA, e.nomeEquipamento, e.dataVencimento, ef.idEPI_Funcionario
                 FROM epi e
-                WHERE e.idFuncionario = %s AND status != "Descartado"
+                INNER JOIN epi_funcionário ef ON e.idEPI = ef.idEquipamento
+                WHERE ef.idFuncionario = %s AND e.status != "Descartado"
             '''
             cursor.execute(comando_epis, (idFuncionario,))
             EPIs = cursor.fetchall()
@@ -334,15 +335,75 @@ def descFuncionario(idFuncionario):
                     'idEPI': epi[0],
                     'codigoCA': epi[1],
                     'nomeEquipamento': epi[2],
-                    'dataVencimento': epi[3]
+                    'dataVencimento': epi[3],
+                    'idEPI_Funcionario': epi[4]
                 }
                 for epi in EPIs
             ]
-            
+
             now = date.today()
-        # Renderiza a página com os dados do funcionário e dos EPIs
+
         return render_template('descricaoFuncionario.html', funcionario=funcionario, EPIs=lista_epis, now=now)
+    
+    except Exception as e:
+        return f"Erro: {str(e)}", 500
+    
+
+@admin_blueprint.route('/epiFuncionario/<int:id>', methods=['GET'])
+def epi_funcionario(id):
+    try:
+        with conecta_db() as (conexao, cursor):
+            comando = '''
+                SELECT 
+                    e.idEPI,
+                    e.codigoCA,
+                    e.numeroSerie,
+                    e.marca,
+                    e.modelo,
+                    e.dataLocacao,
+                    e.dataVencimento,
+                    e.status,
+                    e.observacoes,
+                    e.nomeEquipamento,
+                    e.dataAquisicao,
+                    e.tamanho,
+                    ef.quantidade,
+                    s.nomeSetor,
+                    f.nomeFuncionário
+                FROM epi_funcionário ef
+                INNER JOIN epi e ON ef.idEquipamento = e.idEPI
+                INNER JOIN funcionário f ON ef.idFuncionario = f.idFuncionario
+                INNER JOIN setor s ON f.idSetor = s.idSetor
+                WHERE ef.idEPI_Funcionario = %s
+            '''
+            cursor.execute(comando, (id,))
+            dados = cursor.fetchone()
+
+            if not dados:
+                return "EPI ou Funcionário não encontrado", 404
+
+            # Monta o dicionário de dados para o template
+            epi = {
+                'idEPI': dados[0],
+                'codigoCA': dados[1],
+                'numeroSerie': dados[2],
+                'marca': dados[3],
+                'modelo': dados[4],
+                'dataLocacao': dados[5],
+                'dataVencimento': dados[6],
+                'status': dados[7],
+                'observacoes': dados[8],
+                'nomeEquipamento': dados[9],
+                'dataAquisicao': dados[10],
+                'tamanho': dados[11],
+                'quantidade': dados[12],
+                'nomeSetor': dados[13],
+                'nomeFuncionario': dados[14],
+            }
+
+        # Renderiza o template com os dados do EPI
+        return render_template('epiFuncionario.html', epi=epi)
 
     except Exception as e:
-        return f"Erro de BackEnd: {e}", 500
-        
+        print(f"Erro ao buscar dados do EPI alocado: {e}")
+        return "Erro ao buscar dados", 500
