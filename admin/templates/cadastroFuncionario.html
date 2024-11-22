@@ -3,76 +3,81 @@
 {% block conteudo %}
 
 <style>
-/* Layout geral do contêiner */
-.container {
-    display: flex;
-    justify-content: center; /* Centraliza o conteúdo */
-    margin-top: 5%;
-}
-
-/* Bordas tracejadas */
-.dashed-border {
-    border: 2px dashed orange;
-    border-radius: 10px;
-    padding: 15px;
-    margin: 10px;
-    width: 70%; /* Ajuste para preencher mais espaço e deixar alinhado */
-}
-
-/* Contêiner do formulário */
-.form-container {
-    display: flex;
-    justify-content: center;
-    width: 90%; /* Ajuste da largura do contêiner do formulário */
-    padding: 9px;
-    margin-left: 11%;
-}
-
-.epi-form {
-    display: flex;
-    justify-content: space-between;
-    width: 100%;
-}
-label {
-    display: block;
-    margin-bottom: 5px;
-    color: #000;
-}
-
-input[type="text"],
-select {
-    width: 100%;
-    padding: 10px;
-    border: 1px solid #ccc;
-    border-radius: 4px;
-    font-size: 16px;
-    border: 1px solid #ddd;
-    border: 1px solid orange; /* Adiciona borda laranja */
-}
-
-input[type="text"]::placeholder {
-    color: #ccc;
+    /* Layout geral do contêiner */
+    .container {
+        display: flex;
+        justify-content: center; /* Centraliza o conteúdo */
+        margin-top: 5%;
+    }
     
-}
-
-button {
-    background-color: #015799;
-    color: white;
-    padding: 10px 20px;
-    border: none;
-    border-radius: 15px;
-    font-size: 16px;
-    cursor: pointer;
-    margin-left: 48%;
-    transition: all 200ms;
-    display: inline-block;
-}
-
-button:hover {
-    background-color: #ff914d;
-    transform: scale(1.05);
-}
-</style>
+    /* Bordas tracejadas */
+    .dashed-border {
+        border: 2px dashed #ff9900; /* Cor laranja */
+        border-radius: 10px;
+        padding: 20px;
+        margin: 10px;
+        width: 190%; /* Aumentar a largura do formulário */
+    }
+    
+    /* Contêiner do formulário */
+    .form-container {
+        display: flex;
+        justify-content: center;
+        width: 100%;
+        padding: 10px;
+        align-items: center;
+        margin-right: 20%;
+    }
+    
+    .epi-form {
+        display: flex;
+        justify-content: space-between;
+        width: 100%;
+    }
+    
+    /* Ajustes nos labels e inputs */
+    label {
+        display: block;
+        margin-bottom: 5px;
+        color: #333;
+    }
+    
+    input[type="text"],
+    select {
+        width: 100%;
+        padding: 12px;
+        border: 1px solid #ff9900; /* Cor laranja nas bordas */
+        border-radius: 6px;
+        font-size: 16px;
+        margin-bottom: 15px; /* Espaçamento uniforme entre os campos */
+    }
+    
+    input[type="text"]::placeholder {
+        color: #999;
+        font-style: italic;
+    }
+    
+    /* Estilizando o botão */
+    button {
+        background-color: #015799; /* Botão azul */
+        color: white;
+        padding: 12px 20px;
+        border: none;
+        border-radius: 6px;
+        font-size: 16px;
+        cursor: pointer;
+        width: 200px; /* Aumentar a largura do botão */
+        margin: 20px auto 0 auto; /* Centralizar o botão */
+        display: block; /* Para garantir que fique centralizado */
+        transition: all 200ms;
+    }
+    
+    button:hover {
+        background-color: #003d66; /* Tom mais escuro ao passar o mouse */
+        transform: scale(1.05);
+    }
+    </style>
+    
 
 <div class="form-container">
     <form action="/cadastroFuncionario" method="post">
