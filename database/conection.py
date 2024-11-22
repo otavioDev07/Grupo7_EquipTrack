@@ -5,7 +5,7 @@ from contextlib import contextmanager
 db_blueprint = Blueprint('database', __name__)
 
 DB_CONFIG = {
-    'host': 'localhost',
+    'host': '10.142.227.136',
     'user': 'root',
     'password': 'senai',
     'database': 'equiptrack'
