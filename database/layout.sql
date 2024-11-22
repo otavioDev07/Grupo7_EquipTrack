@@ -98,7 +98,6 @@ CREATE TABLE IF NOT EXISTS `equiptrack`.`epi` (
   `numeroSerie` VARCHAR(45) NOT NULL,
   `marca` VARCHAR(45) NOT NULL,
   `modelo` VARCHAR(45) NULL DEFAULT NULL,
-  `dataLocacao` DATE NULL DEFAULT NULL,
   `dataVencimento` DATE NOT NULL,
   `status` ENUM('Em uso', 'Estoque', 'Descartado') NOT NULL DEFAULT 'Estoque',
   `observacoes` VARCHAR(300) NULL DEFAULT NULL,
