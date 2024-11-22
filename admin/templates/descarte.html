@@ -69,93 +69,20 @@
     </div>
 
     <div class="row">
-        <!-- Card 1 -->
+        {% for epi in EPIs %}
         <div class="col-md-4">
             <div class="card mb-4 shadow-sm border-danger">
                 <div class="card-body position-relative">
                     <div class="card-status"></div>
-                    <h5 class="card-title">Número do série(CA): 5185523</h5>
-                    <p class="card-text">Equipamento: Bota de cozinha</p>
-                    <p class="card-text">Status: <span class="status-text">Vencido</span></p>
-                    <a href="#" class="btn btn-custom">Ver mais</a>
+                    <h5 class="card-title">Número do série(CA): {{epi[1]}}</h5>
+                    <p class="card-text">Equipamento: {{epi[2]}}</p>
+                    <p class="card-text">Quantidade: {{epi[3]}}</p>
+                    <a href="{{ url_for('admin.descricaoDescarte', idEPI=epi[0]) }}" class="btn btn-custom">Ver mais</a>
                 </div>
             </div>
         </div>
-
-        <!-- Card 2 -->
-        <div class="col-md-4">
-            <div class="card mb-4 shadow-sm border-danger">
-                <div class="card-body position-relative">
-                    <div class="card-status"></div>
-                    <h5 class="card-title">Número do série(CA): 5185523</h5>
-                    <p class="card-text">Equipamento: Bota de cozinha</p>
-                    <p class="card-text">Status: <span class="status-text">Vencido</span></p>
-                    <a href="#" class="btn btn-custom">Ver mais</a>
-                </div>
-            </div>
-        </div>
-
-        <!-- Card 3 -->
-        <div class="col-md-4">
-            <div class="card mb-4 shadow-sm border-danger">
-                <div class="card-body position-relative">
-                    <div class="card-status"></div>
-                    <h5 class="card-title">Número do série(CA): 5185523</h5>
-                    <p class="card-text">Equipamento: Bota de cozinha</p>
-                    <p class="card-text">Status: <span class="status-text">Vencido</span></p>
-                    <a href="#" class="btn btn-custom">Ver mais</a>
-                </div>
-            </div>
-        </div>
-        <!-- Card 4 -->
-        <div class="col-md-4">
-            <div class="card mb-4 shadow-sm border-danger">
-                <div class="card-body position-relative">
-                    <div class="card-status"></div>
-                    <h5 class="card-title">Número do série(CA): 5185523</h5>
-                    <p class="card-text">Equipamento: Bota de cozinha</p>
-                    <p class="card-text">Status: <span class="status-text">Vencido</span></p>
-                    <a href="#" class="btn btn-custom">Ver mais</a>
-                </div>
-            </div>
-        </div>
-        <!-- Card 5 -->
-        <div class="col-md-4">
-            <div class="card mb-4 shadow-sm border-danger">
-                <div class="card-body position-relative">
-                    <div class="card-status"></div>
-                    <h5 class="card-title">Número do série(CA): 5185523</h5>
-                    <p class="card-text">Equipamento: Bota de cozinha</p>
-                    <p class="card-text">Status: <span class="status-text">Vencido</span></p>
-                    <a href="#" class="btn btn-custom">Ver mais</a>
-                </div>
-            </div>
-        </div>
-        <!-- Card 6 -->
-        <div class="col-md-4">
-            <div class="card mb-4 shadow-sm border-danger">
-                <div class="card-body position-relative">
-                    <div class="card-status"></div>
-                    <h5 class="card-title">Número do série(CA): 5185523</h5>
-                    <p class="card-text">Equipamento: Bota de cozinha</p>
-                    <p class="card-text">Status: <span class="status-text">Vencido</span></p>
-                    <a href="#" class="btn btn-custom">Ver mais</a>
-                </div>
-            </div>
-        </div>
-
-        <!-- Repetição de mais cards -->
-        <!-- Adicione mais divs de "col-md-4" conforme necessário para exibir os cards -->
+        {% endfor %}
     </div>
-
-    <!-- Paginação -->
-    <nav aria-label="Page navigation example">
-        <ul class="pagination justify-content-center">
-            <li class="page-item"><a class="page-link" href="#">1</a></li>
-            <li class="page-item"><a class="page-link" href="#">2</a></li>
-            <li class="page-item"><a class="page-link" href="#">3</a></li>
-        </ul>
-    </nav>
 </div>
 
 {% endblock %}
