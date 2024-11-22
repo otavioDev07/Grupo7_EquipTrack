@@ -222,36 +222,42 @@ def cadastroDescarte(idEPI):
 def editDescarte(idEPI):
     pass
 
-@admin_blueprint.route('/descricaoEPI/<int:idEPI>', methods=['GET'])
-def descricaoEPI(idEPI):
-    with conecta_db() as (conexao, cursor):
-        try:
-            cursor.execute('SELECT * FROM epi WHERE idEPI = %s', (idEPI,))
-            result = cursor.fetchone()
 
-            cursor.execute('SELECT se.nomeSetor FROM setor se INNER JOIN epi ep ON se.idSetor = ep.idSetor WHERE idEPI = %s', (idEPI,))
-            nomeSetor = cursor.fetchone()
+@admin_blueprint.route('/descricaoDescarte/<int:idEPI>', methods=['POST'])
+def excluirDescarte(idEPI):
+    try:
+        with conecta_db() as (conexao, cursor):
+            # Verificar se o descarte existe
+            cursor.execute('SELECT * FROM descarte WHERE idEquipamento = %s', (idEPI,))
+            descarte = cursor.fetchone()
 
-            if result:
-                epi = {
-                    'idEPI': result[0],
-                    'codigoCA': result[1],
-                    'numeroSerie': result[2],
-                    'marca': result[3],
-                    'modelo': result[4],
-                    'dataVencimento': result[6],
-                    'status': result[7],
-                    'observacoes': result[8],
-                    'nomeEquipamento': result[9],
-                    'dataAquisicao': result[10],
-                    'tamanho': result[11],
-                    'quantidade': result[12],
-                    'nomeSetor': nomeSetor
-                }
-                return render_template('descricaoEPI.html', epi=epi)
-            else:
-                return "EPI não encontrado", 404
+            if not descarte:
+                return "Descarte não encontrado", 404
 
-        except Exception as e:
-            return f"Erro de BackEnd: {e}"
-    
+            # Excluir o EPI da tabela epi_funcionário, que tem a chave estrangeira
+            cursor.execute('DELETE FROM epi_funcionario WHERE idEquipamento = %s', (idEPI,))
+            conexao.commit()
+
+            # Excluir o registro de descarte
+            cursor.execute('DELETE FROM descarte WHERE idEquipamento = %s', (idEPI,))
+            conexao.commit()
+
+            # Excluir o EPI da tabela epi
+            cursor.execute('DELETE FROM epi WHERE idEPI = %s', (idEPI,))
+            conexao.commit()
+
+            # Log no backlog
+            idSupervisor = 1  # Ajustar com autenticação futura
+            comando_backlog = '''
+                INSERT INTO Backlog (dataHora, acao, idSupervisor)
+                VALUES (NOW(), %s, %s)
+            '''
+            acao = f"Exclusão do descarte e do EPI: {idEPI}"
+            cursor.execute(comando_backlog, (acao, idSupervisor))
+            conexao.commit()
+
+            return redirect('/descarte')  # Redirecionar para a lista de descartes
+    except Exception as e:
+        return f"Erro ao excluir o descarte e o EPI: {e}", 500
+
+
