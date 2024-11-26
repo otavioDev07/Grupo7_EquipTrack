@@ -60,7 +60,7 @@ def cadastro_EPI():
                 cursor.execute(comando_backlog, (acao, idSupervisor))   
                 conexao.commit()
                 print('Cadastro realizado com sucesso!', 'success')
-                return redirect('/')
+                return redirect('/home')
             except Exception as e:
                 return f"Erro de BackEnd: {e}"
             except Error as e:
@@ -103,7 +103,7 @@ def cadastro_Funcionario():
                 conexao.commit()
 
                 print('Cadastro realizado com sucesso!', 'success')
-                return redirect('/')
+                return redirect('/home')
 
             except Exception as e:
                 return f"Erro de BackEnd: {e}"

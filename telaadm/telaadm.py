@@ -27,6 +27,7 @@ def telaadm():
             return f"Erro de BackEnd: {e}", 500
 
 @telaadm_blueprint.route('/detalhesCipeiro/<int:idSupervisor>', methods=['GET'])
+@require_login
 def detalhesCipeiro(idSupervisor):
     with conecta_db() as (conexao, cursor):
         try:
@@ -50,6 +51,11 @@ def detalhesCipeiro(idSupervisor):
                 return "Nenhum CIPEIRO encontrado.", 404
         except Exception as e:
             return f"Erro de BackEnd: {e}", 500
+        
+@telaadm_blueprint.route('/cadastroCipeiro', methods=['POST'])
+@require_login
+def cadastroCipeiro():
+    ...
 
 if __name__ == '__main__':
 
