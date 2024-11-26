@@ -486,3 +486,36 @@ def descarteEPI_alocado(id):
 
             except Exception as e:
                 return f"Erro de BackEnd: {e}", 500
+
+@admin_blueprint.route('/descricaoDescarte/<int:idEPI>', methods=['POST'])
+def excluirDescarte(idEPI):
+    try:
+        with conecta_db() as (conexao, cursor):
+            cursor.execute('SELECT * FROM descarte WHERE idEquipamento = %s', (idEPI,))
+            descarte = cursor.fetchone()
+
+            if not descarte:
+                return "Descarte não encontrado", 404
+
+          
+            cursor.execute('DELETE FROM descarte WHERE idEquipamento = %s', (idEPI,))
+            conexao.commit()
+
+           
+            cursor.execute('DELETE FROM epi WHERE idEPI = %s', (idEPI,))
+            conexao.commit()
+
+          
+            idSupervisor = 1  
+            comando_backlog = '''
+                INSERT INTO Backlog (dataHora, acao, idSupervisor)
+                VALUES (NOW(), %s, %s)
+            '''
+            acao = f"Exclusão do descarte e do EPI: {idEPI}"
+            cursor.execute(comando_backlog, (acao, idSupervisor))
+            conexao.commit()
+
+            return redirect('/descarte') 
+    except Exception as e:
+        return f"Erro ao excluir o descarte e o EPI: {e}", 500, 
+
