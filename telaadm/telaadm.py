@@ -1,65 +1,35 @@
-from flask import Flask, render_template, request, redirect, url_for
-from database.conection import conecta_db 
+from flask import Flask, Blueprint, render_template, request, redirect
+from database.conection import conecta_db
+from session.session  import require_login
 
-app = Flask(__name__)
+telaadm_blueprint = Blueprint('telaadm', __name__, template_folder="templates")
 
-# Rota para a página de cadastro de CIPEIRO (telaadm)
-@app.route('/telaadm', methods=['GET', 'POST'])
-def telaadm():
-    if request.method == 'POST':
-        nome_supervisor = request.form['nomeSupervisor']
-        cpf = request.form['CPF']
-        status = request.form['status']
-
+@telaadm_blueprint.route('/telaadm', methods=['GET'])
+@require_login
+def telaadm(): 
+    with conecta_db() as (conexao, cursor):
         try:
-            # Conectar ao banco de dados
-            conn = get_db_connection()
-            cursor = conn.cursor()
-
-            # Query para inserir um novo supervisor (cipeiro)
-            query = """
-            INSERT INTO supervisor (nomeSupervisor, CPF, status)
-            VALUES (%s, %s, %s)
-            """
-            cursor.execute(query, (nome_supervisor, cpf, status))
-
-            # Commit e fechamento da conexão
-            conn.commit()
-            cursor.close()
-            conn.close()
-
-            # Redireciona para a página de cadastro
-            return redirect(url_for('telaadm'))  # Redireciona para a página de cadastro
-
+            query = 'SELECT idSupervisor, nomeSupervisor, CPF, status FROM supervisor'
+            cursor.execute(query)
+            result = cursor.fetchall()
+            if result:
+                cipeiros = [
+                {
+                    'idSupervisor': row[0],
+                    'nomeSupervisor': row[1],
+                    'CPF': row[2],
+                    'status': row[3]
+                }
+                for row in result
+            ]
+            return render_template('verCipeiros.html', cipeiros=cipeiros)
         except Exception as e:
-            return f"Erro ao cadastrar CIPEIRO: {str(e)}", 500
+            return f"Erro de BackEnd: {e}", 500
 
-    return render_template('telaadm.html')
-
-# Rota para exibir a lista de cipeiros cadastrados (verciepiros)
-@app.route('/vercipeiros')
-def vercipeiros():
-    try:
-        # Conectar ao banco de dados
-        conn = get_db_connection()
-        cursor = conn.cursor()
-
-        # Query para buscar todos os cipeiros cadastrados
-        query = "SELECT idSupervisor, nomeSupervisor, CPF, status FROM supervisor"
-        cursor.execute(query)
-
-        # Buscar todos os resultados
-        cipeiros = cursor.fetchall()
-
-        # Fechar a conexão com o banco de dados
-        cursor.close()
-        conn.close()
-
-        # Renderiza a página com a lista de cipeiros
-        return render_template('verciepiros.html', cipeiros=cipeiros)
-
-    except Exception as e:
-        return f"Erro ao buscar cipeiros: {str(e)}", 500
+@telaadm_blueprint.route('/detalhesCipeiro?<int:idSupervisor>', methods=['GET'])
+def detalhesCipeiro(idSupervisor):
+    ...
 
 if __name__ == '__main__':
-    app.run(debug=True)
+
+    telaadm_blueprint.run(debug=True)
