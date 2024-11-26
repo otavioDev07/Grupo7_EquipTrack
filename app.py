@@ -20,7 +20,6 @@ app.register_blueprint(login_blueprint)
 app.register_blueprint(alocar_blueprint)
 app.register_blueprint(admin_blueprint)
 app.register_blueprint(estoque_blueprint)
-
 app.register_blueprint(telaadm_blueprint)
 
 if __name__ == '__main__':
