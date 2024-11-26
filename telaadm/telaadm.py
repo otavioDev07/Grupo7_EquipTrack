@@ -28,7 +28,25 @@ def telaadm():
 
 @telaadm_blueprint.route('/detalhesCipeiro?<int:idSupervisor>', methods=['GET'])
 def detalhesCipeiro(idSupervisor):
-    ...
+    with conecta_db() as (conexao, cursor):
+        try:
+            query = 'SELECT idSupervisor, nomeSupervisor, CPF, status, senha FROM supervisor'
+            cursor.execute(query)
+            result = cursor.fetchall()
+            if result:
+                cipeiros = [
+                {
+                    'idSupervisor': row[0],
+                    'nomeSupervisor': row[1],
+                    'CPF': row[2],
+                    'status': row[3],
+                    'senha': row[4]
+                }
+                for row in result
+            ]
+            return render_template('Cipeiros.html', cipeiros=cipeiros)
+        except Exception as e:
+            return f"Erro de BackEnd: {e}", 500
 
 if __name__ == '__main__':
 
