@@ -92,12 +92,12 @@
             <div class="col-md-6 login-half animate__animated animate__fadeInRight">
                 <div class="login-form text-center">
                     <h1 class="mb-4 animate__animated animate__zoomIn">SEJA BEM VINDO!</h1>
-                    <form>
+                    <form action="{{ url_for('login.login') }}" method="post">
                         <div class="mb-3 animate__animated animate__fadeInUp">
-                            <input type="text" class="form-control form-control-lg" id="cpf" placeholder="CPF">
+                            <input type="text" class="form-control form-control-lg" name="cpf" placeholder="CPF">
                         </div>
                         <div class="mb-3 animate__animated animate__fadeInUp">
-                            <input type="password" class="form-control form-control-lg" id="password" placeholder="Senha">
+                            <input type="password" class="form-control form-control-lg" name="password" placeholder="Senha">
                         </div>
                         <div class="mb-3 text-end animate__animated animate__fadeInUp">
                             <a href="#">Esqueceu a senha?</a>
