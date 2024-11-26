@@ -323,54 +323,25 @@ button:hover {
             border: 2px solid #ff9900;
         }
 
-        .performance-banner {
-            background-color: #0b408a; /* Ajuste da cor de fundo */
-            color: white;
-            padding: 20px 0;
-            text-align: center;
-        }
+        /* Estilo dos botões no modal */
+    .btn-cadastro {
+        background-color: #ff9900;
+        border: none;
+        color: white;
+        padding: 10px 20px;
+        border-radius: 10px;
+        font-size: 16px;
+        cursor: pointer;
+        width: 100%;
+        margin-bottom: 10px;
+        transition: background-color 0.3s ease;
+        text-decoration: none;
+        
+    }
 
-        .performance-banner h2 {
-            font-size: 28px;
-            margin-bottom: 20px;
-        }
-
-        .performance-stats {
-            display: flex;
-            justify-content: center;
-            align-items: center;
-        }
-
-        .performance-item {
-            background-color: white;
-            border-radius: 10px;
-            padding: 20px;
-            margin: 0 15px;
-            text-align: center;
-            width: 150px;
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-            display: flex;
-            justify-content: center;
-            align-items: center;
-        }
-
-        .performance-item span {
-            font-size: 28px; /* Aumentei o tamanho da fonte para maior similaridade */
-            color: #17477d;
-            font-weight: bold;
-        }
-
-        .performance-item p {
-            margin-top: 10px;
-            font-size: 14px;
-            color: #555;
-        }
-
-        .highlighted {
-            border: 3px solid #F08424;
-            padding: 8px;
-            border-radius: 8px;
-        }
+    .btn-cadastro:hover {
+        background-color: #e68a00;
+    }
 </style>
 
 <script>
@@ -394,15 +365,18 @@ button:hover {
                 <div class="collapse navbar-collapse" id="navbarSupportedContent">
                     <ul class="navbar-nav me-auto mb-2 mb-lg-0">
                         <li class="nav-item">
-                            <a href="">
-                                <button class="btn-padrao">Cadastro</button>
+                            <!-- Botão para abrir o modal de cadastro -->
+                            <a href="#">
+                                <button class="btn-padrao" data-bs-toggle="modal" data-bs-target="#cadastrarModal">Cadastro</button>
                             </a>
                         </li>
                         <li class="nav-item">
-                            <button class="btn-padrao">Estoque</button>
+                            <a href="{{ url_for('estoqueEPI.get_estoque') }}">
+                                <button class="btn-padrao">Estoque</button>
+                            </a>
                         </li>
                         <li class="nav-item">
-                            <button class="btn-padrao">Descarte</button>
+                            <a href="{{ url_for('admin.descarte')}}"><button class="btn-padrao">Descarte</button></a>
                         </li>
                         <li class="nav-item">
                             <button class="btn-padrao">Sobre</button>
@@ -427,114 +401,112 @@ button:hover {
             </div>
             
         </div>
+        <!-- Modal para opções de cadastro -->
+        <div class="modal fade" id="cadastrarModal" tabindex="-1" aria-labelledby="cadastrarModalLabel" aria-hidden="true">
+            <div class="modal-dialog modal-dialog-centered">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="cadastrarModalLabel">Escolha uma opção</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                        <div class="d-flex flex-column">
+                            <!-- Link para cadastrar funcionários -->
+                            <a href="{{url_for('admin.cadastro_Funcionario')}}" class="btn-cadastro">Cadastrar Funcionários</a>
+                            <!-- Link para cadastrar EPIs -->
+                            <a href="{{ url_for('admin.cadastro_EPI') }}" class="btn-cadastro">Cadastrar EPIs</a>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </div>
         <div class="card-container">
-            <div class="card">
-                <div class="icon">
-                    <img src="/static/images/cozinha.png" alt="Cozinha">
-                </div>
-                <h3>Cozinha</h3>
-                <div class="icon">
-                    <div class="indicators">
-                        <div class="indicator red">
-                            <div class="circle"></div>
-                            <span class="number">5</span>
-                        </div>
-                        <div class="indicator yellow">
-                            <div class="circle"></div>
-                            <span class="number">2</span>
+            <a href="{{url_for('admin.get_funcionarios', idSetor=1)}}">
+                <div class="card">
+                    <div class="icon">
+                        <img src="/static/images/cozinha.png" alt="Cozinha">
+                    </div>
+                    <h3>Cozinha</h3>
+                    <div class="icon">
+                        <div class="indicators">
+                            <div class="indicator red">
+                                <div class="circle"></div>
+                                <span class="number">5</span>
+                            </div>
+                            <div class="indicator yellow">
+                                <div class="circle"></div>
+                                <span class="number">2</span>
+                            </div>
                         </div>
                     </div>
                 </div>
-            </div>
+            </a>
         
-            <div class="card">
-                <div class="icon">
-                    <img src="/static/images/manutenção.png" alt="Manutenção">
-                </div>
-                <h3>Manutenção</h3>
-                <div class="icon">
-                    <div class="indicators">
-                        <div class="indicator red">
-                            <div class="circle"></div>
-                            <span class="number">5</span>
-                        </div>
-                        <div class="indicator yellow">
-                            <div class="circle"></div>
-                            <span class="number">2</span>
+            <a href="{{url_for('admin.get_funcionarios', idSetor=2)}}">
+                <div class="card">
+                    <div class="icon">
+                        <img src="/static/images/manutenção.png" alt="Manutenção">
+                    </div>
+                    <h3>Manutenção</h3>
+                    <div class="icon">
+                        <div class="indicators">
+                            <div class="indicator red">
+                                <div class="circle"></div>
+                                <span class="number">5</span>
+                            </div>
+                            <div class="indicator yellow">
+                                <div class="circle"></div>
+                                <span class="number">2</span>
+                            </div>
                         </div>
                     </div>
                 </div>
-            </div>
+            </a>
         
-            <div class="card">
-                <div class="icon">
-                    <img src="/static/images/profs.png" alt="Professores">
-                </div>
-                <h3>Professores</h3>
-                <div class="icon">
-                    <div class="indicators">
-                        <div class="indicator red">
-                            <div class="circle"></div>
-                            <span class="number">5</span>
-                        </div>
-                        <div class="indicator yellow">
-                            <div class="circle"></div>
-                            <span class="number">2</span>
+            <a href="{{url_for('admin.get_funcionarios', idSetor=4)}}">
+                <div class="card">
+                    <div class="icon">
+                        <img src="/static/images/profs.png" alt="Professores">
+                    </div>
+                    <h3>Professores</h3>
+                    <div class="icon">
+                        <div class="indicators">
+                            <div class="indicator red">
+                                <div class="circle"></div>
+                                <span class="number">5</span>
+                            </div>
+                            <div class="indicator yellow">
+                                <div class="circle"></div>
+                                <span class="number">2</span>
+                            </div>
                         </div>
                     </div>
                 </div>
-            </div>
+            </a>
         
-            <div class="card">
-                <div class="icon">
-                    <img src="/static/images/inspetores.png" alt="Inspetores">
-                </div>
-                <h3>Inspetores</h3>
-                <div class="icon">
-                    <div class="indicators">
-                        <div class="indicator red">
-                            <div class="circle"></div>
-                            <span class="number">5</span>
-                        </div>
-                        <div class="indicator yellow">
-                            <div class="circle"></div>
-                            <span class="number">2</span>
+            <a href="{{url_for('admin.get_funcionarios', idSetor=3)}}">
+                <div class="card">
+                    <div class="icon">
+                        <img src="/static/images/inspetores.png" alt="Inspetores">
+                    </div>
+                    <h3>Inspetores</h3>
+                    <div class="icon">
+                        <div class="indicators">
+                            <div class="indicator red">
+                                <div class="circle"></div>
+                                <span class="number">5</span>
+                            </div>
+                            <div class="indicator yellow">
+                                <div class="circle"></div>
+                                <span class="number">2</span>
+                            </div>
                         </div>
                     </div>
                 </div>
-            </div>
+            </a>
         </div>
 
-<!-- Faixa de Indicadores -->
-<div class="performance-banner" style="display: flex; flex-direction: column; align-items: center; text-align: center; background-color: #015799; padding: 20px; color: white;">
-    <h2>Indicadores de Performance do Sistema</h2>
-    
-    <div class="performance-stats" style="display: flex; justify-content: center; gap: 30px; margin-top: 20px;">
-        <!-- Indicador 1 -->
-        <div style="display: flex; flex-direction: column; align-items: center;">
-            <div class="performance-item highlighted" style="background-color: white; color: #015799; padding: 20px; border-radius: 5px; font-size: 24px; font-weight: bold; width: 150px; text-align: center; border: 3px solid orange;">
-                <span>150</span>
-            </div>
-            <p class="performance-text" style="margin-top: 20px;">Número total de <br>equipamentos cadastrados</p>
-        </div>
-
-        <!-- Indicador 2 -->
-        <div style="display: flex; flex-direction: column; align-items: center;">
-            <div class="performance-item highlighted" style="background-color: white; color: #015799; padding: 20px; border-radius: 5px; font-size: 24px; font-weight: bold; width: 150px; text-align: center; border: 3px solid orange;">
-                <span>Luiz</span>
-            </div>
-            <p class="performance-text" style="margin-top: 20px;">Colaborador mais ativo<br> no sistema</p>
-        </div>
-
-        <!-- Indicador 3 -->
-        <div style="display: flex; flex-direction: column; align-items: center;">
-            <div class="performance-item highlighted" style="background-color: white; color: #015799; padding: 20px; border-radius: 5px; font-size: 24px; font-weight: bold; width: 150px; text-align: center; border: 3px solid orange;">
-                <span>10</span>
-            </div>
-            <p class="performance-text" style="margin-top: 20px;">Número de equipamentos <br>revisados ou atualizados essa semana</p>
-        </div>
-    </div>
-</div>
 <!-- Atividade Mensal -->
 <div class="container2" style="margin-top: 3%;">
     <div class="box">
@@ -578,41 +550,28 @@ button:hover {
 </div>
     </main>
 
-    <!-- Rodapé -->
-<footer style="background-color: #015799; color: white; padding: 20px 0; font-family: Arial, sans-serif;">
-    <div style="display: flex; justify-content: space-around; align-items: center; flex-wrap: wrap; max-width: 1200px; margin: auto;">
-        
-        <!-- Informações da Empresa -->
-        <div style="text-align: center; margin: 10px;">
-            <p>&copy; 2023 - Quitanda do Zé LTDA-ME</p>
-            <p>Rua Érico Pimentel Dias, 187, Itapeva/SP</p>
-            <p>CNPJ: 99.999.999/0001-99</p>
+    <footer class="border-top bg-light shadow border-3 border-dark border-opacity-25">
+        <div class="container">
+            <div class="row py-2">
+                <div class="col-12 col-md-4 text-center">
+                    &copy; 2024 - EquipTrack LTDA-ME<br>
+                    SESI SENAI, Itapeva/SP
+                    <br>CNPJ 99.999.999/0001-99
+                </div>
+                <div class="col-12 col-md-4 text-center">
+                    Política de Privacidade<br>Termos de uso<br>Trocas e Devoluções
+                    <br>
+                    <a href="/adm" class="text-decoration-none text-outline-danger">
+                        Área administrativa
+                    </a>
+                </div>
+                <div class="col-12 col-md-4 text-center">
+                    Contato pelo Site<br>E-mail: contato@equiptrack.com.br<br>Cel: (15) 99999-9999
+                    <br>
+                </div>
+            </div>
         </div>
-        
-        <!-- Links de Políticas e Termos -->
-        <div style="text-align: center; margin: 10px;">
-            <a href="#" style="color: #ffa500; text-decoration: none; font-weight: bold; display: block; margin: 5px;">Política de Privacidade</a>
-            <a href="#" style="color: #ffa500; text-decoration: none; font-weight: bold; display: block; margin: 5px;">Termos de Uso</a>
-            <a href="#" style="color: #ffa500; text-decoration: none; font-weight: bold; display: block; margin: 5px;">Trocas e Devoluções</a>
-            <a href="#" style="color: #ffa500; text-decoration: none; font-weight: bold; display: block; margin: 5px;">Área Administrativa</a>
-        </div>
-        
-        <!-- Contato -->
-        <div style="text-align: center; margin: 10px;">
-            <p>Contato pelo Site:</p>
-            <p><a href="mailto:contato@quitandadoze.com.br" style="color: #ffa500; text-decoration: none;">contato@quitandadoze.com.br</a></p>
-            <p>Cel: (15) 99999-9999</p>
-        </div>
-    </div>
-
-    <!-- Redes Sociais -->
-    <div style="text-align: center; margin-top: 20px;">
-        <a href="#" style="color: #ffa500; margin: 0 10px; text-decoration: none;">Facebook</a> |
-        <a href="#" style="color: #ffa500; margin: 0 10px; text-decoration: none;">Instagram</a> |
-        <a href="#" style="color: #ffa500; margin: 0 10px; text-decoration: none;">LinkedIn</a>
-    </div>
-</footer>
-
+    </footer>
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"
         integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL"
