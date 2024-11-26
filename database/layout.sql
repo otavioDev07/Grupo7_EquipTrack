@@ -24,7 +24,7 @@ CREATE TABLE IF NOT EXISTS `equiptrack`.`supervisor` (
   `idSupervisor` INT NOT NULL AUTO_INCREMENT,
   `nomeSupervisor` VARCHAR(45) NOT NULL,
   `CPF` VARCHAR(11) NOT NULL,
-  `senhaAcesso` VARCHAR(60) NOT NULL,
+  `senhaAcesso` CHAR(162) NOT NULL,
   `status` ENUM('ativo', 'inativo') NOT NULL DEFAULT 'ativo',
   PRIMARY KEY (`idSupervisor`),
   UNIQUE INDEX `nomeFuncionario_UNIQUE` (`nomeSupervisor` ASC) VISIBLE,
