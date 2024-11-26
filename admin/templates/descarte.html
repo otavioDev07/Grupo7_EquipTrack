@@ -1,0 +1,88 @@
+{% extends 'model.html' %}
+
+{% block conteudo %}
+
+<style>
+    .custom-container {
+        width: 80%;
+        margin: 20px auto;
+        background-color: rgba(32, 56, 85, 0.15);
+        padding: 20px;
+        border-radius: 8px;
+        border: 1px solid #A0A0A0;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    }
+
+    .custom-search-box {
+        margin-bottom: 20px;
+        display: flex;
+        justify-content: flex-end;
+    }
+
+    .custom-search-box input {
+        padding: 10px;
+        width: 200px;
+        border-radius: 25px;
+        border: 2px solid #015799;
+    }
+
+    .card-status {
+        width: 10px;
+        height: 10px;
+        border-radius: 50%;
+        background-color: red;
+        position: absolute;
+        top: 10px;
+        right: 10px;
+    }
+
+    .status-text {
+        color: red;
+        font-weight: bold;
+    }
+
+    .btn-custom {
+        background-color: #F08424;
+        color: white;
+        border-radius: 15px;
+        text-decoration: none;
+        font-size: 14px;
+        transition: all 200ms;
+        display: inline-block;
+    }
+
+    .btn-custom:hover {
+        background-color: #F08424;
+        color: white;
+        transform: scale(1.05);
+    }
+
+    .pagination {
+        text-align: center;
+        margin-top: 20px;
+    }
+</style>
+
+<div class="custom-container">
+    <div class="custom-search-box">
+        <input type="text" class="form-control" placeholder="Busque aqui...">
+    </div>
+
+    <div class="row">
+        {% for epi in EPIs %}
+        <div class="col-md-4">
+            <div class="card mb-4 shadow-sm border-danger">
+                <div class="card-body position-relative">
+                    <div class="card-status"></div>
+                    <h5 class="card-title">Número do série(CA): {{epi[1]}}</h5>
+                    <p class="card-text">Equipamento: {{epi[2]}}</p>
+                    <p class="card-text">Quantidade: {{epi[3]}}</p>
+                    <a href="{{ url_for('admin.descricaoDescarte', idEPI=epi[0]) }}" class="btn btn-custom">Ver mais</a>
+                </div>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+</div>
+
+{% endblock %}

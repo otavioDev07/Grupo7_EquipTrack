@@ -1,0 +1,197 @@
+{% extends 'model.html' %}
+
+{% block conteudo %}
+
+<style>
+    /* Estilos de bordas tracejadas */
+    .dashed-border {
+        border: 2px dashed orange;
+        border-radius: 10px;
+        padding: 2%;
+        margin: 2%;
+        transition: transform 0.3s ease, box-shadow 0.3s ease;
+    }
+
+    /* Efeito de seleção de box */
+    .box:hover {
+        cursor: pointer;
+    }
+
+    .box:focus-within {
+        flex-grow: 2;
+    }
+
+    .box:not(:focus-within) {
+        flex-grow: 1;
+    }
+
+    /* Estilo dos rótulos */
+    label {
+        display: block;
+        margin-bottom: 5px;
+        font-weight: bold;
+    }
+
+    /* Texto opcional pequeno e laranja */
+    .optional {
+        font-size: 0.8em;
+        color: orange;
+        font-weight: normal;
+    }
+
+    /* Campos de entrada */
+    input[type="text"],
+    input[type="date"],
+    select,
+    input[type="number"],
+    textarea {
+        width: 100%;
+        padding: 8px;
+        border-radius: 5px;
+        border: 1px solid orange;
+        margin-bottom: 0.5em;
+    }
+
+    /* Botão de submissão */
+    .submit-btn {
+        background-color: #015799;
+        color: white;
+        padding: 10px 20px;
+        border: none;
+        border-radius: 18px;
+        font-size: 18px;
+        cursor: pointer;
+        width: 18vh;
+        height: 5.8vh;
+        transition: all 200ms;
+        display: inline-block;
+        font-weight: light;
+        text-align: center;
+    }
+
+    .submit-btn:hover {
+        background-color: #ff914d;
+        transform: scale(1.05);
+    }
+
+    /* Estilo para campos inválidos */
+    .is-invalid {
+        border: 2px solid red;
+        background-color: #ffe6e6;
+    }
+</style>
+
+<div class="container-fluid">
+    <form action="/cadastroEPI" method="post">
+        <div class="row form-container justify-content-center">
+
+            <!-- Coluna do lado esquerdo -->
+            <div class="col-12 col-md-6 col-lg-5 box dashed-border" tabindex="0">
+                <div class="form-group">
+                    <label for="nome">Nome</label>
+                    <input type="text" id="nome" name="nome" placeholder="Escreva aqui...">
+                </div>
+                <div class="form-group">
+                    <label for="numero-serie">Número de Série</label>
+                    <input type="text" id="numero-serie" name="numero-serie" placeholder="Escreva aqui...">
+                </div>
+                <div class="form-group">
+                    <label for="ca">CA</label>
+                    <input type="text" id="ca" name="ca" placeholder="Escreva aqui...">
+                </div>
+                <div class="form-group">
+                    <label for="marca">Marca</label>
+                    <input type="text" id="marca" name="marca" placeholder="Escreva aqui...">
+                </div>
+                <div class="form-group">
+                    <label for="modelo">Modelo <span class="optional">* Opcional</span></label>
+                    <input type="text" id="modelo" name="modelo" placeholder="Escreva aqui...">
+                </div>
+                <div class="form-group">
+                    <label for="data-aquisicao">Data de Aquisição</label>
+                    <input type="date" name="dataAquisicao" id="data-aquisicao">
+                </div>
+                <div class="form-group">
+                    <label for="data-vencimento">Data de Vencimento</label>
+                    <input type="date" name="dataVencimento" id="data-vencimento">
+                </div>
+            </div>
+
+            <!-- Coluna do lado direito -->
+            <div class="col-12 col-md-6 col-lg-5 box dashed-border" tabindex="0">
+                <div class="form-group">
+                    <label for="setor">Setor</label>
+                    <select id="setor" name="idSetor">
+                        <option value="" selected disabled>Selecione...</option>
+                        {% for setor in setores %}
+                        <option value="{{ setor[0] }}">{{ setor[1] }}</option>
+                        {% endfor %}
+                    </select>
+                </div>
+        
+                <div class="form-group">
+                    <label for="quantidade">Quantidade</label>
+                    <input type="number" id="quantidade" name="quantidade" placeholder="Escreva aqui...">
+                </div>
+                <div class="form-group">
+                    <label for="observacao">Observação <span class="optional">* Opcional</span></label>
+                    <textarea id="observacao" name="observacoes" rows="4" maxlength="200" placeholder="Escreva aqui..."></textarea>
+                </div>
+                <div class="form-group">
+                    <label for="tamanho">Tamanho <span class="optional">* Opcional</span></label>
+                    <input type="text" id="tamanho" name="tamanho" placeholder="Escreva aqui...">
+                </div>
+            </div>
+        </div>
+
+        <div class="row justify-content-center">
+            <button type="submit" class="submit-btn">Cadastrar</button>
+        </div>
+    </form>
+</div>
+
+<script>
+     document.addEventListener("DOMContentLoaded", function () {
+        const form = document.querySelector("form");
+        const numericFields = ["numero-serie", "quantidade"];
+
+        // Validação para garantir que apenas números sejam inseridos
+        numericFields.forEach(function (fieldId) {
+            const field = document.getElementById(fieldId);
+            field.addEventListener("input", function () {
+                if (!/^\d*$/.test(this.value)) {
+                    this.value = this.value.replace(/\D/g, ''); // Remove caracteres não numéricos
+                    alert("Por favor, insira apenas números neste campo.");
+                }
+            });
+        });
+
+        // Validação ao submeter o formulário
+        form.addEventListener("submit", function (event) {
+            let isValid = true;
+            const requiredFields = ["nome", "numero-serie", "ca", "marca", "data-aquisicao", "data-vencimento", "setor", "quantidade"];
+            
+            requiredFields.forEach(function (fieldId) {
+                const field = document.getElementById(fieldId);
+                if (!field.value.trim()) {
+                    isValid = false;
+                    field.classList.add("is-invalid");
+                    field.focus(); // Coloca o foco no campo vazio
+                    alert("Por favor, preencha o campo: " + field.previousElementSibling.textContent.trim());
+                } else {
+                    field.classList.remove("is-invalid");
+                }
+            });
+            
+            if (!isValid) {
+                event.preventDefault(); // Impede o envio do formulário
+            }
+        });
+    });
+</script>
+
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL" crossorigin="anonymous"></script>
+
+{% endblock %}
