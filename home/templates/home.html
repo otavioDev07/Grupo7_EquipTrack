@@ -323,54 +323,25 @@ button:hover {
             border: 2px solid #ff9900;
         }
 
-        .performance-banner {
-            background-color: #0b408a; /* Ajuste da cor de fundo */
-            color: white;
-            padding: 20px 0;
-            text-align: center;
-        }
+        /* Estilo dos botões no modal */
+    .btn-cadastro {
+        background-color: #ff9900;
+        border: none;
+        color: white;
+        padding: 10px 20px;
+        border-radius: 10px;
+        font-size: 16px;
+        cursor: pointer;
+        width: 100%;
+        margin-bottom: 10px;
+        transition: background-color 0.3s ease;
+        text-decoration: none;
+        
+    }
 
-        .performance-banner h2 {
-            font-size: 28px;
-            margin-bottom: 20px;
-        }
-
-        .performance-stats {
-            display: flex;
-            justify-content: center;
-            align-items: center;
-        }
-
-        .performance-item {
-            background-color: white;
-            border-radius: 10px;
-            padding: 20px;
-            margin: 0 15px;
-            text-align: center;
-            width: 150px;
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-            display: flex;
-            justify-content: center;
-            align-items: center;
-        }
-
-        .performance-item span {
-            font-size: 28px; /* Aumentei o tamanho da fonte para maior similaridade */
-            color: #17477d;
-            font-weight: bold;
-        }
-
-        .performance-item p {
-            margin-top: 10px;
-            font-size: 14px;
-            color: #555;
-        }
-
-        .highlighted {
-            border: 3px solid #F08424;
-            padding: 8px;
-            border-radius: 8px;
-        }
+    .btn-cadastro:hover {
+        background-color: #e68a00;
+    }
 </style>
 
 <script>
@@ -394,8 +365,9 @@ button:hover {
                 <div class="collapse navbar-collapse" id="navbarSupportedContent">
                     <ul class="navbar-nav me-auto mb-2 mb-lg-0">
                         <li class="nav-item">
-                            <a href="{{ url_for('admin.cadastro_EPI')}}">
-                                <button class="btn-padrao">Cadastro</button>
+                            <!-- Botão para abrir o modal de cadastro -->
+                            <a href="#">
+                                <button class="btn-padrao" data-bs-toggle="modal" data-bs-target="#cadastrarModal">Cadastro</button>
                             </a>
                         </li>
                         <li class="nav-item">
@@ -428,6 +400,26 @@ button:hover {
                 </div>
             </div>
             
+        </div>
+        <!-- Modal para opções de cadastro -->
+        <div class="modal fade" id="cadastrarModal" tabindex="-1" aria-labelledby="cadastrarModalLabel" aria-hidden="true">
+            <div class="modal-dialog modal-dialog-centered">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="cadastrarModalLabel">Escolha uma opção</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                        <div class="d-flex flex-column">
+                            <!-- Link para cadastrar funcionários -->
+                            <a href="{{url_for('admin.cadastro_Funcionario')}}" class="btn-cadastro">Cadastrar Funcionários</a>
+                            <!-- Link para cadastrar EPIs -->
+                            <a href="{{ url_for('admin.cadastro_EPI') }}" class="btn-cadastro">Cadastrar EPIs</a>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
         </div>
         <div class="card-container">
             <a href="{{url_for('admin.get_funcionarios', idSetor=1)}}">
