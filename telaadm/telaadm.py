@@ -26,25 +26,28 @@ def telaadm():
         except Exception as e:
             return f"Erro de BackEnd: {e}", 500
 
-@telaadm_blueprint.route('/detalhesCipeiro?<int:idSupervisor>', methods=['GET'])
+@telaadm_blueprint.route('/detalhesCipeiro/<int:idSupervisor>', methods=['GET'])
 def detalhesCipeiro(idSupervisor):
     with conecta_db() as (conexao, cursor):
         try:
-            query = 'SELECT idSupervisor, nomeSupervisor, CPF, status, senha FROM supervisor'
-            cursor.execute(query)
+            query = 'SELECT idSupervisor, nomeSupervisor, CPF, status, senhaAcesso FROM supervisor WHERE idSupervisor = %s'
+            cursor.execute(query, (idSupervisor,))
             result = cursor.fetchall()
+
             if result:
-                cipeiros = [
-                {
-                    'idSupervisor': row[0],
-                    'nomeSupervisor': row[1],
-                    'CPF': row[2],
-                    'status': row[3],
-                    'senha': row[4]
-                }
-                for row in result
-            ]
-            return render_template('Cipeiros.html', cipeiros=cipeiros)
+                cipeiro = [
+                    {
+                        'idSupervisor': row[0],
+                        'nomeSupervisor': row[1],
+                        'CPF': row[2],
+                        'status': row[3],
+                        'senhaAcesso': row[4]
+                    }
+                    for row in result
+                ]
+                return render_template('detalhesCipeiro.html', cipeiro=cipeiro)
+            else:
+                return "Nenhum CIPEIRO encontrado.", 404
         except Exception as e:
             return f"Erro de BackEnd: {e}", 500
 
