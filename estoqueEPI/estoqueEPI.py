@@ -1,9 +1,11 @@
 from flask import render_template, Blueprint, request
+from session.session import require_login
 from database.conection import conecta_db
 
 estoque_blueprint = Blueprint('estoqueEPI', __name__, template_folder="templates")
 
 @estoque_blueprint.route('/estoque', methods=['GET'])
+@require_login
 def get_estoque():
     filtro = request.args.get('filtro', 'no_prazo')  # Filtro padrão: 'no_prazo'
 

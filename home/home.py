@@ -1,9 +1,10 @@
 from flask import render_template, Blueprint
+from session.session import require_login
 from database.conection import conecta_db
 
 home_blueprint = Blueprint('home', __name__, template_folder="templates")
 
-@home_blueprint.route('/')
+@require_login
 @home_blueprint.route('/home', methods=['GET'])
 def home():
     with conecta_db() as (conexao, cursor):

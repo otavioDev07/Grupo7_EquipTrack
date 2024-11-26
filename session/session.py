@@ -1,22 +1,29 @@
-# import bcrypt
+from flask import session, redirect, url_for, flash
+from functools import wraps
+
+def require_login(func):
+    @wraps(func)
+    def wrapper(*args, **kwargs):
+        if 'idSupervisor' not in session:
+            flash('Por favor, faça login para acessar esta página.', 'warning')
+            return redirect(url_for('login.login'))
+        return func(*args, **kwargs)
+    return wrapper
+
+# from werkzeug.security import generate_password_hash, check_password_hash
 
 # def gerar_hash(senha_plana):
-#     salt = bcrypt.gensalt()
-#     senha_hash = bcrypt.hashpw(senha_plana.encode('utf-8'), salt)
-#     return senha_hash
+#     return generate_password_hash(senha_plana)
 
-# # Verificar a senha inserida pelo usuário
 # def verificar_senha(senha_plana, senha_hash):
-#     # Verificar se o hash da senha inserida corresponde ao hash armazenado
-#     return bcrypt.checkpw(senha_plana.encode('utf-8'), senha_hash)
+#     return check_password_hash(senha_hash, senha_plana)
 
-# senha_plana = "admin"
+# senha_plana = "senha"
 # senha_hash = gerar_hash(senha_plana)
 
 # print(f"Hash gerado: {senha_hash}")
 
-# senha = input('senha: ')
-# # Verificação da senha
+# senha = input('Senha: ')
 # if verificar_senha(senha, senha_hash):
 #     print("Senha correta!")
 # else:
