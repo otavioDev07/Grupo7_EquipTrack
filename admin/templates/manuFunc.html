@@ -1,0 +1,222 @@
+{% extends 'model.html' %}
+
+{% block conteudo %}
+<style>
+
+    /* Estilos para o título */
+    h2 {
+        margin: 20px 0 10px;
+        font-size: 24px;
+        font-weight: normal;
+    }
+
+    /* Container da barra de pesquisa */
+    .search-container {
+        display: flex;
+        align-items: center;
+        background-color: #d9dde3;
+        border: 2px solid #0056b3;
+        border-radius: 25px;
+        padding: 8px 15px;
+        width: 550px;
+        position: relative;
+        margin-left: 25%;
+    }
+
+    /* Container do menu */
+    .menu-container {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        background: linear-gradient(to right, #D2D2D2, #015799);
+        border-radius: 25px;
+        padding: 8px 15px;
+        width: 800px;
+        position: relative;
+        margin-left: 15%;
+    }
+
+    /* Ícone de filtro */
+    .filter-icon {
+        width: 20px;
+        height: 20px;
+        margin-right: 10px;
+        color: #FF8C00;
+        cursor: pointer;
+    }
+
+    /* Barra de pesquisa */
+    .search-bar {
+        flex-grow: 1;
+        display: flex;
+        align-items: center;
+        position: relative;
+    }
+
+    .search-bar input {
+        width: 100%;
+        border: none;
+        outline: none;
+        background: none;
+        font-size: 16px;
+        color: #555;
+    }
+
+    /* Ícone de lupa */
+    .search-icon {
+        width: 20px;
+        height: 20px;
+        color: #0056b3;
+        position: absolute;
+        right: 0;
+        margin-right: 5px;
+    }
+
+    .card-container {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 20px;
+            padding: 20px;
+        }
+
+        .card {
+            width: 100%;
+            max-width: 200px;
+            padding: 25px;
+            border-radius: 10px;
+            background-color: #f9f9f9;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            position: relative;
+            text-align: left;   
+        }
+
+        .card.alerta {
+        border: 2px solid red;
+    }
+
+    .card.alerta::before {
+        content: "";
+        width: 12px;
+        height: 12px;
+        background-color: red;
+        border-radius: 50%;
+        position: absolute;
+        top: 10px;
+        right: 10px;
+    }
+
+    .card.approved {
+        border: 2px solid green;
+    }
+
+    .card.approved::before {
+        content: "";
+        width: 12px;
+        height: 12px;
+        background-color: green;
+        border-radius: 50%;
+        position: absolute;
+        top: 10px;
+        right: 10px;
+    }
+
+        .button {
+            background-color: #FF8C00; /* Laranja */
+            color: white;
+            border: none;
+            padding: 8px 12px;
+            border-radius: 20px;
+            font-size: 14px;
+            cursor: pointer;
+            text-decoration: none;
+            transition: background-color 0.3s;
+            width: 100px;
+            text-align: center;
+        }
+
+        .button:hover {
+            background-color: #e67e00; /* Efeito de hover no botão */
+        }
+
+        /* Responsividade */
+        @media (max-width: 600px) {
+            .card {
+                max-width: 100%;
+                padding: 15px;
+            }
+
+            .button {
+                padding: 8px 16px;
+                font-size: 14px;
+            }
+        }
+</style>
+</head>
+<body>
+    <!-- Barra de pesquisa -->
+     <div class="Container" style="padding-top: 2%;"></div>
+<div class="search-container" >
+    
+    <!-- Campo de pesquisa -->
+    <div class="search-bar">
+        <input type="text" class="form-control" placeholder="Busque aqui...">
+        <svg class="search-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <circle cx="11" cy="11" r="8"></circle>
+            <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+        </svg>
+    </div>
+    </div>
+
+    <h2 style="margin-left: 35%;">Funcionários da cozinha</h2>
+    <div class="card-container">
+        
+        <!-- Cartão com alertaa -->
+        <div class="card alerta">
+            <p><strong>Maria da Silva</strong></p>
+            <p>NIF: 2134879</p>
+            <p>Cozinheira</p>
+            <a href="#" class="button">Ver mais</a>
+        </div>
+        <!-- Cartão com alertaa -->
+        <div class="card alerta">
+            <p><strong>Maria da Silva</strong></p>
+            <p>NIF: 2134879</p>
+            <p>Cozinheira</p>
+            <a href="#" class="button">Ver mais</a>
+        </div>
+        <div class="card alerta">
+            <p><strong>Maria da Silva</strong></p>
+            <p>NIF: 2134879</p>
+            <p>Cozinheira</p>
+            <a href="#" class="button">Ver mais</a>
+        </div>
+        <div class="card alerta">
+            <p><strong>Maria da Silva</strong></p>
+            <p>NIF: 2134879</p>
+            <p>Cozinheira</p>
+            <a href="#" class="button">Ver mais</a>
+        </div>
+
+        <!-- Cartão com alertaa -->
+        <div class="card approved">
+            <p><strong>Maria da Silva</strong></p>
+            <p>NIF: 2134879</p>
+            <p>Cozinheira</p>
+            <a href="#" class="button">Ver mais</a>
+        </div>
+
+        <!-- Cartão aprovado -->
+        <div class="card approved">
+            <p><strong>Maria da Silva</strong></p>
+            <p>NIF: 2134879</p>
+            <p>Cozinheira</p>
+            <a href="#" class="button">Ver mais</a>
+        </div>
+        
+    </div>
+</div>
+
+</body>
+</html>
+
+{% endblock %}
