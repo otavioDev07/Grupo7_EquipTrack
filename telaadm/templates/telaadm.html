@@ -13,8 +13,9 @@
     .form-container {
         margin-bottom: 12px;
         padding: 15px;
-        border: 2px dashed #F08424;
         border-radius: 8px;
+        background-color: #f9f9f9;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
     }
 
     .form-container h4 {
@@ -50,52 +51,6 @@
     .form-container button:hover {
         background-color: #e0731a;
     }
-
-    .cards-container {
-        display: flex;
-        flex-wrap: wrap;
-        gap: 20px;
-    }
-
-    .card {
-        width: 250px;
-        margin: 10px;
-    }
-
-    .card-status {
-        width: 10px;
-        height: 10px;
-        border-radius: 50%;
-        position: absolute;
-        top: 10px;
-        right: 10px;
-    }
-
-    .status-ativo {
-        background-color: green;
-    }
-
-    .status-inativo {
-        background-color: red;
-    }
-
-    .status-text {
-        font-weight: bold;
-    }
-
-    .btn-custom {
-        background-color: #F08424;
-        color: white;
-        border-radius: 15px;
-        text-decoration: none;
-        font-size: 14px;
-        transition: all 200ms;
-        display: inline-block;
-    }
-
-    .btn-custom:hover {
-        background-color: #e0731a;
-    }
 </style>
 
 <div class="custom-container">
@@ -114,8 +69,8 @@
                 <label for="senhaAcesso">Senha de Acesso</label>
                 <input type="password" id="senhaAcesso" name="senhaAcesso" placeholder="Digite a senha de acesso" required>
             </div>
-             <div class="form-group">
-               <label for="status">Status</label>
+            <div class="form-group">
+                <label for="status">Status</label>
                 <select id="status" name="status" required>
                     <option value="ativo">Ativo</option>
                     <option value="inativo">Inativo</option>
@@ -125,21 +80,6 @@
                 <button type="submit">Cadastrar CIPEIRO</button>
             </div>
         </form>
-    </div>
-
-    <h4>CIPEIROS Cadastrados</h4>
-    <div class="cards-container">
-        {% for supervisor in supervisores %}
-        <div class="card shadow-sm border-{{ 'success' if supervisor.status == 'ativo' else 'danger' }}">
-            <div class="card-body position-relative">
-                <div class="card-status {{ 'status-ativo' if supervisor.status == 'ativo' else 'status-inativo' }}"></div>
-                <h5 class="card-title">Nome: {{ supervisor.nomeSupervisor }}</h5>
-                <p class="card-text">CPF: {{ supervisor.CPF }}</p>
-                <p class="card-text">Status: <span class="status-text">{{ supervisor.status }}</span></p>
-                <a href="/supervisor/{{ supervisor.idSupervisor }}" class="btn btn-custom">Ver mais</a>
-            </div>
-        </div>
-        {% endfor %}
     </div>
 </div>
 

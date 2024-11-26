@@ -2,148 +2,156 @@
 
 {% block conteudo %}
 <style>
-    h2 {
-        margin: 20px 0 10px;
-        font-size: 24px;
-        font-weight: normal;
-    }
-
-    .search-container {
+    /* Estilos para o menu */
+    .menu-container {
         display: flex;
         align-items: center;
-        background-color: #d9dde3;
-        border: 2px solid #0056b3;
+        justify-content: space-between;
+        background: linear-gradient(to right, #D2D2D2, #015799);
         border-radius: 25px;
-        padding: 8px 15px;
-        width: 550px;
-        position: relative;
-        margin-left: 25%;
+        padding: 15px 20px;
+        width: 800px;
+        margin: 20px auto;
     }
 
-    .search-bar {
-        flex-grow: 1;
+    .botao {
+        background-color: transparent;
+        color: white;
+        border: 2px solid white;
+        border-radius: 25px;
+        padding: 10px 20px;
+        font-size: 16px;
+        cursor: pointer;
+        transition: background-color 0.3s, color 0.3s;
         display: flex;
         align-items: center;
-        position: relative;
+        justify-content: center;
+        margin: 0 10px;
     }
 
-    .search-bar input {
-        width: 100%;
+    .botao:hover {
+        background-color: white;
+        color: black;
+    }
+
+    /* Botão de cadastrar */
+    .botao-cadastrar {
+        background-color: white;
+        color: black;
         border: none;
-        outline: none;
-        background: none;
+        border-radius: 25px;
+        padding: 10px 20px;
         font-size: 16px;
-        color: #555;
+        cursor: pointer;
+        transition: background-color 0.3s, color 0.3s;
+        text-align: center;
     }
 
-    .search-icon {
-        width: 20px;
-        height: 20px;
-        color: #0056b3;
-        position: absolute;
-        right: 0;
-        margin-right: 5px;
+    .botao-cadastrar:hover {
+        background-color: #015799;
+        color: white;
     }
 
+    /* Bolinhas de status */
+    .bolinha {
+        width: 15px;
+        height: 15px;
+        border-radius: 50%;
+        margin-right: 10px;
+    }
+
+    .bolinha-verde {
+        background-color: #4CAF50; /* Verde */
+    }
+
+    .bolinha-vermelho {
+        background-color: red; /* Vermelho */
+    }
+
+    /* Estilos dos cartões */
     .card-container {
         display: flex;
         flex-wrap: wrap;
         gap: 20px;
         padding: 20px;
+        justify-content: center;
     }
 
     .card {
         width: 100%;
         max-width: 200px;
-        padding: 25px;
+        padding: 20px;
         border-radius: 10px;
         background-color: #f9f9f9;
         box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
         position: relative;
-        text-align: left;
-    }
-
-    .card.alerta {
-        border: 2px solid red;
-    }
-
-    .card.alerta::before {
-        content: "";
-        width: 12px;
-        height: 12px;
-        background-color: red;
-        border-radius: 50%;
-        position: absolute;
-        top: 10px;
-        right: 10px;
-    }
-
-    .card.approved {
-        border: 2px solid green;
-    }
-
-    .card.approved::before {
-        content: "";
-        width: 12px;
-        height: 12px;
-        background-color: green;
-        border-radius: 50%;
-        position: absolute;
-        top: 10px;
-        right: 10px;
-    }
-
-    .button {
-        background-color: #FF8C00;
-        color: white;
-        border: none;
-        padding: 8px 12px;
-        border-radius: 20px;
-        font-size: 14px;
-        cursor: pointer;
-        text-decoration: none;
-        transition: background-color 0.3s;
-        width: 100px;
         text-align: center;
     }
 
-    .button:hover {
-        background-color: #e67e00;
+    .card-ativo {
+        border: 2px solid #4CAF50;
     }
 
-    @media (max-width: 600px) {
-        .card {
-            max-width: 100%;
-            padding: 15px;
-        }
+    .card-inativo {
+        border: 2px solid red;
+    }
 
-        .button {
-            padding: 8px 16px;
-            font-size: 14px;
-        }
+    .status-text {
+        margin-top: 10px;
+        font-weight: bold;
+    }
+
+    .status-text-ativo {
+        color: #4CAF50;
+    }
+
+    .status-text-inativo {
+        color: red;
     }
 </style>
 
-<div class="Container" style="padding-top: 2%;"></div>
-<div class="search-container">
-    <div class="search-bar">
-        <input type="text" class="form-control" placeholder="Busque aqui...">
-        <svg class="search-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-            <circle cx="11" cy="11" r="8"></circle>
-            <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
-        </svg>
+<!-- Menu de filtro com botão -->
+<div class="menu-container">
+    <div>
+        <div class="botao ativo" onclick="filtrarCipeiros('ativo')">
+            <div class="bolinha bolinha-verde"></div>
+            Ativos
+        </div>
+        <div class="botao inativo" onclick="filtrarCipeiros('inativo')">
+            <div class="bolinha bolinha-vermelho"></div>
+            Inativos
+        </div>
     </div>
+    <a href="{{ url_for('telaadm.telaadm') }}" class="botao-cadastrar">Cadastrar Novo CIPEIRO</a>
 </div>
 
-<h2 style="margin-left: 35%;">Supervisores CIPEIROS</h2>
-<div class="card-container">
-    {% for supervisor in supervisores %}
-    <div class="card {% if supervisor.status == 'ativo' %}approved{% else %}alerta{% endif %}">
-        <p><strong>{{ supervisor.nomeSupervisor }}</strong></p>
-        <p>CPF: {{ supervisor.CPF }}</p>
-        <p>Status: {{ supervisor.status|capitalize }}</p>
-        <a href="{{ url_for('supervisor.descSupervisor', idSupervisor=supervisor.idSupervisor) }}" class="button">Ver mais</a>
+<h2 style="text-align: center;">Cipeiros</h2>
+
+<!-- Container dos cartões -->
+<div class="card-container" id="card-container">
+    {% for cipeiro in cipeiros %}
+    <div class="card {% if cipeiro.status == 'ativo' %}card-ativo{% else %}card-inativo{% endif %}" data-status="{{ cipeiro.status }}">
+        <p><strong>{{ cipeiro.nomeSupervisor }}</strong></p>
+        <p>CPF: {{ cipeiro.CPF }}</p>
+        <p class="status-text {% if cipeiro.status == 'ativo' %}status-text-ativo{% else %}status-text-inativo{% endif %}">
+            {% if cipeiro.status == 'ativo' %}Ativo{% else %}Inativo{% endif %}
+        </p>
+        <a href="{{ url_for('telaadm.detalhesCipeiro', idSupervisor=cipeiro.idSupervisor) }}" class="button">Ver mais</a>
     </div>
     {% endfor %}
 </div>
+
+<script>
+    function filtrarCipeiros(status) {
+        const cards = document.querySelectorAll('.card');
+        cards.forEach(card => {
+            if (card.getAttribute('data-status') === status || status === 'todos') {
+                card.style.display = 'block';
+            } else {
+                card.style.display = 'none';
+            }
+        });
+    }
+</script>
+
 {% endblock %}
