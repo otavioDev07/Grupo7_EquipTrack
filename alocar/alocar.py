@@ -26,8 +26,8 @@ def alocar_equipamento(idEPI):
                 cursor.execute(comando, (idEPI, idFuncionario, quantidade))
                 conexao.commit()
 
-                atualizar_epi = 'UPDATE epi SET quantidade = quantidade - %s, idFuncionario = %s, dataLocacao = NOW() WHERE idEPI = %s'
-                cursor.execute(atualizar_epi, (quantidade, idFuncionario, idEPI))
+                atualizar_epi = 'UPDATE epi SET quantidade = quantidade - %s, idFuncionario = %s, status = %s WHERE idEPI = %s'
+                cursor.execute(atualizar_epi, (quantidade, idFuncionario,'Em uso', idEPI))
                 conexao.commit()    
 
                 #backlog

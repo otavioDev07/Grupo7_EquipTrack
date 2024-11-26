@@ -112,18 +112,28 @@ button:hover {
 <div class="row">
     <!-- Informações do Funcionário -->
     <div class="col-md-6">
-        <h3>Maria da Silva</h3>
-        <p>NIF: 2483893</p>
-        <p><strong>Cargo/Posição:</strong> Cozinheira</p>
-        <p><strong>Setor:</strong> Cozinha</p>
+        <h3>{{funcionario.nomeFuncionario}}</h3>
+        <p>NIF: {{funcionario.NIF}}</p>
+        <p><strong>Cargo/Posição:</strong> {{funcionario.cargo}}</p>
+        <p><strong>Setor:</strong> {{funcionario.nomeSetor}}</p>
 
-        <!-- Condições Especiais e Tamanho de Roupa/Calçado -->
+
+        {% if not funcionario.condicoesEspeciais %}
         <div class="mb-3">
             <div class="p-3 mb-2" style="background-color: #f4a261; color: #fff; border-radius: 10px;">
-                <p><strong style="color:black">Ações Especiais:</strong> Nenhuma</p>
+                <p><strong style="color:black">Condições Especiais:</strong> Nenhuma</p>
+            </div>
+        {% else %}
+        <div class="mb-3">
+            <div class="p-3 mb-2" style="background-color: #f4a261; color: #fff; border-radius: 10px;">
+                <p><strong style="color:black">Condições Especiais:</strong> {{funcionario.condicoesEspeciais}}</p>
+            </div>
+        {% endif %}
+            <div class="p-3" style="background-color: #f4a261; color: #fff; border-radius: 10px;">
+                <p><strong style="color:black">Tamanho de vestimentas:</strong> {{funcionario.tamRoupa}}</p>
             </div>
             <div class="p-3" style="background-color: #f4a261; color: #fff; border-radius: 10px;">
-                <p><strong style="color:black">Tamanho de roupa/calçados:</strong> 35 sapato / M roupa</p>
+                <p><strong style="color:black">Tamanho de calçados:</strong> {{funcionario.tamCalcado}}</p>
             </div>
         </div>
 
@@ -133,93 +143,33 @@ button:hover {
         </div>
     </div>
 
-    <!-- Cartões de EPIs -->
     <div class="col-md-12 mt-4">
         <h4>Seus EPIs</h4>
-        <div class="container mt-5">
-            <div class="row">
-                <!-- Cartão de EPI - Vencido -->
-                <div class="col-md-4">
-                    <div class="card mb-4 shadow-sm border-danger">
-                        <div class="card-body position-relative">
-                            <div class="card-status-vencido"></div>
-                            <h5 class="card-title">Número do série(CA): 5185523</h5>
-                            <p class="card-text">Equipamento: Bota de cozinha</p>
-                            <p class="card-text">Status: <span class="status-text-vencido">Vencido</span></p>
-                            <a href="#" class="btn btn-custom">Ver mais</a>
-                        </div>
+        <div class="row">
+            {% for epi in EPIs %}
+            <div class="col-md-4">
+                <div class="card mb-4 shadow-sm {% if epi.dataVencimento < now %}border-danger{% else %}border-success{% endif %}">
+                    <div class="card-body position-relative">
+                        {% if epi.dataVencimento < now %}
+                        <div class="card-status-vencido"></div>
+                        {% else %}
+                        <div class="card-status-prazo"></div>
+                        {% endif %}
+                        <h5 class="card-title">Código(CA): {{ epi.codigoCA }}</h5>
+                        <p class="card-text">Equipamento: {{ epi.nomeEquipamento }}</p>
+                        <p class="card-text">
+                            Status: 
+                            {% if epi.dataVencimento < now %}
+                            <span class="status-text-vencido">Vencido</span>
+                            {% else %}
+                            <span class="status-text-prazo">No Prazo</span>
+                            {% endif %}
+                        </p>
+                        <a href="{{ url_for('admin.epi_funcionario', id=epi.idEPI_Funcionario) }}" class="btn btn-custom">Ver mais</a>
                     </div>
                 </div>
-        
-        
-                <!-- Cartão de EPI - Vencido -->
-                <div class="col-md-4">
-                    <div class="card mb-4 shadow-sm border-danger">
-                        <div class="card-body position-relative">
-                            <div class="card-status-vencido"></div>
-                            <h5 class="card-title">Número do série(CA): 5185523</h5>
-                            <p class="card-text">Equipamento: Bota de cozinha</p>
-                            <p class="card-text">Status: <span class="status-text-vencido">Vencido</span></p>
-                            <a href="#" class="btn btn-custom">Ver mais</a>
-                        </div>
-                    </div>
-                </div>
-        
-        
-                <!-- Cartão de EPI - Vencido -->
-                <div class="col-md-4">
-                    <div class="card mb-4 shadow-sm border-danger">
-                        <div class="card-body position-relative">
-                            <div class="card-status-vencido"></div>
-                            <h5 class="card-title">Número do série(CA): 5185523</h5>
-                            <p class="card-text">Equipamento: Bota de cozinha</p>
-                            <p class="card-text">Status: <span class="status-text-vencido">Vencido</span></p>
-                            <a href="#" class="btn btn-custom">Ver mais</a>
-                        </div>
-                    </div>
-                </div>
-        
-        
-                <!-- Cartão de EPI - No prazo-->
-                <div class="col-md-4">
-                    <div class="card mb-4 shadow-sm border-success">
-                        <div class="card-body position-relative">
-                            <div class="card-status-prazo"></div>
-                            <h5 class="card-title">Número do série(CA): 5185523</h5>
-                            <p class="card-text">Equipamento: Bota de cozinha</p>
-                            <p class="card-text">Status: <span class="status-text-prazo">No prazo</span></p>
-                            <a href="#" class="btn btn-custom">Ver mais</a>
-                        </div>
-                    </div>
-                </div>
-        
-        
-                <!-- Cartão de EPI - No Prazo -->
-                <div class="col-md-4">
-                    <div class="card mb-4 shadow-sm border-success">
-                        <div class="card-body position-relative">
-                            <div class="card-status-prazo"></div>
-                            <h5 class="card-title">Número do série(CA): 5185523</h5>
-                            <p class="card-text">Equipamento: Bota de cozinha</p>
-                            <p class="card-text">Status: <span class="status-text-prazo">No prazo</span></p>
-                            <a href="#" class="btn btn-custom">Ver mais</a>
-                        </div>
-                    </div>
-                </div>
-            
-                <!-- Cartão de EPI - No Prazo -->
-                <div class="col-md-4">
-                    <div class="card mb-4 shadow-sm border-success">
-                        <div class="card-body position-relative">
-                            <div class="card-status-prazo"></div>
-                            <h5 class="card-title">Número do série(CA): 5185523</h5>
-                            <p class="card-text">Equipamento: Bota de cozinha</p>
-                            <p class="card-text">Status: <span class="status-text-prazo">No prazo</span></p>
-                            <a href="#" class="btn btn-custom">Ver mais</a>
-                        </div>
-                    </div>
-                </div>
-        
+            </div>
+            {% endfor %}
         </div>
     </div>
 </div>

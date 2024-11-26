@@ -85,7 +85,7 @@ button:hover {
     background-color: #c16f3c;
 }
 main {
-    padding: 30px;
+    padding: 50px;
 }
 
 @media (max-width: 768px) {
@@ -105,37 +105,37 @@ main {
     </div>
 </div>
 
-<div class="row" >
+<div class="row">
     <div class="col-md-4 info-box">
         <span class="info-header">Código CA</span>
         <span>{{ epi.codigoCA }}</span>
     </div>
-    <div class="col-md-4 info-box" style="margin-left: 2%;">
+    <div class="col-md-4 info-box">
         <span class="info-header">Número de série</span>
         <span>{{ epi.numeroSerie }}</span>
     </div>
-    <div class="col-md-4 info-box">
+    <div class="col-md-4 info-box" style="margin-left: 2%;">
         <span class="info-header">Modelo</span>
         <span>{{ epi.modelo }}</span>
     </div>
-
-
     <div class="col-md-3">
         <div class="label">Data de Aquisição<br><small>Início</small></div>
         <div class="date">
             <div>{{ epi.dataAquisicao }}</div>
         </div>
     </div>
+    <div class="col-md-3">
+        <div class="label">Data de Locação<br><small>Início</small></div>
+        <div class="date">
+            <div>{{ epi.dataHora }}</div>
+        </div>
+    </div>
 </div>
 
 <div class="row" style="padding-top: 2%;">
     <div class="col-md-4 info-box">
-        <span class="info-header">Quantidade (no estoque) </span>
+        <span class="info-header">Quantidade alocada</span>
         <span>{{ epi.quantidade }}</span>
-    </div>
-    <div class="col-md-4 info-box" style="margin-left: 2%;">
-        <span class="info-header">Observações</span>
-        <span>{{ epi.observacoes }}</span>
     </div>
     <div class="col-md-3">
         <div class="label">Data de vencimento<br><small>Fim</small></div>
@@ -148,34 +148,32 @@ main {
 <div class="row" style="padding-top: 2%;">
     <div class="col-md-4 info-box">
         <span class="info-header">Setor</span>
-        <span>{{ epi.nomeSetor[0] }}</span>
+        <span>{{ epi.nomeSetor }}</span>
     </div>
     <div class="col-md-4 info-box" style="margin-left: 2%;">
         <span class="info-header">Marca</span>
         <span>{{ epi.marca }}</span>
     </div>
 </div>
-
+    <div class="col-md-4 info-box" style="margin-left: 2%;">
+        <span class="info-header">Observações</span>
+        <span>{{ epi.observacoes }}</span>
+    </div>
+</div>
 
 <div class="row" style="padding-top: 2%;">
     <div class="col-md-4 info-box">
         <span class="info-header">Status</span>
-        <span>{{ epi.status }}</span>
+        <span>Em uso</span>
     </div>
-    <div class="col-md-4 info-box" style="margin-left: 2%;">
+    <div class="col-md-4 info-box" style="margin-left: 3%;">
         <span class="info-header">Tamanho</span>
         <span>{{ epi.tamanho }}</span>
     </div>
 </div>
 <div class="row" style="padding-top: 2%; margin-left: 20%;">
     <div class="col-md-2">
-        <a href="../templates/edicaoEPI.html"><button>Editar</button></a>
-    </div>
-    <div class="col-md-2">
-        <a href="{{ url_for('alocar.alocar_equipamento', idEPI=epi.idEPI) }}"><button>Alocar</button></a>
-    </div>
-    <div class="col-md-2">
-        <a href="{{ url_for('admin.cadastroDescarte', idEPI=epi.idEPI)}}"><button class="descarte">Descartar</button></a>
+        <a href="{{ url_for('admin.descarteEPI_alocado', id=epi.idEPI_Funcionario)}}"><button class="descarte">Descartar</button></a>
     </div>
 </div>
 </div>

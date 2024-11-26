@@ -9,4 +9,9 @@ def home():
     with conecta_db() as (conexao, cursor):
         cursor.execute('SELECT * FROM backlog')
         backlog = cursor.fetchall()
+
+        comando_update = 'UPDATE epi SET status = "Descartado" WHERE quantidade = 0 AND status != "Descartado"'
+        cursor.execute(comando_update)
+        conexao.commit()
+        
     return render_template('home.html', backlog=backlog)
