@@ -1,0 +1,218 @@
+{% extends 'model.html' %}
+
+{% block conteudo %}
+<style>
+    body {
+        background-color: #f0f2f5;
+        margin: 0;
+        padding: 0;
+        display: flex;
+        justify-content: center;
+        align-items: center;  /* Alinha a caixa verticalmente */
+        height: 100vh;  /* Preenche a altura da tela */
+        overflow: hidden;  /* Remove o scroll da tela */
+    }
+
+    .main-content {
+        margin-top: 95px;
+        width: 100%;
+        max-width: 1200px;  /* Largura máxima do conteúdo */
+        padding: 30px;
+        display: flex;
+        flex-direction: column;
+        align-items: flex-start;
+        box-sizing: border-box;
+    }
+
+    .container-details {
+        width: 100%;
+        max-width: 900px;
+        padding: 30px;
+        border-radius: 10px;
+        box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+        display: flex;
+        flex-direction: column;
+        align-items: flex-start;
+        box-sizing: border-box;
+        margin: 0 auto;  /* Centraliza a caixa dentro da área branca */
+        border: 2px dashed #ff914d;  /* Contorno laranja tracejado */
+        background-color: transparent;  /* Remove o fundo branco */
+    }
+
+    .info-box {
+        background-color: #f7c191;
+        padding: 15px;
+        border-radius: 5px;
+        margin-bottom: 15px;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        font-size: 14px;
+        width: 100%;
+        border-left: 4px solid #ff914d;  /* Borda esquerda laranja */
+    }
+
+    .info-header {
+        font-weight: bold;
+        color: #1c1c1c;
+    }
+
+    .label {
+        font-size: 14px;
+        color: #333;
+        margin-bottom: 5px;
+    }
+
+    .label small {
+        color: #999;
+        font-size: 12px;
+    }
+
+    .date {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+    }
+
+    .date div {
+        background-color: #f0f0f0;
+        padding: 8px 12px;
+        border-radius: 5px;
+        font-size: 14px;
+        color: #007bff;
+        font-weight: bold;
+    }
+
+    .button-row {
+        text-align: center;
+        margin-top: 20px;
+        display: flex;
+        justify-content: space-evenly;
+        width: 100%;
+    }
+
+    button {
+        background-color: #0056b3;
+        color: white;
+        padding: 12px 25px;
+        border: none;
+        border-radius: 5px;
+        font-size: 16px;
+        cursor: pointer;
+        margin: 5px;
+        transition: all 200ms;
+        width: 150px;
+    }
+
+    button:hover {
+        background-color: #ff914d;
+        transform: scale(1.05);
+    }
+
+    .descarte {
+        background-color: #ff914d;
+    }
+
+    .descarte:hover {
+        background-color: #c16f3c;
+    }
+
+    .editar {
+        background-color: #28a745;
+    }
+
+    .editar:hover {
+        background-color: #218838;
+    }
+
+    .excluir {
+        background-color: #dc3545;
+    }
+
+    .excluir:hover {
+        background-color: #c82333;
+    }
+
+    .info-group {
+        display: flex;
+        justify-content: space-between;
+        flex-wrap: wrap;
+        gap: 15px;
+        width: 100%;
+    }
+
+    .info-group > .info-box {
+        flex: 1 1 calc(33.333% - 10px); /* Divide em três colunas */
+    }
+
+    .info-group .date-container {
+        flex: 1 1 calc(33.333% - 10px);
+    }
+
+    @media (max-width: 768px) {
+        .info-box {
+            flex-direction: column;
+            align-items: flex-start;
+        }
+
+        .info-group > .info-box {
+            flex: 1 1 100%; /* Coluna única no mobile */
+        }
+
+        button {
+            width: 100%;
+            text-align: center;
+        }
+    }
+</style>
+
+<main>
+    <div class="main-content">
+        <div class="container-details">
+            <h3>{{ cipeiro[0].nomeSupervisor }}</h3>
+            <p><strong>CPF:</strong> {{ cipeiro[0].CPF }}</p>
+
+            <div class="info-group">
+                <div class="info-box">
+                    <span class="info-header">ID Supervisor</span>
+                    <span>{{ cipeiro[0].idSupervisor }}</span>
+                </div>
+                <div class="info-box">
+                    <span class="info-header">Status</span>
+                    <span>{{ cipeiro[0].status }}</span>
+                </div>
+                <div class="info-box">
+                    <span class="info-header">Senha de Acesso</span>
+                    <span>{{ cipeiro[0].senhaAcesso }}</span>
+                </div>
+            </div>
+
+            <div class="button-row">
+                <!-- Botão Ativar/Inativar -->
+                {% if cipeiro[0].status == 'ativo' %}
+                    <form method="POST" action="/detalhesCipeiro/{{ cipeiro[0].idSupervisor }}">
+                        <input type="hidden" name="novoStatus" value="inativo">
+                        <button type="submit">Inativar</button>
+                    </form>
+                {% elif cipeiro[0].status == 'inativo' %}
+                    <form method="POST" action="/detalhesCipeiro/{{ cipeiro[0].idSupervisor }}">
+                        <input type="hidden" name="novoStatus" value="ativo">
+                        <button type="submit">Ativar</button>
+                    </form>
+                {% endif %}
+
+                <!-- Botão Editar -->
+                <a href="/editarCipeiro/{{ cipeiro[0].idSupervisor }}">
+                    <button class="editar">Editar</button>
+                </a>
+
+                <!-- Botão Excluir -->
+                <form method="POST" action="/excluirCipeiro/{{ cipeiro[0].idSupervisor }}">
+                    <button type="submit" class="excluir">Excluir</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</main>
+
+{% endblock %}
