@@ -234,7 +234,95 @@ def cadastroDescarte(idEPI):
 
 @admin_blueprint.route('/editDescarte/<int:idEPI>', methods=['GET', 'POST'])
 def editDescarte(idEPI):
-    pass
+    with conecta_db() as (conexao, cursor):
+        if request.method == 'GET':
+            try:
+                # Obter dados do descarte
+                cursor.execute('''
+                    SELECT d.idDescarte, d.motivoDescarte, d.localDescarte, d.quantidade, e.nomeEquipamento 
+                    FROM descarte d 
+                    INNER JOIN epi e ON d.idEquipamento = e.idEPI 
+                    WHERE d.idEquipamento = %s
+                ''', (idEPI,))
+                result = cursor.fetchone()
+
+                if result:
+                    descarte = {
+                        'idDescarte': result[0],
+                        'motivoDescarte': result[1],
+                        'localDescarte': result[2],
+                        'quantidade': int(result[3]),
+                        'nomeEquipamento': result[4],
+                        'idEPI': idEPI
+                    }
+                else:
+                    return "Erro: Descarte não encontrado para o EPI especificado.", 404
+                
+                # Obter quantidade disponível no estoque
+                cursor.execute('SELECT quantidade FROM epi WHERE idEPI = %s', (idEPI,))
+                result = cursor.fetchone()
+                if result:
+                    quantidadeDisponivel = result[0]
+                else:
+                    return "Erro: EPI não encontrado.", 404
+                
+                # Passar dados para o template
+                return render_template(
+                    'edicaoDescarte.html', 
+                    descarte=descarte, 
+                    quantidadeDisponivel=quantidadeDisponivel
+                )
+            except Exception as e:
+                return f"Erro de BackEnd: {e}", 500
+
+        elif request.method == 'POST':
+            try:
+                novo_motivo = request.form['motivoDescarte']
+                novo_localDescarte = request.form['localDescarte']
+                nova_quantidade = int(request.form['quantidade'])
+
+                cursor.execute('SELECT quantidade FROM epi WHERE idEPI = %s', (idEPI,))
+                result = cursor.fetchone()
+                if result:
+                    quantidade_atual = result[0]
+                else:
+                    return "Erro: EPI não encontrado.", 404
+                
+                cursor.execute('SELECT quantidade FROM descarte WHERE idEquipamento = %s', (idEPI,))
+                result = cursor.fetchone()
+                if result:
+                    quantidade_descartada_anterior = result[0]
+                else:
+                    return "Erro: Registro de descarte não encontrado.", 404
+                
+                ajuste_quantidade = nova_quantidade - quantidade_descartada_anterior
+                if ajuste_quantidade > quantidade_atual:
+                    return "Erro: A quantidade ajustada excede o estoque disponível.", 400
+                
+                cursor.execute('UPDATE epi SET quantidade = quantidade - %s WHERE idEPI = %s', 
+                               (ajuste_quantidade, idEPI))
+                conexao.commit()
+
+                cursor.execute('''
+                    UPDATE descarte 
+                    SET motivoDescarte = %s, localDescarte = %s, quantidade = %s, dataDescarte = NOW() 
+                    WHERE idEquipamento = %s
+                ''', (novo_motivo, novo_localDescarte, nova_quantidade, idEPI))
+                conexao.commit()
+
+                comando_backlog = '''
+                    INSERT INTO Backlog (dataHora, acao, idSupervisor) 
+                    VALUES (NOW(), %s, %s)
+                '''
+                idSupervisor = 1  
+                acao = f"Edição de descarte do EPI: {idEPI}"
+                cursor.execute(comando_backlog, (acao, idSupervisor))
+                conexao.commit()
+
+                return redirect(f'/descricaoDescarte/{idEPI}')
+
+            except Exception as e:
+                return f"Erro de BackEnd: {e}", 500
 
 @admin_blueprint.route('/descricaoEPI/<int:idEPI>', methods=['GET'])
 def descricaoEPI(idEPI):
