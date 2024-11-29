@@ -6,7 +6,8 @@ login_blueprint = Blueprint('login', __name__, template_folder="templates")
 
 @login_blueprint.route('/')
 @login_blueprint.route('/login', methods=['GET', 'POST'])
-def login():    
+def login():
+    session.clear()    
     if request.method == 'POST':
         cpf = request.form.get('cpf')
         password = request.form.get('password')
