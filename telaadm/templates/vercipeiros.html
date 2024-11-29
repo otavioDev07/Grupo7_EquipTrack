@@ -1,0 +1,157 @@
+{% extends 'model.html' %}
+
+{% block conteudo %}
+<style>
+    /* Estilos para o menu */
+    .menu-container {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        background: linear-gradient(to right, #D2D2D2, #015799);
+        border-radius: 25px;
+        padding: 15px 20px;
+        width: 800px;
+        margin: 20px auto;
+    }
+
+    .botao {
+        background-color: transparent;
+        color: white;
+        border: 2px solid white;
+        border-radius: 25px;
+        padding: 10px 20px;
+        font-size: 16px;
+        cursor: pointer;
+        transition: background-color 0.3s, color 0.3s;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        margin: 0 10px;
+    }
+
+    .botao:hover {
+        background-color: white;
+        color: black;
+    }
+
+    /* Botão de cadastrar */
+    .botao-cadastrar {
+        background-color: white;
+        color: black;
+        border: none;
+        border-radius: 25px;
+        padding: 10px 20px;
+        font-size: 16px;
+        cursor: pointer;
+        transition: background-color 0.3s, color 0.3s;
+        text-align: center;
+    }
+
+    .botao-cadastrar:hover {
+        background-color: #015799;
+        color: white;
+    }
+
+    /* Bolinhas de status */
+    .bolinha {
+        width: 15px;
+        height: 15px;
+        border-radius: 50%;
+        margin-right: 10px;
+    }
+
+    .bolinha-verde {
+        background-color: #4CAF50; /* Verde */
+    }
+
+    .bolinha-vermelho {
+        background-color: red; /* Vermelho */
+    }
+
+    /* Estilos dos cartões */
+    .card-container {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 20px;
+        padding: 20px;
+        justify-content: center;
+    }
+
+    .card {
+        width: 100%;
+        max-width: 200px;
+        padding: 20px;
+        border-radius: 10px;
+        background-color: #f9f9f9;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        position: relative;
+        text-align: center;
+    }
+
+    .card-ativo {
+        border: 2px solid #4CAF50;
+    }
+
+    .card-inativo {
+        border: 2px solid red;
+    }
+
+    .status-text {
+        margin-top: 10px;
+        font-weight: bold;
+    }
+
+    .status-text-ativo {
+        color: #4CAF50;
+    }
+
+    .status-text-inativo {
+        color: red;
+    }
+</style>
+
+<!-- Menu de filtro com botão -->
+<div class="menu-container">
+    <div>
+        <div class="botao ativo" onclick="filtrarCipeiros('ativo')">
+            <div class="bolinha bolinha-verde"></div>
+            Ativos
+        </div>
+        <div class="botao inativo" onclick="filtrarCipeiros('inativo')">
+            <div class="bolinha bolinha-vermelho"></div>
+            Inativos
+        </div>
+    </div>
+    <a href="{{ url_for('telaadm.cadastrarCipeiro') }}" class="botao-cadastrar">Cadastrar Novo CIPEIRO</a>
+</div>
+
+<h2 style="text-align: center;">Cipeiros</h2>
+
+<!-- Container dos cartões -->
+<div class="card-container" id="card-container">
+    {% for cipeiro in cipeiros %}
+    <div class="card {% if cipeiro.status == 'ativo' %}card-ativo{% else %}card-inativo{% endif %}" data-status="{{ cipeiro.status }}">
+        <p><strong>{{ cipeiro.nomeSupervisor }}</strong></p>
+        <p>CPF: {{ cipeiro.CPF }}</p>
+        <p class="status-text {% if cipeiro.status == 'ativo' %}status-text-ativo{% else %}status-text-inativo{% endif %}">
+            {% if cipeiro.status == 'ativo' %}Ativo{% else %}Inativo{% endif %}
+        </p>
+        <a href="{{ url_for('telaadm.detalhesCipeiro', idSupervisor=cipeiro.idSupervisor) }}" class="button">Ver mais</a>
+    </div>
+    {% endfor %}
+</div>
+
+<script>
+    function filtrarCipeiros(status) {
+        const cards = document.querySelectorAll('.card');
+        cards.forEach(card => {
+            if (card.getAttribute('data-status') === status || status === 'todos') {
+                card.style.display = 'block';
+            } else {
+                card.style.display = 'none';
+            }
+        });
+    }
+</script>
+
+{% endblock %}

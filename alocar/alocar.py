@@ -1,9 +1,11 @@
-from flask import render_template, Blueprint, request, redirect
+from flask import render_template, Blueprint, request, redirect, session
+from session.session import require_login
 from database.conection import conecta_db
 
 alocar_blueprint = Blueprint('alocar', __name__, template_folder="templates", static_folder="static")
 
 @alocar_blueprint.route('/alocar/<int:idEPI>', methods=['GET', 'POST'])
+@require_login
 def alocar_equipamento(idEPI):
     if request.method == 'GET':
         with conecta_db() as (conexao, cursor):
@@ -20,7 +22,7 @@ def alocar_equipamento(idEPI):
             try:
                 idFuncionario = request.form['idFuncionario']
                 quantidade = int(request.form['quantidade'])
-                idSupervisor = 1 #Virá através da autenticação (Não feito ainda)
+                idSupervisor = session['idSupervisor']
 
                 comando = 'INSERT INTO epi_funcionário (idEquipamento, idFuncionario, dataHora, quantidade) VALUES (%s, %s, NOW(), %s)'
                 cursor.execute(comando, (idEPI, idFuncionario, quantidade))
