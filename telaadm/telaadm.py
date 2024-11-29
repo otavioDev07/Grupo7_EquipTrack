@@ -1,6 +1,7 @@
-from flask import Flask, Blueprint, render_template, request, redirect
+from flask import Flask, Blueprint, render_template, request, redirect, session
 from database.conection import conecta_db
 from session.session  import require_login
+from werkzeug.security import generate_password_hash, check_password_hash
 
 telaadm_blueprint = Blueprint('telaadm', __name__, template_folder="templates")
 
@@ -52,11 +53,36 @@ def detalhesCipeiro(idSupervisor):
         except Exception as e:
             return f"Erro de BackEnd: {e}", 500
         
-@telaadm_blueprint.route('/cadastroCipeiro', methods=['POST'])
+@telaadm_blueprint.route('/cadastrarCipeiro', methods=['GET', 'POST'])
 @require_login
-def cadastroCipeiro():
-    ...
+def cadastrarCipeiro():
+    if request.method == 'GET':
+        return render_template('cadastroCipeiro.html')
+
+    if request.method == 'POST':
+        with conecta_db() as (conexao, cursor):
+            try:
+                nomeSupervisor = request.form['nomeSupervisor']
+                cpf = request.form['CPF']
+                senha = request.form['senhaAcesso']
+                senha_cript = generate_password_hash(senha)
+                idSupervisor = session['idSupervisor']
+
+                query = 'INSERT INTO supervisor (nomeSupervisor, CPF, senhaAcesso) VALUES (%s, %s, %s)'
+                cursor.execute(query, (nomeSupervisor, cpf, senha_cript))
+                conexao.commit()
+
+                comando_backlog = '''
+                    INSERT INTO Backlog (dataHora, acao, idSupervisor) 
+                    VALUES (NOW(), %s, %s)
+                '''
+                acao = f"Cadastro de supervisor: {nomeSupervisor}" 
+                cursor.execute(comando_backlog, (acao, idSupervisor))   
+                conexao.commit()
+                
+                return redirect('/home')
+            except Exception as e:
+                return f"Erro de BackEnd: {e}", 500
 
 if __name__ == '__main__':
-
     telaadm_blueprint.run(debug=True)

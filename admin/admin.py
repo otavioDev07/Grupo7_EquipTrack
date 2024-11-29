@@ -101,8 +101,6 @@ def cadastro_Funcionario():
                 acao = f"Cadastro de funcionário: {nome}" 
                 cursor.execute(comando_backlog, (acao, idSupervisor))   
                 conexao.commit()
-
-                print('Cadastro realizado com sucesso!', 'success')
                 return redirect('/home')
 
             except Exception as e:
