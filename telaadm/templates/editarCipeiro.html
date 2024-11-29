@@ -1,0 +1,144 @@
+{% extends 'model.html' %}
+
+{% block conteudo %}
+<style>
+    body {
+        background-color: #f0f2f5;
+        margin: 0;
+        padding: 0;
+        display: flex;
+        justify-content: center;
+        align-items: center;  /* Alinha a caixa verticalmente */
+        height: 100vh;  /* Preenche a altura da tela */
+        overflow: hidden;  /* Remove o scroll da tela */
+    }
+
+    .main-content {
+        width: 100%;
+        max-width: 1200px;  /* Largura máxima do conteúdo */
+        padding: 30px;
+        display: flex;
+        flex-direction: column;
+        align-items: flex-start;
+        box-sizing: border-box;
+    }
+
+    .container-details {
+        width: 100%;
+        max-width: 900px;
+        padding: 30px;
+        border-radius: 10px;
+        box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+        display: flex;
+        flex-direction: column;
+        align-items: flex-start;
+        box-sizing: border-box;
+        margin: 0 auto;  /* Centraliza a caixa dentro da área branca */
+        border: 2px dashed #ff914d;  /* Contorno laranja tracejado */
+        background-color: transparent;  /* Remove o fundo branco */
+    }
+
+    .form-group {
+        width: 100%;
+        margin-bottom: 15px;
+    }
+
+    .form-group label {
+        font-size: 16px;
+        color: #333;
+    }
+
+    .form-group input {
+        width: 100%;
+        padding: 10px;
+        border: 1px solid #ccc;
+        border-radius: 5px;
+        font-size: 14px;
+        margin-top: 5px;
+    }
+
+    .button-row {
+        text-align: center;
+        margin-top: 20px;
+        display: flex;
+        justify-content: space-evenly;
+        width: 100%;
+    }
+
+    button {
+        background-color: #0056b3;
+        color: white;
+        padding: 12px 25px;
+        border: none;
+        border-radius: 5px;
+        font-size: 16px;
+        cursor: pointer;
+        margin: 5px;
+        transition: all 200ms;
+        width: 150px;
+    }
+
+    button:hover {
+        background-color: #ff914d;
+        transform: scale(1.05);
+    }
+
+    .editar {
+        background-color: #28a745;
+    }
+
+    .editar:hover {
+        background-color: #218838;
+    }
+
+    .cancelar {
+        background-color: #dc3545;
+    }
+
+    .cancelar:hover {
+        background-color: #c82333;
+    }
+</style>
+
+<main>
+    <div class="main-content">
+        <div class="container-details">
+            <h3>Editar Cipeiro - {{ cipeiro[0].nomeSupervisor }}</h3>
+
+            <!-- Formulário de edição -->
+            <form method="POST" action="/salvarEdicaoCipeiro/{{ cipeiro[0].idSupervisor }}">
+                <div class="form-group">
+                    <label for="nomeSupervisor">Nome Supervisor</label>
+                    <input type="text" id="nomeSupervisor" name="nomeSupervisor" value="{{ cipeiro[0].nomeSupervisor }}" required>
+                </div>
+
+                <div class="form-group">
+                    <label for="CPF">CPF</label>
+                    <input type="text" id="CPF" name="CPF" value="{{ cipeiro[0].CPF }}" required>
+                </div>
+
+                <div class="form-group">
+                    <label for="status">Status</label>
+                    <select id="status" name="status" required>
+                        <option value="ativo" {% if cipeiro[0].status == 'ativo' %}selected{% endif %}>Ativo</option>
+                        <option value="inativo" {% if cipeiro[0].status == 'inativo' %}selected{% endif %}>Inativo</option>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label for="senhaAcesso">Senha de Acesso</label>
+                    <input type="text" id="senhaAcesso" name="senhaAcesso" value="{{ cipeiro[0].senhaAcesso }}" required>
+                </div>
+
+                <div class="button-row">
+                    <button type="submit" class="editar">Salvar</button>
+                    <a href="/detalhesCipeiro/{{ cipeiro[0].idSupervisor }}">
+                        <button type="button" class="cancelar">Cancelar</button>
+                    </a>
+                </div>
+            </form>
+        </div>
+    </div>
+</main>
+
+{% endblock %}
