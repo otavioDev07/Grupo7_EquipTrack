@@ -9,6 +9,7 @@ home_blueprint = Blueprint('home', __name__, template_folder="templates")
 def home():
     with conecta_db() as (conexao, cursor):
         try:
+            # Atualiza status de EPIs na tabela principal
             comando_update = '''
                 UPDATE epi 
                 SET status = "Descartado" 
@@ -17,31 +18,37 @@ def home():
             cursor.execute(comando_update)
             conexao.commit()
 
+            # Obtém os setores
             comando_setores = '''
                 SELECT s.idSetor, s.nomeSetor
                 FROM setor s
             '''
             cursor.execute(comando_setores)
-            setores = cursor.fetchall() 
+            setores = cursor.fetchall()
 
-            # Contar EPIs vencidos e próximos do vencimento para cada setor
             setores_data = []
             for setor in setores:
                 idSetor = setor[0]
                 
-                # Verificar os EPIs associados aos funcionários desse setor
-                comando_epi = '''
-                    SELECT 
-                        SUM(CASE WHEN e.dataVencimento < CURDATE() THEN 1 ELSE 0 END) AS vencidos,
-                        SUM(CASE WHEN e.dataVencimento BETWEEN CURDATE() AND CURDATE() + INTERVAL 30 DAY THEN 1 ELSE 0 END) AS perto_vencimento
-                    FROM epi e
-                    JOIN funcionário f ON e.idFuncionario = f.idFuncionario
-                    WHERE f.idSetor = %s
+                # Obtém dados de EPIs por meio de epi_funcionário
+                comando_epi_funcionario = '''
+                SELECT 
+                    SUM(CASE 
+                        WHEN e.dataVencimento < CURDATE() THEN 1 
+                        ELSE 0 
+                    END) AS vencidos,
+                    SUM(CASE 
+                        WHEN e.dataVencimento BETWEEN CURDATE() AND CURDATE() + INTERVAL 30 DAY THEN 1 
+                        ELSE 0 
+                    END) AS perto_vencimento
+                FROM epi_funcionário ef
+                JOIN epi e ON ef.idEquipamento = e.idEPI
+                JOIN funcionário f ON ef.idFuncionario = f.idFuncionario
+                WHERE f.idSetor = %s AND e.status != "Descartado"
                 '''
-                cursor.execute(comando_epi, (idSetor,))
+                cursor.execute(comando_epi_funcionario, (idSetor,))
                 epi_data = cursor.fetchone()
 
-                # Se não houver EPIs ou funcionários, marcar como 0
                 vencidos = epi_data[0] if epi_data[0] else 0
                 perto_vencimento = epi_data[1] if epi_data[1] else 0
 
@@ -51,6 +58,8 @@ def home():
                     'vencidos': vencidos,
                     'perto_vencimento': perto_vencimento
                 })
+
+            return render_template('home.html', setores=setores_data)
 
         except Exception as e:
             return f"Erro de BackEnd: {e}", 500

@@ -1,7 +1,7 @@
 from flask import Flask, Blueprint, render_template, request, redirect, session
 from database.conection import conecta_db
 from session.session  import require_login
-from werkzeug.security import generate_password_hash, check_password_hash
+from werkzeug.security import generate_password_hash
 
 telaadm_blueprint = Blueprint('telaadm', __name__, template_folder="templates")
 

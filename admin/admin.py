@@ -112,7 +112,11 @@ def cadastro_Funcionario():
 
 @admin_blueprint.route('/descarte')
 def descarte():
-    query = 'SELECT e.idEPI, e.codigoCA, e.nomeEquipamento, d.quantidade FROM epi e INNER JOIN descarte d ON d.idEquipamento = e.idEPI'
+    query = '''
+        SELECT e.idEPI, e.codigoCA, e.nomeEquipamento, d.quantidade, d.idDescarte
+        FROM epi e
+        INNER JOIN descarte d ON d.idEquipamento = e.idEPI
+    '''
     try:
         with conecta_db() as (conexao, cursor):
             cursor.execute(query)
@@ -122,45 +126,54 @@ def descarte():
         print("Erro ao buscar dados:", e)
         return "Erro ao buscar dados", 500
     
-@admin_blueprint.route('/descricaoDescarte/<int:idEPI>', methods=['GET'])
-def descricaoDescarte(idEPI):
+@admin_blueprint.route('/descricaoDescarte/<int:idDescarte>', methods=['GET'])
+def descricaoDescarte(idDescarte):
     try:
         with conecta_db() as (conexao, cursor):
-            cursor.execute('SELECT * FROM epi WHERE idEPI = %s', (idEPI,))
-            epi = cursor.fetchone()
-
-            cursor.execute('SELECT se.nomeSetor FROM setor se INNER JOIN epi ep ON se.idSetor = ep.idSetor WHERE idEPI = %s', (idEPI,))
-            nomeSetor = cursor.fetchone()[0]
-
-            cursor.execute('SELECT * FROM descarte WHERE idEquipamento = %s', (idEPI,))
-            descarte = cursor.fetchone()
-
-            if epi and descarte:
+            # Obter informações do descarte com base no idDescarte
+            cursor.execute('''
+                SELECT d.idEquipamento, d.motivoDescarte, d.localDescarte, d.dataDescarte, d.quantidade, 
+                       e.codigoCA, e.numeroSerie, e.marca, e.modelo, e.dataVencimento, e.status, 
+                       e.observacoes, e.nomeEquipamento, e.dataAquisicao, e.tamanho, e.quantidade, 
+                       s.nomeSetor
+                FROM descarte d
+                JOIN epi e ON d.idEquipamento = e.idEPI
+                JOIN setor s ON e.idSetor = s.idSetor
+                WHERE d.idDescarte = %s
+            ''', (idDescarte,))
+            
+            result = cursor.fetchone()
+            
+            if result:
+                # Mapeia os resultados para dicionários
                 epi = {
-                    'idEPI': epi[0],
-                    'codigoCA': epi[1],
-                    'numeroSerie': epi[2],
-                    'marca': epi[3],
-                    'modelo': epi[4],
-                    'dataVencimento': epi[6],
-                    'status': epi[7],
-                    'observacoes': epi[8],
-                    'nomeEquipamento': epi[9],
-                    'dataAquisicao': epi[10],
-                    'tamanho': epi[11],
-                    'quantidade': epi[12],
-                    'nomeSetor': nomeSetor
+                    'idEPI': result[0],
+                    'codigoCA': result[5],
+                    'numeroSerie': result[6],
+                    'marca': result[7],
+                    'modelo': result[8],
+                    'dataVencimento': result[9],
+                    'status': result[10],
+                    'observacoes': result[11],
+                    'nomeEquipamento': result[12],
+                    'dataAquisicao': result[13],
+                    'tamanho': result[14],
+                    'quantidade': result[15],
+                    'nomeSetor': result[16]
+                }
+                
+                descarte = {
+                    'idDescarte': idDescarte,
+                    'motivoDescarte': result[1],
+                    'localDescarte': result[2],
+                    'dataDescarte': result[3],
+                    'quantidade': result[4]
                 }
 
-                descarte = {
-                    'quantidade': descarte[5],
-                    'motivoDescarte': descarte[1],
-                    'localDescarte': descarte[2],
-                    'dataDescarte': descarte[3]
-                }
                 return render_template('descricaoDescarte.html', epi=epi, descarte=descarte)
             else:
-                return "EPI não encontrado", 404
+                return "Descarte não encontrado.", 404
+
     except Exception as e:
         return f"Ocorreu um erro: {e}", 500
         
@@ -232,18 +245,18 @@ def cadastroDescarte(idEPI):
                 return f"Erro de BackEnd: {e}", 500
             
 
-@admin_blueprint.route('/editDescarte/<int:idEPI>', methods=['GET', 'POST'])
-def editDescarte(idEPI):
+@admin_blueprint.route('/editDescarte/<int:idDescarte>', methods=['GET', 'POST'])
+def editDescarte(idDescarte):
     with conecta_db() as (conexao, cursor):
         if request.method == 'GET':
             try:
                 # Obter dados do descarte
                 cursor.execute('''
-                    SELECT d.idDescarte, d.motivoDescarte, d.localDescarte, d.quantidade, e.nomeEquipamento 
-                    FROM descarte d 
-                    INNER JOIN epi e ON d.idEquipamento = e.idEPI 
-                    WHERE d.idEquipamento = %s
-                ''', (idEPI,))
+                    SELECT d.idDescarte, d.motivoDescarte, d.localDescarte, d.quantidade, e.nomeEquipamento, e.idEPI
+                    FROM descarte d
+                    INNER JOIN epi e ON d.idEquipamento = e.idEPI
+                    WHERE d.idDescarte = %s
+                ''', (idDescarte,))
                 result = cursor.fetchone()
 
                 if result:
@@ -253,13 +266,13 @@ def editDescarte(idEPI):
                         'localDescarte': result[2],
                         'quantidade': int(result[3]),
                         'nomeEquipamento': result[4],
-                        'idEPI': idEPI
+                        'idEPI': result[5]
                     }
                 else:
-                    return "Erro: Descarte não encontrado para o EPI especificado.", 404
+                    return "Erro: Descarte não encontrado.", 404
                 
                 # Obter quantidade disponível no estoque
-                cursor.execute('SELECT quantidade FROM epi WHERE idEPI = %s', (idEPI,))
+                cursor.execute('SELECT quantidade FROM epi WHERE idEPI = %s', (descarte['idEPI'],))
                 result = cursor.fetchone()
                 if result:
                     quantidadeDisponivel = result[0]
@@ -281,6 +294,14 @@ def editDescarte(idEPI):
                 novo_localDescarte = request.form['localDescarte']
                 nova_quantidade = int(request.form['quantidade'])
 
+                # Obter o ID do EPI relacionado ao descarte
+                cursor.execute('SELECT idEquipamento FROM descarte WHERE idDescarte = %s', (idDescarte,))
+                result = cursor.fetchone()
+                if result:
+                    idEPI = result[0]
+                else:
+                    return "Erro: Registro de descarte não encontrado.", 404
+
                 cursor.execute('SELECT quantidade FROM epi WHERE idEPI = %s', (idEPI,))
                 result = cursor.fetchone()
                 if result:
@@ -288,7 +309,7 @@ def editDescarte(idEPI):
                 else:
                     return "Erro: EPI não encontrado.", 404
                 
-                cursor.execute('SELECT quantidade FROM descarte WHERE idEquipamento = %s', (idEPI,))
+                cursor.execute('SELECT quantidade FROM descarte WHERE idDescarte = %s', (idDescarte,))
                 result = cursor.fetchone()
                 if result:
                     quantidade_descartada_anterior = result[0]
@@ -306,10 +327,11 @@ def editDescarte(idEPI):
                 cursor.execute('''
                     UPDATE descarte 
                     SET motivoDescarte = %s, localDescarte = %s, quantidade = %s, dataDescarte = NOW() 
-                    WHERE idEquipamento = %s
-                ''', (novo_motivo, novo_localDescarte, nova_quantidade, idEPI))
+                    WHERE idDescarte = %s
+                ''', (novo_motivo, novo_localDescarte, nova_quantidade, idDescarte))
                 conexao.commit()
 
+                # Inserção no backlog
                 comando_backlog = '''
                     INSERT INTO Backlog (dataHora, acao, idSupervisor) 
                     VALUES (NOW(), %s, %s)
@@ -319,7 +341,7 @@ def editDescarte(idEPI):
                 cursor.execute(comando_backlog, (acao, idSupervisor))
                 conexao.commit()
 
-                return redirect(f'/descricaoDescarte/{idEPI}')
+                return redirect(f'/descricaoDescarte/{idDescarte}')
 
             except Exception as e:
                 return f"Erro de BackEnd: {e}", 500
@@ -575,35 +597,32 @@ def descarteEPI_alocado(id):
             except Exception as e:
                 return f"Erro de BackEnd: {e}", 500
 
-@admin_blueprint.route('/descricaoDescarte/<int:idEPI>', methods=['POST'])
-def excluirDescarte(idEPI):
+@admin_blueprint.route('/excluirDescarte/<int:idDescarte>', methods=['POST'])
+def excluirDescarte(idDescarte):
     try:
         with conecta_db() as (conexao, cursor):
-            cursor.execute('SELECT * FROM descarte WHERE idEquipamento = %s', (idEPI,))
-            descarte = cursor.fetchone()
+            cursor.execute('SELECT idEquipamento FROM descarte WHERE idDescarte = %s', (idDescarte,))
+            result = cursor.fetchone()
 
-            if not descarte:
+            if not result:
                 return "Descarte não encontrado", 404
 
-          
-            cursor.execute('DELETE FROM descarte WHERE idEquipamento = %s', (idEPI,))
+            idEPI = result[0]  
+
+            cursor.execute('DELETE FROM descarte WHERE idDescarte = %s', (idDescarte,))
             conexao.commit()
 
-           
-            cursor.execute('DELETE FROM epi WHERE idEPI = %s', (idEPI,))
-            conexao.commit()
-
-          
             idSupervisor = 1  
             comando_backlog = '''
                 INSERT INTO Backlog (dataHora, acao, idSupervisor)
                 VALUES (NOW(), %s, %s)
             '''
-            acao = f"Exclusão do descarte e do EPI: {idEPI}"
+            acao = f"Exclusão do descarte do EPI: {idEPI}"
             cursor.execute(comando_backlog, (acao, idSupervisor))
             conexao.commit()
 
             return redirect('/descarte') 
+
     except Exception as e:
-        return f"Erro ao excluir o descarte e o EPI: {e}", 500, 
+        return f"Erro ao excluir o descarte e o EPI: {e}", 500
 
