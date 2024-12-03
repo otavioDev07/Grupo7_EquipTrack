@@ -169,45 +169,24 @@
 <main>
     <div class="main-content">
         <div class="container-details">
-            <h3>{{ cipeiro[0].nomeSupervisor }}</h3>
-            <p><strong>CPF:</strong> {{ cipeiro[0].CPF }}</p>
-
+            <h3>{{ cipeiro[0]['nomeSupervisor'] }}</h3>
+            <p><strong>CPF:</strong> {{ cipeiro[0]['CPF'] }}</p>
             <div class="info-group">
                 <div class="info-box">
                     <span class="info-header">ID Supervisor</span>
-                    <span>{{ cipeiro[0].idSupervisor }}</span>
+                    <span>{{ cipeiro[0]['idSupervisor'] }}</span>
                 </div>
                 <div class="info-box">
                     <span class="info-header">Status</span>
-                    <span>{{ cipeiro[0].status }}</span>
-                </div>
-                <div class="info-box">
-                    <span class="info-header">Senha de Acesso</span>
-                    <span>{{ cipeiro[0].senhaAcesso }}</span>
+                    <span>{{ cipeiro[0]['status'] }}</span>
                 </div>
             </div>
 
-            <div class="button-row">
-                <!-- Botão Ativar/Inativar -->
-                {% if cipeiro[0].status == 'ativo' %}
-                    <form method="POST" action="/detalhesCipeiro/{{ cipeiro[0].idSupervisor }}">
-                        <input type="hidden" name="novoStatus" value="inativo">
-                        <button type="submit">Inativar</button>
-                    </form>
-                {% elif cipeiro[0].status == 'inativo' %}
-                    <form method="POST" action="/detalhesCipeiro/{{ cipeiro[0].idSupervisor }}">
-                        <input type="hidden" name="novoStatus" value="ativo">
-                        <button type="submit">Ativar</button>
-                    </form>
-                {% endif %}
-
-                <!-- Botão Editar -->
-                <a href="/editarCipeiro/{{ cipeiro[0].idSupervisor }}">
+                <a href="/editarCipeiro/{{ cipeiro[0]['idSupervisor'] }}">
                     <button class="editar">Editar</button>
                 </a>
 
-                <!-- Botão Excluir -->
-                <form method="POST" action="/excluirCipeiro/{{ cipeiro[0].idSupervisor }}">
+                <form method="POST" action="/excluirCipeiro/{{ cipeiro[0]['idSupervisor'] }}">
                     <button type="submit" class="excluir">Excluir</button>
                 </form>
             </div>

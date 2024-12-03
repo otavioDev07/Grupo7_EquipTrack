@@ -1,7 +1,7 @@
 from flask import Flask, Blueprint, render_template, request, redirect, session
 from database.conection import conecta_db
 from session.session  import require_login
-from werkzeug.security import generate_password_hash, check_password_hash
+from werkzeug.security import generate_password_hash
 
 
 telaadm_blueprint = Blueprint('telaadm', __name__, template_folder="templates")
@@ -33,7 +33,7 @@ def telaadm():
 def detalhesCipeiro(idSupervisor):
     with conecta_db() as (conexao, cursor):
         try:
-            query = 'SELECT idSupervisor, nomeSupervisor, CPF, status, senhaAcesso FROM supervisor WHERE idSupervisor = %s'
+            query = 'SELECT idSupervisor, nomeSupervisor, CPF, status FROM supervisor WHERE idSupervisor = %s'
             cursor.execute(query, (idSupervisor,))
             result = cursor.fetchall()
 
@@ -43,8 +43,7 @@ def detalhesCipeiro(idSupervisor):
                         'idSupervisor': row[0],
                         'nomeSupervisor': row[1],
                         'CPF': row[2],
-                        'status': row[3],
-                        'senhaAcesso': row[4]
+                        'status': row[3]
                     }
                     for row in result
                 ]
@@ -85,13 +84,13 @@ def cadastrarCipeiro():
             except Exception as e:
                 return f"Erro de BackEnd: {e}", 500
 
-@telaadm_blueprint.route('/editarCipeiro/<int:idSupervisor>', methods=['GET', 'POST'])
+@telaadm_blueprint.route('/editarCipeiro/<int:idSupervisor>', methods=['GET', 'PUT'])
 @require_login
 def editarCipeiro(idSupervisor):
     with conecta_db() as (conexao, cursor):
         if request.method == 'GET':
             try:
-                query = 'SELECT idSupervisor, nomeSupervisor, CPF, status, senhaAcesso FROM supervisor WHERE idSupervisor = %s'
+                query = 'SELECT idSupervisor, nomeSupervisor, CPF, status FROM supervisor WHERE idSupervisor = %s'
                 cursor.execute(query, (idSupervisor,))
                 result = cursor.fetchone()  
 
@@ -100,8 +99,7 @@ def editarCipeiro(idSupervisor):
                         'idSupervisor': result[0],
                         'nomeSupervisor': result[1],
                         'CPF': result[2],
-                        'status': result[3],
-                        'senhaAcesso': result[4]
+                        'status': result[3]
                     }
                     return render_template('editarCipeiro.html', cipeiro=cipeiro)
                 else:
@@ -109,19 +107,20 @@ def editarCipeiro(idSupervisor):
             except Exception as e:
                 return f"Erro de BackEnd: {e}", 500
 
-        if request.method == 'POST':
+        if request.method == 'PUT':
             try:
                 nome = request.form['nomeSupervisor']
                 cpf = request.form['CPF']
                 status = request.form['status']
                 senhaAcesso = request.form['senhaAcesso']
+                senha_cript = generate_password_hash(senhaAcesso)
 
                 comando = '''
                     UPDATE supervisor
                     SET nomeSupervisor = %s, CPF = %s, status = %s, senhaAcesso = %s
                     WHERE idSupervisor = %s
                 '''
-                cursor.execute(comando, (nome, cpf, status, senhaAcesso, idSupervisor))
+                cursor.execute(comando, (nome, cpf, status, senha_cript, idSupervisor))
                 conexao.commit()
 
                 return redirect(f'/detalhesCipeiro/{idSupervisor}')
