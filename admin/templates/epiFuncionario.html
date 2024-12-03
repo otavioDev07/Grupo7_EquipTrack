@@ -110,11 +110,11 @@ main {
         <span class="info-header">Código CA</span>
         <span>{{ epi.codigoCA }}</span>
     </div>
-    <div class="col-md-4 info-box">
+    <div class="col-md-4 info-box" style="margin-left: 2%;">
         <span class="info-header">Número de série</span>
         <span>{{ epi.numeroSerie }}</span>
     </div>
-    <div class="col-md-4 info-box" style="margin-left: 2%;">
+    <div class="col-md-4 info-box" >
         <span class="info-header">Modelo</span>
         <span>{{ epi.modelo }}</span>
     </div>
@@ -155,18 +155,21 @@ main {
         <span>{{ epi.marca }}</span>
     </div>
 </div>
-    <div class="col-md-4 info-box" style="margin-left: 2%;">
-        <span class="info-header">Observações</span>
-        <span>{{ epi.observacoes }}</span>
-    </div>
 </div>
 
-<div class="row" style="padding-top: 2%;">
-    <div class="col-md-4 info-box">
+<div class="row">
+<div class="col-md-4 info-box" style="margin-left: 1%;">
+    <span class="info-header">Observações</span>
+    <span>{{ epi.observacoes }}</span>
+</div>
+</div>
+
+<div class="row">
+    <div class="col-md-4 info-box" style="margin-left: 1%;">
         <span class="info-header">Status</span>
         <span>Em uso</span>
     </div>
-    <div class="col-md-4 info-box" style="margin-left: 3%;">
+    <div class="col-md-4 info-box" style="margin-left: 1%;">
         <span class="info-header">Tamanho</span>
         <span>{{ epi.tamanho }}</span>
     </div>
