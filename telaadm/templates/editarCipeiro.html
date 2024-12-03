@@ -105,7 +105,7 @@
         <div class="container-details">
             <h3>Editar Cipeiro - {{ cipeiro.nomeSupervisor }}</h3>
 
-            <form method="PUT" action="/detalhesCipeiro/{{cipeiro.idSupervisor}}">
+            <form method="POST" action="/editarCipeiro/{{cipeiro.idSupervisor}}">
                 <div class="form-group">
                     <label for="nomeSupervisor">Nome Supervisor</label>
                     <input type="text" id="nomeSupervisor" name="nomeSupervisor" value="{{ cipeiro.nomeSupervisor }}" required>

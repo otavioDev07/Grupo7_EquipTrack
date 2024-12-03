@@ -83,7 +83,7 @@ def cadastrarCipeiro():
             except Exception as e:
                 return f"Erro de BackEnd: {e}", 500
 
-@telaadm_blueprint.route('/editarCipeiro/<int:idSupervisor>', methods=['GET', 'PUT'])
+@telaadm_blueprint.route('/editarCipeiro/<int:idSupervisor>', methods=['GET', 'POST'])
 @require_login
 def editarCipeiro(idSupervisor):
     with conecta_db() as (conexao, cursor):
@@ -106,22 +106,30 @@ def editarCipeiro(idSupervisor):
             except Exception as e:
                 return f"Erro de BackEnd: {e}", 500
 
-        if request.method == 'PUT':
+        if request.method == 'POST':
             try:
                 nome = request.form['nomeSupervisor']
                 cpf = request.form['CPF']
                 status = request.form['status']
-                senhaAcesso = request.form['senhaAcesso']
-                senha_cript = generate_password_hash(senhaAcesso)
+                senhaAcesso = request.form.get('senhaAcesso', '').strip()
 
-                comando = '''
-                    UPDATE supervisor
-                    SET nomeSupervisor = %s, CPF = %s, status = %s, senhaAcesso = %s
-                    WHERE idSupervisor = %s
-                '''
-                cursor.execute(comando, (nome, cpf, status, senha_cript, idSupervisor))
+                if senhaAcesso: 
+                    senha_cript = generate_password_hash(senhaAcesso)
+                    comando = '''
+                        UPDATE supervisor
+                        SET nomeSupervisor = %s, CPF = %s, status = %s, senhaAcesso = %s
+                        WHERE idSupervisor = %s
+                    '''
+                    cursor.execute(comando, (nome, cpf, status, senha_cript, idSupervisor))
+                else:  
+                    comando = '''
+                        UPDATE supervisor
+                        SET nomeSupervisor = %s, CPF = %s, status = %s
+                        WHERE idSupervisor = %s
+                    '''
+                    cursor.execute(comando, (nome, cpf, status, idSupervisor))
+
                 conexao.commit()
-
                 return redirect(f'/detalhesCipeiro/{idSupervisor}')
             except Exception as e:
                 return f"Erro ao salvar as edições: {e}", 500

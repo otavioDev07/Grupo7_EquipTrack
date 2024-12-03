@@ -250,7 +250,6 @@ def editDescarte(idDescarte):
     with conecta_db() as (conexao, cursor):
         if request.method == 'GET':
             try:
-                # Obter dados do descarte
                 cursor.execute('''
                     SELECT d.idDescarte, d.motivoDescarte, d.localDescarte, d.quantidade, e.nomeEquipamento, e.idEPI
                     FROM descarte d
@@ -271,7 +270,6 @@ def editDescarte(idDescarte):
                 else:
                     return "Erro: Descarte não encontrado.", 404
                 
-                # Obter quantidade disponível no estoque
                 cursor.execute('SELECT quantidade FROM epi WHERE idEPI = %s', (descarte['idEPI'],))
                 result = cursor.fetchone()
                 if result:
@@ -279,7 +277,6 @@ def editDescarte(idDescarte):
                 else:
                     return "Erro: EPI não encontrado.", 404
                 
-                # Passar dados para o template
                 return render_template(
                     'edicaoDescarte.html', 
                     descarte=descarte, 
@@ -294,7 +291,6 @@ def editDescarte(idDescarte):
                 novo_localDescarte = request.form['localDescarte']
                 nova_quantidade = int(request.form['quantidade'])
 
-                # Obter o ID do EPI relacionado ao descarte
                 cursor.execute('SELECT idEquipamento FROM descarte WHERE idDescarte = %s', (idDescarte,))
                 result = cursor.fetchone()
                 if result:
@@ -331,7 +327,6 @@ def editDescarte(idDescarte):
                 ''', (novo_motivo, novo_localDescarte, nova_quantidade, idDescarte))
                 conexao.commit()
 
-                # Inserção no backlog
                 comando_backlog = '''
                     INSERT INTO Backlog (dataHora, acao, idSupervisor) 
                     VALUES (NOW(), %s, %s)
