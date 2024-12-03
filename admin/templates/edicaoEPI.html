@@ -76,71 +76,70 @@
 </style>
 
 <div class="container-fluid">
-    <form action="/cadastroEPI" method="POST">
+    <form action="/editarEPI/{{ idEPI }}" method="POST">
     <div class="row form-container justify-content-center">
        
-        <!-- Coluna do lado esquerdo -->
         <div class="col-12 col-md-6 col-lg-5 box dashed-border" tabindex="0">
             <div class="form-group">
                 <label for="nome">Nome</label>
-                <input type="text" id="nome" name="nome" placeholder="Escreva aqui...">
+                <input type="text" id="nome" name="nome" value="{{ epi[0] }}" placeholder="Escreva aqui...">
             </div>
             <div class="form-group">
                 <label for="numero-serie">Número de Série</label>
-                <input type="text" id="numero-serie" name="numero-serie" placeholder="Escreva aqui...">
+                <input type="text" id="numero-serie" name="numero-serie" value="{{ epi[1] }}" placeholder="Escreva aqui...">
             </div>
             <div class="form-group">
                 <label for="ca">CA</label>
-                <input type="text" id="ca" name="ca" placeholder="Escreva aqui...">
+                <input type="text" id="ca" name="ca" value="{{ epi[2] }}" placeholder="Escreva aqui...">
             </div>
             <div class="form-group">
                 <label for="marca">Marca</label>
-                <input type="text" id="marca" name="marca" placeholder="Escreva aqui...">
+                <input type="text" id="marca" name="marca" value="{{ epi[3] }}" placeholder="Escreva aqui...">
             </div>
             <div class="form-group">
                 <label for="modelo">Modelo <span class="optional">* Opcional</span></label>
-                <input type="text" id="modelo" name="modelo" placeholder="Escreva aqui...">
+                <input type="text" id="modelo" name="modelo" value="{{ epi[4] }}" placeholder="Escreva aqui...">
             </div>
             <div class="form-group">
                 <label for="data-aquisicao">Data de Aquisição</label>
-                <input type="date" name="dataAquisicao" id="data-aquisicao">
+                <input type="date" name="dataAquisicao" id="data-aquisicao" value="{{ epi[5] }}">
             </div>
             <div class="form-group">
                 <label for="data-vencimento">Data de Vencimento</label>
-                <input type="date" name="dataVencimento" id="data-vencimento">
+                <input type="date" name="dataVencimento" id="data-vencimento" value="{{ epi[6] }}">
             </div>
         </div>
 
-        <!-- Coluna do lado direito -->
         <div class="col-12 col-md-6 col-lg-5 box dashed-border" tabindex="0">
             <div class="form-group">
-                <label for="status">Setor</label>
-                <select id="setor">
+                <label for="setor">Setor</label>
+                <select id="setor" name="setor">
                     <option value="" selected disabled>Selecione...</option>
                     {% for setor in setores %}
-                    <option value="{{ setor[0] }}">{{setor[1]}}</option>
+                        <option value="{{ setor[0] }}" {% if setor[0] == epi[7] %}selected{% endif %}>
+                            {{ setor[1] }}
+                        </option>
                     {% endfor %}
                 </select>
             </div>
             <div class="form-group">
                 <label for="status">Status</label>
-                <select id="status">
-                    <option>Selecione...</option>
-                    <option>Estoque</option>
+                <select id="status" name="status">
+                    <option value="Estoque" {% if epi[8] == "Estoque" %}selected{% endif %}>Estoque</option>
                 </select>
             </div>
     
             <div class="form-group">
                 <label for="quantidade">Quantidade</label>
-                <input type="number" id="quantidade" name="quantidade" placeholder="Escreva aqui...">
+                <input type="number" id="quantidade" name="quantidade" value="{{ epi[9] }}" placeholder="Escreva aqui...">
             </div>
             <div class="form-group">
                 <label for="observacao">Observação <span class="optional">* Opcional</span></label>
-                <textarea id="observacao" name="observacoes" rows="4" maxlength="200" placeholder="Escreva aqui..."></textarea>
+                <textarea id="observacao" name="observacoes" rows="4" maxlength="200" placeholder="Escreva aqui...">{{ epi[10] }}</textarea>
             </div>
             <div class="form-group">
                 <label for="tamanho">Tamanho <span class="optional">* Opcional</span></label>
-                <input type="text" id="tamanho" name="tamanho" placeholder="Escreva aqui...">
+                <input type="text" id="tamanho" name="tamanho" value="{{ epi[11] }}" placeholder="Escreva aqui...">
             </div>
         </div>
     </div>
