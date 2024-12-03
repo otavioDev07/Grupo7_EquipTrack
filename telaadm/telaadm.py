@@ -89,16 +89,13 @@ def cadastrarCipeiro():
 @require_login
 def editarCipeiro(idSupervisor):
     with conecta_db() as (conexao, cursor):
-        # Se o método for GET, buscar os dados do supervisor para preencher o formulário
         if request.method == 'GET':
             try:
-                # Consulta para obter os dados do supervisor
                 query = 'SELECT idSupervisor, nomeSupervisor, CPF, status, senhaAcesso FROM supervisor WHERE idSupervisor = %s'
                 cursor.execute(query, (idSupervisor,))
-                result = cursor.fetchone()  # Usa fetchone para pegar apenas uma linha
+                result = cursor.fetchone()  
 
                 if result:
-                    # Organize os dados em um dicionário para fácil acesso no template
                     cipeiro = {
                         'idSupervisor': result[0],
                         'nomeSupervisor': result[1],
@@ -112,16 +109,13 @@ def editarCipeiro(idSupervisor):
             except Exception as e:
                 return f"Erro de BackEnd: {e}", 500
 
-        # Se o método for POST, salvar as edições
         if request.method == 'POST':
             try:
-                # Pegando os dados do formulário de edição
                 nome = request.form['nomeSupervisor']
                 cpf = request.form['CPF']
                 status = request.form['status']
                 senhaAcesso = request.form['senhaAcesso']
 
-                # Comando SQL para atualizar os dados do supervisor no banco
                 comando = '''
                     UPDATE supervisor
                     SET nomeSupervisor = %s, CPF = %s, status = %s, senhaAcesso = %s
@@ -130,7 +124,6 @@ def editarCipeiro(idSupervisor):
                 cursor.execute(comando, (nome, cpf, status, senhaAcesso, idSupervisor))
                 conexao.commit()
 
-                # Após salvar, redirecionar de volta para os detalhes do supervisor
                 return redirect(f'/detalhesCipeiro/{idSupervisor}')
             except Exception as e:
                 return f"Erro ao salvar as edições: {e}", 500
