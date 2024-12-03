@@ -5,7 +5,7 @@ from contextlib import contextmanager
 db_blueprint = Blueprint('database', __name__)
 
 DB_CONFIG = {
-    'host': '10.142.227.160',
+    'host': 'localhost',
     'user': 'root',
     'password': 'senai',
     'database': 'equiptrack'
@@ -15,7 +15,7 @@ DB_CONFIG = {
 @contextmanager
 def conecta_db():
     conexaoDB = mysql.connector.connect(**DB_CONFIG)
-    cursorDB = conexaoDB.cursor()
+    cursorDB = conexaoDB.cursor(buffered=True)
     try:
         yield conexaoDB, cursorDB  # "empresta" a conexão e o cursor para o bloco "with"
     finally:

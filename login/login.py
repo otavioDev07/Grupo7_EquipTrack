@@ -23,9 +23,6 @@ def login():
 
         if result:
             id_supervisor, hashed_password = result
-            # Verificação da senha
-            print(hashed_password)
-            print(password)
             if check_password_hash(hashed_password, password):
                 session['idSupervisor'] = id_supervisor 
                 flash('Login realizado com sucesso!', 'success')

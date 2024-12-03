@@ -394,14 +394,14 @@ button:hover {
                     <img src="/static/images/icone1.png" alt="Ilustração" class="image">
                 </div>
                 <div class="text-content">
-                    <div style="padding-left: 90%; "><button class="close-btn-close" onclick="closeWelcomeBox()">X</button> <!-- Botão de fechar --></div>
+                    <div style="padding-left: 90%;">
+                        <button class="close-btn-close" onclick="closeWelcomeBox()">X</button> <!-- Botão de fechar -->
+                    </div>
                     <h1 class="fw-bold">Seja Bem-vindo</h1>
                     <p>Aqui você tem acesso aos EPIs da escola. Use esta página para verificar datas de validade, estado de conservação e estoque, além de atualizar o status dos equipamentos e receber notificações sobre vencimentos próximos.</p>
                 </div>
             </div>
-            
         </div>
-        <!-- Modal para opções de cadastro -->
         <div class="modal fade" id="cadastrarModal" tabindex="-1" aria-labelledby="cadastrarModalLabel" aria-hidden="true">
             <div class="modal-dialog modal-dialog-centered">
                 <div class="modal-content">
@@ -422,89 +422,29 @@ button:hover {
             </div>
         </div>
         <div class="card-container">
-            <a href="{{url_for('admin.get_funcionarios', idSetor=1)}}">
+            {% for setor in setores %}
+            <a href="{{ url_for('admin.get_funcionarios', idSetor=setor.idSetor) }}">
                 <div class="card">
                     <div class="icon">
-                        <img src="/static/images/cozinha.png" alt="Cozinha">
+                        <img src="/static/images/{{ setor.nomeSetor | lower | replace(' ', '_') }}.png" alt="{{ setor.nomeSetor }}">
                     </div>
-                    <h3>Cozinha</h3>
+                    <h3>{{ setor.nomeSetor }}</h3>
                     <div class="icon">
                         <div class="indicators">
-                            <div class="indicator red">
+                            <!-- Bolinhas dinâmicas -->
+                            <div class="indicator red" {% if setor.vencidos == 0 %}style="display: none;"{% endif %}>
                                 <div class="circle"></div>
-                                <span class="number">5</span>
+                                <span class="number">{{ setor.vencidos }}</span>
                             </div>
-                            <div class="indicator yellow">
+                            <div class="indicator yellow" {% if setor.perto_vencimento == 0 %}style="display: none;"{% endif %}>
                                 <div class="circle"></div>
-                                <span class="number">2</span>
+                                <span class="number">{{ setor.perto_vencimento }}</span>
                             </div>
                         </div>
                     </div>
                 </div>
             </a>
-        
-            <a href="{{url_for('admin.get_funcionarios', idSetor=2)}}">
-                <div class="card">
-                    <div class="icon">
-                        <img src="/static/images/manutenção.png" alt="Manutenção">
-                    </div>
-                    <h3>Manutenção</h3>
-                    <div class="icon">
-                        <div class="indicators">
-                            <div class="indicator red">
-                                <div class="circle"></div>
-                                <span class="number">5</span>
-                            </div>
-                            <div class="indicator yellow">
-                                <div class="circle"></div>
-                                <span class="number">2</span>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </a>
-        
-            <a href="{{url_for('admin.get_funcionarios', idSetor=4)}}">
-                <div class="card">
-                    <div class="icon">
-                        <img src="/static/images/profs.png" alt="Professores">
-                    </div>
-                    <h3>Professores</h3>
-                    <div class="icon">
-                        <div class="indicators">
-                            <div class="indicator red">
-                                <div class="circle"></div>
-                                <span class="number">5</span>
-                            </div>
-                            <div class="indicator yellow">
-                                <div class="circle"></div>
-                                <span class="number">2</span>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </a>
-        
-            <a href="{{url_for('admin.get_funcionarios', idSetor=3)}}">
-                <div class="card">
-                    <div class="icon">
-                        <img src="/static/images/inspetores.png" alt="Inspetores">
-                    </div>
-                    <h3>Inspetores</h3>
-                    <div class="icon">
-                        <div class="indicators">
-                            <div class="indicator red">
-                                <div class="circle"></div>
-                                <span class="number">5</span>
-                            </div>
-                            <div class="indicator yellow">
-                                <div class="circle"></div>
-                                <span class="number">2</span>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </a>
+            {% endfor %}
         </div>
 
 <!-- Atividade Mensal -->

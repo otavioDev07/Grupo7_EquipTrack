@@ -3,7 +3,6 @@ from database.conection import conecta_db
 from session.session  import require_login
 from werkzeug.security import generate_password_hash
 
-
 telaadm_blueprint = Blueprint('telaadm', __name__, template_folder="templates")
 
 @telaadm_blueprint.route('/telaadm', methods=['GET'])
