@@ -139,9 +139,10 @@
                 <span class="info-header">Quantidade</span>
                 <span>{{ epi.quantidade }}</span>
             </div>
+            
             <div class="info-box">
-                <span class="info-header">Categoria</span>
-                <span>{{ epi.categoria }}</span>
+                <span class="info-header">Setor</span>
+                <span>{{ epi.nomeSetor[0] }}</span>
             </div>
             <div class="date-container">
                 <div class="label">Data de vencimento<br><small>Fim</small></div>
@@ -150,24 +151,12 @@
                 </div>
             </div>
             <div class="info-box">
-                <span class="info-header">Setor</span>
-                <span>{{ epi.nomeSetor[0] }}</span>
-            </div>
-            <div class="info-box">
                 <span class="info-header">Marca</span>
                 <span>{{ epi.marca }}</span>
             </div>
             <div class="info-box">
-                <span class="info-header">Nome do colaborador</span>
-                <span>{{ epi.nomeColaborador[0] if epi.nomeColaborador else "Não alocado" }}</span>
-            </div>
-            <div class="info-box">
                 <span class="info-header">Tamanho</span>
                 <span>{{ epi.tamanho }}</span>
-            </div>
-            <div class="info-box">
-                <span class="info-header">Status</span>
-                <span>{{ epi.status }}</span>
             </div>
         </div>
 
@@ -178,7 +167,7 @@
             <a href="{{ url_for('admin.cadastroDescarte', idEPI=epi.idEPI) }}" style="text-decoration: none;">
                 <button class="descarte">Descartar</button>
             </a>
-            <button>Editar</button>
+            <form action="/editarEPI/{{epi.idEPI}}" method="GET"><button type="submit">Editar</button></form>
         </div>
     </div>
 </main>

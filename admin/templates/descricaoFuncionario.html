@@ -129,8 +129,7 @@ button:hover {
                 <p><strong style="color:black">Condições Especiais:</strong> {{funcionario.condicoesEspeciais}}</p>
             </div>
         {% endif %}
-        <div class="mb-3">
-            <div class="p-3" style="background-color: #f4a261; color: #fff; border-radius: 10px;">
+            <div class="p-3 my-2" style="background-color: #f4a261; color: #fff; border-radius: 10px;">
                 <p><strong style="color:black">Tamanho de vestimentas:</strong> {{funcionario.tamRoupa}}</p>
             </div>
         </div>
@@ -139,10 +138,11 @@ button:hover {
             </div>
         </div>
 
-        <!-- Botão Editar -->
-        <div class="col-md-2">
-            <button>Editar</button>
-        </div>
+        <form action="/editarFuncionario/{{ funcionario.idFuncionario }}" method="get">
+            <div class="col-md-2">
+                <button type="submit">Editar</button>
+            </div>
+        </form>
     </div>
 
     <div class="col-md-12 mt-4">
