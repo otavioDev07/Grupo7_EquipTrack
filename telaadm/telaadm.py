@@ -112,6 +112,7 @@ def editarCipeiro(idSupervisor):
                 cpf = request.form['CPF']
                 status = request.form['status']
                 senhaAcesso = request.form.get('senhaAcesso', '').strip()
+                idSupervisor = session['idSupervisor']
 
                 if senhaAcesso: 
                     senha_cript = generate_password_hash(senhaAcesso)
@@ -130,10 +131,41 @@ def editarCipeiro(idSupervisor):
                     cursor.execute(comando, (nome, cpf, status, idSupervisor))
 
                 conexao.commit()
+
+                comando_inserir_backlog = '''
+                    INSERT INTO Backlog (dataHora, acao, idSupervisor) 
+                    VALUES (NOW(), %s, %s)
+                ''' 
+                acao = f"Edição do Cipeiro: {nome} "
+                cursor.execute(comando_inserir_backlog, (acao, idSupervisor))
+                conexao.commit()
                 return redirect(f'/detalhesCipeiro/{idSupervisor}')
             except Exception as e:
                 return f"Erro ao salvar as edições: {e}", 500
 
+# @telaadm_blueprint.route('/excluirCipeiro/<int:idSupervisor>', methods=['POST'])
+# @require_login
+# def excluirCipeiro(idSupervisor):
+#     with conecta_db() as (conexao, cursor):
+#         try:
+#             comando = 'DELETE FROM supervisor WHERE idSupervisor = %s'
+#             cursor.execute(comando, (idSupervisor,))
+#             conexao.commit()
+
+#             cursor.execute('SELECT nomeSupervisor FROM supervisor WHERE idSupervisor = %s', (idSupervisor,))
+#             nomeSupervisor = cursor.fetchone()[0]
+#             idSupervisor = session['idSupervisor']
+
+#             comando_inserir_backlog = '''
+#                     INSERT INTO Backlog (dataHora, acao, idSupervisor) 
+#                     VALUES (NOW(), %s, %s)
+#                 ''' 
+#             acao = f"Exclusão do Cipeiro: {nomeSupervisor} "
+#             cursor.execute(comando_inserir_backlog, (acao, idSupervisor))
+#             conexao.commit()        
+#             return redirect('/telaadm')
+#         except Exception as e:
+#             return f"Erro ao excluir o CIPEIRO: {e}", 500
 
 if __name__ == '__main__':
     telaadm_blueprint.run(debug=True)

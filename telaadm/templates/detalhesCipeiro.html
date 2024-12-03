@@ -173,10 +173,6 @@
             <p><strong>CPF:</strong> {{ cipeiro[0]['CPF'] }}</p>
             <div class="info-group">
                 <div class="info-box">
-                    <span class="info-header">ID Supervisor</span>
-                    <span>{{ cipeiro[0]['idSupervisor'] }}</span>
-                </div>
-                <div class="info-box">
                     <span class="info-header">Status</span>
                     <span>{{ cipeiro[0]['status'] }}</span>
                 </div>
@@ -185,10 +181,12 @@
                 <a href="/editarCipeiro/{{ cipeiro[0]['idSupervisor'] }}">
                     <button class="editar">Editar</button>
                 </a>
-
+                
+                {% if cipeiro[0]['status'] == 'inativo'%}
                 <form method="POST" action="/excluirCipeiro/{{ cipeiro[0]['idSupervisor'] }}">
                     <button type="submit" class="excluir">Excluir</button>
                 </form>
+                {% endif %}
             </div>
         </div>
     </div>

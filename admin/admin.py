@@ -1,15 +1,15 @@
-from flask import render_template, Blueprint, request, redirect
+from flask import render_template, Blueprint, request, redirect, session
 from database.conection import *
 from datetime import datetime
 from datetime import date
 from mysql.connector import Error
+from session.session import require_login
 
 admin_blueprint = Blueprint('admin', __name__, template_folder="templates")
 
 @admin_blueprint.route('/cadastroEPI', methods=['GET','POST'])
 def cadastro_EPI():
     if request.method == 'GET':
-        #1 SELECT PARA PUXAR OS SETORES
         with conecta_db() as (conexao, cursor):
             cursor.execute('SELECT * FROM setor')
             setores = cursor.fetchall()
@@ -18,7 +18,6 @@ def cadastro_EPI():
     if request.method == 'POST':
         with conecta_db() as (conexao, cursor):
             try:
-                # Campos obrigatórios
                 codigoCA = request.form['ca']
                 numeroSerie = request.form['numero-serie']
                 marca = request.form['marca']
@@ -28,9 +27,8 @@ def cadastro_EPI():
                 dataVencimento = request.form['dataVencimento']
 
                 idSetor = request.form['idSetor'] #Verificar se o valor está vindo 
-                idSupervisor = 1 #Virá através da autenticação (Não feito ainda)
+                idSupervisor = session['idSupervisor']
 
-                # Campos opcionais
                 modelo = request.form.get('modelo')
                 observacoes = request.form.get('observacoes')
                 tamanho = request.form.get('tamanho')
@@ -38,7 +36,6 @@ def cadastro_EPI():
                 
                 status = 'Estoque'
 
-                # Validação das datas
                 try:
                     dataVencimento = datetime.strptime(dataVencimento, '%Y-%m-%d').strftime('%Y/%m/%d')
                     dataAquisicao = datetime.strptime(dataAquisicao, '%Y-%m-%d').strftime('%Y/%m/%d')
@@ -66,6 +63,60 @@ def cadastro_EPI():
             except Error as e:
                 return f"Erro de BD:{e}"
 
+@admin_blueprint.route('/editarEPI/<int:idEPI>', methods=['GET', 'POST'])
+@require_login
+def editarEPI(idEPI):
+    with conecta_db() as (conexao, cursor):
+        if request.method == 'GET':
+            try:
+                # Busca os dados do EPI para preencher o formulário
+                cursor.execute('SELECT nome, numeroSerie, ca, marca, modelo, dataAquisicao, dataVencimento, setor, status, quantidade, observacoes, tamanho FROM epi WHERE idEPI = %s', (idEPI,))
+                epi = cursor.fetchone()
+
+                if epi:
+                    # Passa os dados do EPI e os setores para o template
+                    cursor.execute('SELECT idSetor, nomeSetor FROM setor')
+                    setores = cursor.fetchall()
+
+                    return render_template('editarEPI.html', epi=epi, setores=setores)
+                else:
+                    return "EPI não encontrado", 404
+            except Exception as e:
+                return f"Erro de BackEnd: {e}", 500
+
+        if request.method == 'POST':
+            try:
+                # Recupera os dados do formulário
+                nome = request.form['nome']
+                numero_serie = request.form['numero-serie']
+                ca = request.form['ca']
+                marca = request.form['marca']
+                modelo = request.form.get('modelo', '')  # campo opcional
+                data_aquisicao = request.form['dataAquisicao']
+                data_vencimento = request.form['dataVencimento']
+                setor_id = request.form['setor']
+                status = request.form['status']
+                quantidade = request.form['quantidade']
+                observacoes = request.form.get('observacoes', '')  # campo opcional
+                tamanho = request.form.get('tamanho', '')  # campo opcional
+
+                # Atualiza os dados do EPI
+                comando = '''
+                    UPDATE epi
+                    SET nome = %s, numeroSerie = %s, ca = %s, marca = %s, modelo = %s,
+                        dataAquisicao = %s, dataVencimento = %s, setor = %s, status = %s,
+                        quantidade = %s, observacoes = %s, tamanho = %s
+                    WHERE idEPI = %s
+                '''
+                cursor.execute(comando, (nome, numero_serie, ca, marca, modelo, data_aquisicao,
+                                         data_vencimento, setor_id, status, quantidade, observacoes,
+                                         tamanho, idEPI))
+                conexao.commit()
+
+                return redirect(f'/detalhesEPI/{idEPI}')  # redireciona para a página de detalhes do EPI
+            except Exception as e:
+                return f"Erro ao salvar as edições: {e}", 500
+
 
 @admin_blueprint.route('/cadastroFuncionario', methods=['GET','POST'])
 def cadastro_Funcionario():
@@ -86,7 +137,7 @@ def cadastro_Funcionario():
                 roupa = request.form['tamanhoRoupa']
                 calcados = request.form['calcados']
                 especial = request.form.get('condicoesEspeciais')
-                idSupervisor = 1 #Virá através da autenticação (Não feito ainda)
+                idSupervisor = session['idSupervisor']
                 comando = '''
                     INSERT INTO funcionário (nomeFuncionário, NIF, CPF, idSetor, condicoesEspeciais, cargo, tamCalcado, tamRoupa) VALUES (%s, %s, %s, %s, %s, %s, %s, %s)
                 '''
@@ -130,7 +181,6 @@ def descarte():
 def descricaoDescarte(idDescarte):
     try:
         with conecta_db() as (conexao, cursor):
-            # Obter informações do descarte com base no idDescarte
             cursor.execute('''
                 SELECT d.idEquipamento, d.motivoDescarte, d.localDescarte, d.dataDescarte, d.quantidade, 
                        e.codigoCA, e.numeroSerie, e.marca, e.modelo, e.dataVencimento, e.status, 
@@ -145,7 +195,6 @@ def descricaoDescarte(idDescarte):
             result = cursor.fetchone()
             
             if result:
-                # Mapeia os resultados para dicionários
                 epi = {
                     'idEPI': result[0],
                     'codigoCA': result[5],
@@ -198,7 +247,7 @@ def cadastroDescarte(idEPI):
                 quantidade_descartar = int(request.form['quantidade'])
                 motivo = request.form['motivoDescarte']
                 localDescarte = request.form['localDescarte']
-                idSupervisor = 1  
+                idSupervisor = session['idSupervisor'] 
 
                 cursor.execute('SELECT quantidade FROM epi WHERE idEPI = %s', (idEPI,))
                 result = cursor.fetchone()
@@ -237,8 +286,6 @@ def cadastroDescarte(idEPI):
                 acao = f"Descarte de EPI: {nomeEPI}"
                 cursor.execute(comando_backlog, (acao, idSupervisor))
                 conexao.commit()
-
-                # Redireciona para a página de estoque após o sucesso
                 return redirect('/estoque')
 
             except Exception as e:
@@ -331,7 +378,7 @@ def editDescarte(idDescarte):
                     INSERT INTO Backlog (dataHora, acao, idSupervisor) 
                     VALUES (NOW(), %s, %s)
                 '''
-                idSupervisor = 1  
+                idSupervisor = session['idSupervisor']  
                 acao = f"Edição de descarte do EPI: {idEPI}"
                 cursor.execute(comando_backlog, (acao, idSupervisor))
                 conexao.commit()
@@ -379,15 +426,12 @@ def descricaoEPI(idEPI):
 def get_funcionarios(idSetor):
     try:
         with conecta_db() as (conexao, cursor):
-            # Consulta para buscar todos os funcionários do setor
             cursor.execute('SELECT idFuncionario, nomeFuncionário, NIF, cargo FROM funcionário WHERE idSetor = %s', (idSetor,))
             funcionarios = cursor.fetchall() 
 
-            # Consulta para buscar o nome do setor
             cursor.execute('SELECT nomeSetor FROM setor WHERE idSetor = %s', (idSetor,))
             nomeSetor = cursor.fetchone() 
 
-            # Verifica se os dados foram encontrados
             if not nomeSetor:
                 return 'Setor não encontrado', 404
 
@@ -414,7 +458,6 @@ def get_funcionarios(idSetor):
 def descFuncionario(idFuncionario):
     try:
         with conecta_db() as (conexao, cursor):
-            # Busca os dados do funcionário
             comando_funcionario = '''
                 SELECT f.idFuncionario, f.nomeFuncionário, f.NIF, f.cargo, f.condicoesEspeciais, f.tamCalcado, f.tamRoupa, s.nomeSetor
                 FROM funcionário f
@@ -541,7 +584,7 @@ def descarteEPI_alocado(id):
                 quantidade_descartar = int(request.form['quantidade'])
                 motivo = request.form['motivoDescarte']
                 localDescarte = request.form['localDescarte']
-                idSupervisor = 1  
+                idSupervisor = session['idSupervisor']  
 
                 if quantidade_atual <= 0:
                     return "Erro: Não há quantidade disponível para descarte.", 400
@@ -562,7 +605,6 @@ def descarteEPI_alocado(id):
                 cursor.execute(comando_update_estoque, (quantidade_descartar, idEPI))
                 conexao.commit()
 
-                # Atualiza a tabela epi_funcionário
                 comando_update_epi_funcionario = '''
                     UPDATE epi_funcionário 
                     SET quantidade = quantidade - %s 
@@ -607,7 +649,7 @@ def excluirDescarte(idDescarte):
             cursor.execute('DELETE FROM descarte WHERE idDescarte = %s', (idDescarte,))
             conexao.commit()
 
-            idSupervisor = 1  
+            idSupervisor = session['idSupervisor']  
             comando_backlog = '''
                 INSERT INTO Backlog (dataHora, acao, idSupervisor)
                 VALUES (NOW(), %s, %s)
