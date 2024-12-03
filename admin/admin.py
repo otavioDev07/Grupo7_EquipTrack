@@ -395,6 +395,72 @@ def editDescarte(idDescarte):
 
             except Exception as e:
                 return f"Erro de BackEnd: {e}", 500
+            
+@admin_blueprint.route('/editarFuncionario/<int:idFuncionario>', methods=['GET', 'POST'])
+@require_login
+def editarFuncionario(idFuncionario):
+    with conecta_db() as (conexao, cursor):
+        if request.method == 'GET':
+            try:
+                query = '''
+                    SELECT nome, CPF, nif, cargo, idSetor, tamanhoRoupa, calcados, condicoesEspeciais
+                    FROM funcionario
+                    WHERE idFuncionario = %s
+                '''
+                cursor.execute(query, (idFuncionario,))
+                result = cursor.fetchone()
+
+                if result:
+                    funcionario = {
+                        'nome': result[0],
+                        'CPF': result[1],
+                        'nif': result[2],
+                        'cargo': result[3],
+                        'idSetor': result[4],
+                        'tamanhoRoupa': result[5],
+                        'calcados': result[6],
+                        'condicoesEspeciais': result[7],
+                    }
+                    cursor.execute('SELECT idSetor, nomeSetor FROM setor')
+                    setores = cursor.fetchall()
+
+                    return render_template('edicaoFuncionario.html', funcionario=funcionario, setores=setores, idFuncionario=idFuncionario)
+                else:
+                    return "Funcionário não encontrado", 404
+            except Exception as e:
+                return f"Erro de BackEnd: {e}", 500
+
+        if request.method == 'POST':
+                try:
+                    nome = request.form['nome']
+                    cpf = request.form['cpf']
+                    nif = request.form['nif']
+                    cargo = request.form['cargo']
+                    idSetor = request.form['idSetor']
+                    tamanhoRoupa = request.form['tamanhoRoupa']
+                    calcados = request.form['calcados']
+                    condicoesEspeciais = request.form['condicoesEspeciais']
+
+                    query = '''
+                        UPDATE funcionario
+                        SET nome = %s, CPF = %s, nif = %s, cargo = %s, idSetor = %s, 
+                            tamanhoRoupa = %s, calcados = %s, condicoesEspeciais = %s
+                        WHERE idFuncionario = %s
+                    '''
+                    cursor.execute(query, (nome, cpf, nif, cargo, idSetor, tamanhoRoupa, calcados, condicoesEspeciais, idFuncionario))
+                    conexao.commit()
+
+                    comando_inserir_backlog = '''
+                        INSERT INTO Backlog (dataHora, acao, idFuncionario) 
+                        VALUES (NOW(), %s, %s)
+                    '''
+                    acao = f"Edição do Funcionário: {nome}"
+                    cursor.execute(comando_inserir_backlog, (acao, idFuncionario))
+                    conexao.commit()
+
+                    return redirect(f'/detalhesFuncionario/{idFuncionario}')
+                except Exception as e:
+                    return f"Erro ao salvar as edições: {e}", 500
 
 @admin_blueprint.route('/descricaoEPI/<int:idEPI>', methods=['GET'])
 @require_login
