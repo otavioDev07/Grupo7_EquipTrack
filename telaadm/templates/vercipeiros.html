@@ -118,16 +118,19 @@
     .btn-custom {
         background-color: #F08424;
         color: white;
-        border-radius: 15px;
-        text-decoration: none;
+        border: none;
+        border-radius: 25px;
+        padding: 10px 15px;
         font-size: 14px;
-        transition: all 200ms;
+        text-decoration: none;
+        font-weight: bold;
         display: inline-block;
-        font-family: system-ui, Arial, Helvetica, sans-serif;
+        margin-top: 15px;
+        transition: all 0.3s ease;
     }
+
     .btn-custom:hover {
-        background-color: #F08424;
-        color: white;
+        background-color: #E3741A;
         transform: scale(1.05);
     }
     
@@ -155,7 +158,7 @@
     {% for cipeiro in cipeiros %}
     <div class="card {% if cipeiro.status == 'ativo' %}card-ativo{% else %}card-inativo{% endif %}" data-status="{{ cipeiro.status }}">
         <p><strong>{{ cipeiro.nomeSupervisor }}</strong></p>
-        <p> {{ cipeiro.CPF }}</p>
+        <p><strong>CPF: </strong>{{ cipeiro.CPF }}</p>
         <p class="status-text {% if cipeiro.status == 'ativo' %}status-text-ativo{% else %}status-text-inativo{% endif %}">
             {% if cipeiro.status == 'ativo' %}Ativo{% else %}Inativo{% endif %}
         </p>

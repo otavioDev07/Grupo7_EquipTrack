@@ -48,6 +48,7 @@
             align-items: center;
             justify-content: center; /* Alinha o conteúdo verticalmente ao centro */
             text-align: center;
+            
         }
 
         .sidebar-logo {
@@ -83,11 +84,22 @@
                 padding: 4px 8px;
             }
         }
+
+        .container-fluid {
+    display: flex;
+    flex-direction: column;
+    height: 100%; /* Faz o container ocupar toda a altura */
+}
+
+.row {
+    flex: 1; /* Faz com que a linha ocupe o espaço restante */
+}
+
     </style>
 
     <!-- Botão de voltar estilizado -->
     <a href="javascript:window.history.back();" class="btn-back">
-        <i class="bi bi-arrow-left"></i> Voltar
+        <i class="bi bi-arrow-left" style="padding-right: 5%;"></i> Voltar
     </a>
 
     <div class="container-fluid">
