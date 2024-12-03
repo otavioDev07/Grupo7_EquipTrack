@@ -442,20 +442,21 @@ def editarFuncionario(idFuncionario):
                     condicoesEspeciais = request.form['condicoesEspeciais']
 
                     query = '''
-                        UPDATE funcionario
-                        SET nome = %s, CPF = %s, nif = %s, cargo = %s, idSetor = %s, 
-                            tamanhoRoupa = %s, calcados = %s, condicoesEspeciais = %s
+                        UPDATE funcionário
+                        SET nomeFuncionário = %s, CPF = %s, NIF = %s, cargo = %s, idSetor = %s, 
+                            tamRoupa = %s, tamCalcado = %s, condicoesEspeciais = %s
                         WHERE idFuncionario = %s
                     '''
                     cursor.execute(query, (nome, cpf, nif, cargo, idSetor, tamanhoRoupa, calcados, condicoesEspeciais, idFuncionario))
                     conexao.commit()
 
+                    idSupervisor = session['idSupervisor']
                     comando_inserir_backlog = '''
-                        INSERT INTO Backlog (dataHora, acao, idFuncionario) 
+                        INSERT INTO Backlog (dataHora, acao, idSupervisor) 
                         VALUES (NOW(), %s, %s)
                     '''
                     acao = f"Edição do Funcionário: {nome}"
-                    cursor.execute(comando_inserir_backlog, (acao, idFuncionario))
+                    cursor.execute(comando_inserir_backlog, (acao, idSupervisor))
                     conexao.commit()
 
                     return redirect(f'/descFuncionario/{idFuncionario}')

@@ -224,7 +224,7 @@ function closeModal() {
 // Função de confirmação da edição
 function confirmEdit() {
     closeModal();
-    alert("Informações editadas com sucesso!");
+    document.querySelector("form").submit(); // Envia o formulário
 }
 </script>
 
