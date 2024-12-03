@@ -319,14 +319,18 @@
         <polygon points="3 3 21 3 14 10 14 21 10 21 10 10 3 3"></polygon>
     </svg>
     
-    <!-- Campo de pesquisa -->
-    <div class="search-bar">
-        <input type="text" class="form-control" placeholder="Busque aqui...">
-        <svg class="search-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-            <circle cx="11" cy="11" r="8"></circle>
-            <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
-        </svg>
-    </div>
+    
+    <form action="/buscaEPI" method="post">
+        <div class="search-bar">
+            <input type="text" name="pesquisa" class="form-control" placeholder="Busque aqui...">
+            <button type="submit">
+                <svg class="search-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <circle cx="11" cy="11" r="8"></circle>
+                    <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+                </svg>
+            </button>
+        </div>
+    </form>
 
     <!-- Menu de opções de filtro -->
     <div class="filter-options" id="filterOptions">

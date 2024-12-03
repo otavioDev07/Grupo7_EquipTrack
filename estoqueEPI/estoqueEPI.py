@@ -1,6 +1,7 @@
 from flask import render_template, Blueprint, request
 from session.session import require_login
 from database.conection import conecta_db
+from datetime import datetime, timedelta
 
 estoque_blueprint = Blueprint('estoqueEPI', __name__, template_folder="templates")
 
@@ -36,4 +37,27 @@ def get_estoque():
     except Exception as e:
         print("Erro ao buscar dados:", e)
         return "Erro ao buscar dados", 500
+
+@estoque_blueprint.route('/buscaEPI', methods=['POST'])
+def buscaEPI():
+    pesquisa = request.form.get('pesquisa')
+    if not pesquisa:
+        return "Campo de pesquisa está vazio", 400
+
+    with conecta_db() as (conexao, cursor):
+        query = '''
+            SELECT idEPI, codigoCA, nomeEquipamento, quantidade, dataVencimento FROM EPI WHERE nomeEquipamento LIKE CONCAT('%', %s, '%')
+        '''
+        cursor.execute(query, (pesquisa,))
+        EPIs = cursor.fetchall()
+
+        #Verificação do status
+        if EPIs[4] > datetime.now() + timedelta(days=30):
+            filtro = 'no_prazo'
+        elif EPIs[4] <= datetime.now() + timedelta(days=30):
+            filtro = 'perto_vencimento'
+        else:
+            status = 'vencido'
+        return render_template('estoqueEPI.html', EPIs=EPIs, filtro=filtro)
+    
         
