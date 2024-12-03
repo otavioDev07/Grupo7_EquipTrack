@@ -1,0 +1,80 @@
+{% extends 'model.html' %}
+
+{% block conteudo %}
+
+<style>
+    .custom-container {
+        width: 90%;
+        margin: 20px auto;
+        padding: 19px;
+        border-radius: 8px;
+    }
+
+    .form-container {
+        margin-bottom: 12px;
+        padding: 15px;
+        border-radius: 8px;
+        background-color: #f9f9f9;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    }
+
+    .form-container h4 {
+        color: #015799;
+        margin-bottom: 20px;
+    }
+
+    .form-container label {
+        font-weight: bold;
+        color: #333;
+    }
+
+    .form-container input[type="text"],
+    .form-container input[type="password"],
+    .form-container select {
+        width: 100%;
+        padding: 10px;
+        margin: 5px 0 20px 0;
+        border-radius: 4px;
+        border: 1px solid #ccc;
+    }
+
+    .form-container button {
+        background-color: #F08424;
+        color: white;
+        padding: 10px 20px;
+        border: none;
+        border-radius: 5px;
+        font-size: 16px;
+        cursor: pointer;
+    }
+
+    .form-container button:hover {
+        background-color: #e0731a;
+    }
+</style>
+
+<div class="custom-container">
+    <div class="form-container">
+        <h4>Cadastrar Novo CIPEIRO</h4>
+        <form action="/cadastrarCipeiro" method="post">
+            <div class="form-group">
+                <label for="nomeSupervisor">Nome Completo</label>
+                <input type="text" id="nomeSupervisor" name="nomeSupervisor" placeholder="Digite o nome completo" required>
+            </div>
+            <div class="form-group">
+                <label for="CPF">CPF</label>
+                <input type="text" id="CPF" name="CPF" placeholder="Digite o CPF" required>
+            </div>
+            <div class="form-group">
+                <label for="senhaAcesso">Senha de Acesso</label>
+                <input type="password" id="senhaAcesso" name="senhaAcesso" placeholder="Digite a senha de acesso" required>
+            </div>
+            
+            <div class="form-group">
+                <button type="submit">Cadastrar CIPEIRO</button>
+            </div>
+        </form>
+    </div>
+</div>
+
+{% endblock %}

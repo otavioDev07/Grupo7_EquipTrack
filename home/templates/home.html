@@ -322,6 +322,26 @@ button:hover {
             width: 70px;
             border: 2px solid #ff9900;
         }
+
+        /* Estilo dos botões no modal */
+    .btn-cadastro {
+        background-color: #ff9900;
+        border: none;
+        color: white;
+        padding: 10px 20px;
+        border-radius: 10px;
+        font-size: 16px;
+        cursor: pointer;
+        width: 100%;
+        margin-bottom: 10px;
+        transition: background-color 0.3s ease;
+        text-decoration: none;
+        
+    }
+
+    .btn-cadastro:hover {
+        background-color: #e68a00;
+    }
 </style>
 
 <script>
@@ -345,8 +365,9 @@ button:hover {
                 <div class="collapse navbar-collapse" id="navbarSupportedContent">
                     <ul class="navbar-nav me-auto mb-2 mb-lg-0">
                         <li class="nav-item">
-                            <a href="{{ url_for('admin.cadastro_EPI')}}">
-                                <button class="btn-padrao">Cadastro</button>
+                            <!-- Botão para abrir o modal de cadastro -->
+                            <a href="#">
+                                <button class="btn-padrao" data-bs-toggle="modal" data-bs-target="#cadastrarModal">Cadastro</button>
                             </a>
                         </li>
                         <li class="nav-item">
@@ -373,117 +394,57 @@ button:hover {
                     <img src="/static/images/icone1.png" alt="Ilustração" class="image">
                 </div>
                 <div class="text-content">
-                    <div style="padding-left: 90%; "><button class="close-btn-close" onclick="closeWelcomeBox()">X</button> <!-- Botão de fechar --></div>
+                    <div style="padding-left: 90%;">
+                        <button class="close-btn-close" onclick="closeWelcomeBox()">X</button> <!-- Botão de fechar -->
+                    </div>
                     <h1 class="fw-bold">Seja Bem-vindo</h1>
                     <p>Aqui você tem acesso aos EPIs da escola. Use esta página para verificar datas de validade, estado de conservação e estoque, além de atualizar o status dos equipamentos e receber notificações sobre vencimentos próximos.</p>
                 </div>
             </div>
-            
         </div>
-        <div class="card-container">
-            <div class="card">
-                <div class="icon">
-                    <img src="/static/images/cozinha.png" alt="Cozinha">
-                </div>
-                <h3>Cozinha</h3>
-                <div class="icon">
-                    <div class="indicators">
-                        <div class="indicator red">
-                            <div class="circle"></div>
-                            <span class="number">5</span>
-                        </div>
-                        <div class="indicator yellow">
-                            <div class="circle"></div>
-                            <span class="number">2</span>
+        <div class="modal fade" id="cadastrarModal" tabindex="-1" aria-labelledby="cadastrarModalLabel" aria-hidden="true">
+            <div class="modal-dialog modal-dialog-centered">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="cadastrarModalLabel">Escolha uma opção</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                        <div class="d-flex flex-column">
+                            <!-- Link para cadastrar funcionários -->
+                            <a href="{{url_for('admin.cadastro_Funcionario')}}" class="btn-cadastro">Cadastrar Funcionários</a>
+                            <!-- Link para cadastrar EPIs -->
+                            <a href="{{ url_for('admin.cadastro_EPI') }}" class="btn-cadastro">Cadastrar EPIs</a>
                         </div>
                     </div>
+
                 </div>
             </div>
         </div>
         <div class="card-container">
-            <a href="{{url_for('admin.get_funcionarios', idSetor=1)}}" style="text-decoration: none;">
+            {% for setor in setores %}
+            <a href="{{ url_for('admin.get_funcionarios', idSetor=setor.idSetor) }}">
                 <div class="card">
                     <div class="icon">
-                        <img src="/static/images/cozinha.png" alt="Cozinha">
+                        <img src="/static/images/{{ setor.nomeSetor | lower | replace(' ', '_') }}.png" alt="{{ setor.nomeSetor }}">
                     </div>
-                    <h3>Cozinha</h3>
+                    <h3>{{ setor.nomeSetor }}</h3>
                     <div class="icon">
                         <div class="indicators">
-                            <div class="indicator red">
+                            <!-- Bolinhas dinâmicas -->
+                            <div class="indicator red" {% if setor.vencidos == 0 %}style="display: none;"{% endif %}>
                                 <div class="circle"></div>
-                                <span class="number">5</span>
+                                <span class="number">{{ setor.vencidos }}</span>
                             </div>
-                            <div class="indicator yellow">
+                            <div class="indicator yellow" {% if setor.perto_vencimento == 0 %}style="display: none;"{% endif %}>
                                 <div class="circle"></div>
-                                <span class="number">2</span>
+                                <span class="number">{{ setor.perto_vencimento }}</span>
                             </div>
                         </div>
                     </div>
                 </div>
             </a>
-        
-            <a href="{{url_for('admin.get_funcionarios', idSetor=2)}}" style="text-decoration: none;">
-                <div class="card">
-                    <div class="icon">
-                        <img src="/static/images/manutenção.png" alt="Manutenção">
-                    </div>
-                    <h3>Manutenção</h3>
-                    <div class="icon">
-                        <div class="indicators">
-                            <div class="indicator red">
-                                <div class="circle"></div>
-                                <span class="number">5</span>
-                            </div>
-                            <div class="indicator yellow">
-                                <div class="circle"></div>
-                                <span class="number">2</span>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        
-            <a href="{{url_for('admin.get_funcionarios', idSetor=4)}}" style="text-decoration: none;">
-                <div class="card">
-                    <div class="icon">
-                        <img src="/static/images/profs.png" alt="Professores">
-                    </div>
-                    <h3>Professores</h3>
-                    <div class="icon">
-                        <div class="indicators">
-                            <div class="indicator red">
-                                <div class="circle"></div>
-                                <span class="number">5</span>
-                            </div>
-                            <div class="indicator yellow">
-                                <div class="circle"></div>
-                                <span class="number">2</span>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        
-            <a href="{{url_for('admin.get_funcionarios', idSetor=3)}}" style="text-decoration: none;">
-                <div class="card">
-                    <div class="icon">
-                        <img src="/static/images/inspetores.png" alt="Inspetores">
-                    </div>
-                    <h3>Inspetores</h3>
-                    <div class="icon">
-                        <div class="indicators">
-                            <div class="indicator red">
-                                <div class="circle"></div>
-                                <span class="number">5</span>
-                            </div>
-                            <div class="indicator yellow">
-                                <div class="circle"></div>
-                                <span class="number">2</span>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
+            {% endfor %}
         </div>
 
 <!-- Atividade Mensal -->
@@ -540,7 +501,7 @@ button:hover {
                 <div class="col-12 col-md-4 text-center">
                     Política de Privacidade<br>Termos de uso<br>Trocas e Devoluções
                     <br>
-                    <a href="/adm" class="text-decoration-none text-outline-danger">
+                    <a href="{{url_for('telaadm.telaadm')}}" class="text-decoration-none text-outline-danger">
                         Área administrativa
                     </a>
                 </div>

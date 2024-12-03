@@ -1,9 +1,11 @@
-from flask import render_template, Blueprint, request, redirect
+from flask import render_template, Blueprint, request, redirect, session
+from session.session import require_login
 from database.conection import conecta_db
 
 alocar_blueprint = Blueprint('alocar', __name__, template_folder="templates", static_folder="static")
 
 @alocar_blueprint.route('/alocar/<int:idEPI>', methods=['GET', 'POST'])
+@require_login
 def alocar_equipamento(idEPI):
     if request.method == 'GET':
         with conecta_db() as (conexao, cursor):
@@ -20,14 +22,14 @@ def alocar_equipamento(idEPI):
             try:
                 idFuncionario = request.form['idFuncionario']
                 quantidade = int(request.form['quantidade'])
-                idSupervisor = 1 #Virá através da autenticação (Não feito ainda)
+                idSupervisor = session['idSupervisor']
 
                 comando = 'INSERT INTO epi_funcionário (idEquipamento, idFuncionario, dataHora, quantidade) VALUES (%s, %s, NOW(), %s)'
                 cursor.execute(comando, (idEPI, idFuncionario, quantidade))
                 conexao.commit()
 
-                atualizar_epi = 'UPDATE epi SET quantidade = quantidade - %s, idFuncionario = %s, dataLocacao = NOW() WHERE idEPI = %s'
-                cursor.execute(atualizar_epi, (quantidade, idFuncionario, idEPI))
+                atualizar_epi = 'UPDATE epi SET quantidade = quantidade - %s, idFuncionario = %s, status = %s WHERE idEPI = %s'
+                cursor.execute(atualizar_epi, (quantidade, idFuncionario,'Em uso', idEPI))
                 conexao.commit()    
 
                 #backlog
@@ -45,7 +47,7 @@ def alocar_equipamento(idEPI):
                 cursor.execute(comando_backlog, (acao, idSupervisor))   
                 conexao.commit()
                 print('Cadastro realizado com sucesso!', 'success')
-                return redirect('/')
+                return redirect('/estoque')
             except Exception as e:
                 conexao.rollback()
                 print(f'Erro ao alocar equipamento: {str(e)}', 'error')

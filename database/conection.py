@@ -15,7 +15,7 @@ DB_CONFIG = {
 @contextmanager
 def conecta_db():
     conexaoDB = mysql.connector.connect(**DB_CONFIG)
-    cursorDB = conexaoDB.cursor()
+    cursorDB = conexaoDB.cursor(buffered=True)
     try:
         yield conexaoDB, cursorDB  # "empresta" a conexão e o cursor para o bloco "with"
     finally:

@@ -26,7 +26,7 @@
         .login-form {
             width: 100%;
             max-width: 500px; /* Largura aumentada da caixa de login */
-            background: linear-gradient(145deg, #0072B5, #5DB8E6); /* Novo gradiente azul */
+            background: linear-gradient(145deg, #D2D2D2, #015799); /* Novo gradiente azul */
             border-radius: 10px; /* Cantos arredondados */
             padding: 50px; /* Espaçamento interno aumentado */
             box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2); /* Sombra mais pronunciada */
@@ -92,12 +92,12 @@
             <div class="col-md-6 login-half animate__animated animate__fadeInRight">
                 <div class="login-form text-center">
                     <h1 class="mb-4 animate__animated animate__zoomIn">SEJA BEM VINDO!</h1>
-                    <form>
+                    <form action="{{ url_for('login.login') }}" method="post">
                         <div class="mb-3 animate__animated animate__fadeInUp">
-                            <input type="text" class="form-control form-control-lg" id="cpf" placeholder="CPF">
+                            <input type="text" class="form-control form-control-lg" name="cpf" placeholder="CPF">
                         </div>
                         <div class="mb-3 animate__animated animate__fadeInUp">
-                            <input type="password" class="form-control form-control-lg" id="password" placeholder="Senha">
+                            <input type="password" class="form-control form-control-lg" name="password" placeholder="Senha">
                         </div>
                         <div class="mb-3 text-end animate__animated animate__fadeInUp">
                             <a href="#">Esqueceu a senha?</a>
