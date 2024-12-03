@@ -36,4 +36,35 @@ def get_estoque():
     except Exception as e:
         print("Erro ao buscar dados:", e)
         return "Erro ao buscar dados", 500
+    
+def estoque():
+    busca = request.args.get('busca', '').lower()
+    filtro = request.args.get('filtro', None)
+
+    # Simulando dados para exemplificar
+    EPIs = [
+        (1, '12345', 'Capacete de Segurança', 10),
+        (2, '54321', 'Luva de Proteção', 5),
+        # Adicione outros dados aqui
+    ]
+
+    # Filtro de busca
+    if busca:
+        EPIs = [item for item in EPIs if busca in item[2].lower()]
+    
+    # Filtro de status
+    if filtro:
+        if filtro == 'no_prazo':
+            # Lógica para itens no prazo
+            pass
+        elif filtro == 'perto_vencimento':
+            # Lógica para itens perto do vencimento
+            pass
+        elif filtro == 'vencido':
+            # Lógica para itens vencidos
+            pass
+    
+    return render_template('estoque.html', EPIs=EPIs, busca=busca, filtro=filtro)
+
+
         

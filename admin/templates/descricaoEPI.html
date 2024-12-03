@@ -171,11 +171,11 @@
             </div>
         </div>
 
-        <div class="button-row">
-            <a href="{{ url_for('alocar.alocar_equipamento', idEPI=epi.idEPI) }}">
+        <div class="button-row" style="text-decoration: none;">
+            <a href="{{ url_for('alocar.alocar_equipamento', idEPI=epi.idEPI) }}" style="text-decoration: none;">
                 <button>Alocar</button>
             </a>
-            <a href="{{ url_for('admin.cadastroDescarte', idEPI=epi.idEPI) }}">
+            <a href="{{ url_for('admin.cadastroDescarte', idEPI=epi.idEPI) }}" style="text-decoration: none;">
                 <button class="descarte">Descartar</button>
             </a>
             <button>Editar</button>

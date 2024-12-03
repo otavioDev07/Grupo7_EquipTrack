@@ -2,6 +2,7 @@
 
 {% block conteudo %}
 <style>
+    
     main {
         display: flex;
         flex-direction: column;
@@ -34,8 +35,7 @@
     }
 
     .btn-edit, .btn-delete {
-        color: white;
-        font-size: 14px;
+        color: #fff;
         border: none;
         padding: 10px 20px;
         border-radius: 8px;
@@ -66,6 +66,41 @@
         margin-top: 20px;
     }
 
+    button {
+    color: white;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 5px;
+    font-size: 16px;
+    line-height: 24px;
+    font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+    
+    cursor: pointer;
+    margin: 5px;
+    transition: all 200ms;
+
+}
+
+/* Botão Editar - cor azul */
+.btn-edit {
+    background-color: #0056b3;
+}
+
+.btn-edit:hover {
+    background-color: #ff914d;
+    transform: scale(1.05);
+}
+
+/* Botão Descartar - cor laranja */
+.btn-delete {
+    background-color: #ff914d;
+}
+
+.btn-delete:hover {
+    background-color: #c16f3c;
+    transform: scale(1.05);
+}
+
     @media (max-width: 768px) {
         main {
             flex-direction: column; /* Empilha os elementos em telas menores */
@@ -82,53 +117,53 @@
     <div class="container">
         <!-- Linha 1 -->
         <div class="info-box">
-            <span class="info-header">Código CA</span>
+            <span class="info-header">Código CA:</span>
             <span>{{ epi.codigoCA }}</span>
         </div>
         <div class="info-box">
-            <span class="info-header">Número de Série</span>
+            <span class="info-header">Número de Série:</span>
             <span>{{ epi.numeroSerie }}</span>
         </div>
         <div class="info-box">
-            <span class="info-header">Modelo</span>
+            <span class="info-header">Modelo:</span>
             <span>{{ epi.modelo }}</span>
         </div>
 
         <!-- Linha 2 -->
         <div class="info-box">
-            <span class="info-header">Data de Aquisição</span>
+            <span class="info-header">Data de Aquisição:</span>
             <span>{{ epi.dataAquisicao }}</span>
         </div>
         <div class="info-box">
-            <span class="info-header">Quantidade</span>
+            <span class="info-header">Quantidade:</span>
             <span>{{ descarte.quantidade }}</span>
         </div>
         <div class="info-box">
-            <span class="info-header">Data de Vencimento</span>
+            <span class="info-header">Data de Vencimento:</span>
             <span>{{ epi.dataVencimento }}</span>
         </div>
 
         <!-- Linha 3 -->
         <div class="info-box">
-            <span class="info-header">Setor</span>
+            <span class="info-header">Setor:</span>
             <span>{{ epi.nomeSetor }}</span>
         </div>
         <div class="info-box">
-            <span class="info-header">Marca</span>
+            <span class="info-header">Marca:</span>
             <span>{{ epi.marca }}</span>
         </div>
         <div class="info-box">
-            <span class="info-header">Observações</span>
+            <span class="info-header">Observações:</span>
             <span>{{ epi.observacoes }}</span>
         </div>
 
         <!-- Linha 4 -->
         <div class="info-box">
-            <span class="info-header">Data de Descarte</span>
+            <span class="info-header">Data de Descarte:</span>
             <span>{{ descarte.dataDescarte }}</span>
         </div>
         <div class="info-box">
-            <span class="info-header">Tamanho</span>
+            <span class="info-header">Tamanho:</span>
             <span>{{ epi.tamanho }}</span>
         </div>
 
@@ -141,7 +176,6 @@
             <p>{{ descarte.localDescarte }}</p>
         </div>
 
-        <!-- Botões -->
         <div style="display: flex; justify-content: center; gap: 10px; width: 100%;">
             <a href="{{ url_for('admin.editDescarte', idDescarte=descarte.idDescarte) }}">
                 <button class="btn-edit">Editar</button>
@@ -150,7 +184,6 @@
                 <button type="submit" class="btn-delete" onclick="return confirm('Tem certeza que deseja excluir este descarte?')">Excluir</button>
             </form>
         </div>
-    </div>
 </main>
 
 <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
