@@ -403,8 +403,8 @@ def editarFuncionario(idFuncionario):
         if request.method == 'GET':
             try:
                 query = '''
-                    SELECT nome, CPF, nif, cargo, idSetor, tamanhoRoupa, calcados, condicoesEspeciais
-                    FROM funcionario
+                    SELECT nomeFuncionário, CPF, NIF, cargo, idSetor, tamRoupa, tamCalcado, condicoesEspeciais
+                    FROM funcionário
                     WHERE idFuncionario = %s
                 '''
                 cursor.execute(query, (idFuncionario,))
@@ -458,7 +458,7 @@ def editarFuncionario(idFuncionario):
                     cursor.execute(comando_inserir_backlog, (acao, idFuncionario))
                     conexao.commit()
 
-                    return redirect(f'/detalhesFuncionario/{idFuncionario}')
+                    return redirect(f'/descFuncionario/{idFuncionario}')
                 except Exception as e:
                     return f"Erro ao salvar as edições: {e}", 500
 
