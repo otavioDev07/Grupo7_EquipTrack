@@ -52,6 +52,8 @@
         color: white;
     }
 
+
+
     /* Bolinhas de status */
     .bolinha {
         width: 15px;
@@ -108,21 +110,40 @@
     .status-text-inativo {
         color: red;
     }
+
+    .btn-custom {
+        background-color: #F08424;
+        color: white;
+        border-radius: 15px;
+        text-decoration: none;
+        font-size: 14px;
+        transition: all 200ms;
+        display: inline-block;
+        font-family: system-ui, Arial, Helvetica, sans-serif;
+    }
+    .btn-custom:hover {
+        background-color: #F08424;
+        color: white;
+        transform: scale(1.05);
+    }
+    
 </style>
 
 <!-- Menu de filtro com botão -->
 <div class="menu-container">
     <div>
+        <div style="padding-bottom: 3%;">
         <div class="botao ativo" onclick="filtrarCipeiros('ativo')">
             <div class="bolinha bolinha-verde"></div>
             Ativos
         </div>
+    </div>
         <div class="botao inativo" onclick="filtrarCipeiros('inativo')">
             <div class="bolinha bolinha-vermelho"></div>
             Inativos
         </div>
     </div>
-    <a href="{{ url_for('telaadm.cadastrarCipeiro') }}" class="botao-cadastrar">Cadastrar Novo CIPEIRO</a>
+    <a href="{{ url_for('telaadm.cadastrarCipeiro') }}" class="botao-cadastrar" style="text-decoration: none;">Cadastrar Novo CIPEIRO</a>
 </div>
 
 <h2 style="text-align: center;">Cipeiros</h2>
@@ -132,11 +153,11 @@
     {% for cipeiro in cipeiros %}
     <div class="card {% if cipeiro.status == 'ativo' %}card-ativo{% else %}card-inativo{% endif %}" data-status="{{ cipeiro.status }}">
         <p><strong>{{ cipeiro.nomeSupervisor }}</strong></p>
-        <p>CPF: {{ cipeiro.CPF }}</p>
+        <p> {{ cipeiro.CPF }}</p>
         <p class="status-text {% if cipeiro.status == 'ativo' %}status-text-ativo{% else %}status-text-inativo{% endif %}">
             {% if cipeiro.status == 'ativo' %}Ativo{% else %}Inativo{% endif %}
         </p>
-        <a href="{{ url_for('telaadm.detalhesCipeiro', idSupervisor=cipeiro.idSupervisor) }}" class="button">Ver mais</a>
+        <a href="{{ url_for('telaadm.detalhesCipeiro', idSupervisor=cipeiro.idSupervisor) }}" class="btn-custom">Ver mais</a>
     </div>
     {% endfor %}
 </div>
