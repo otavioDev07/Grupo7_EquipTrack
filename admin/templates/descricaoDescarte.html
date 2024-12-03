@@ -143,10 +143,10 @@
 
         <!-- Botões -->
         <div style="display: flex; justify-content: center; gap: 10px; width: 100%;">
-            <a href="{{ url_for('admin.editDescarte', idEPI=epi.idEPI) }}">
+            <a href="{{ url_for('admin.editDescarte', idDescarte=descarte.idDescarte) }}">
                 <button class="btn-edit">Editar</button>
             </a>
-            <form method="POST" action="{{ url_for('admin.descricaoDescarte', idEPI=epi.idEPI) }}" style="margin-left: 10px;">
+            <form method="POST" action="{{ url_for('admin.excluirDescarte', idDescarte=descarte.idDescarte) }}" style="margin-left: 10px;">
                 <button type="submit" class="btn-delete" onclick="return confirm('Tem certeza que deseja excluir este descarte?')">Excluir</button>
             </form>
         </div>

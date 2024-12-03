@@ -2,7 +2,11 @@
 
 {% block conteudo %}
 <style>
-    /* Estilos para o menu */
+    
+    a {
+        text-decoration: none;
+    }
+    
     .menu-container {
         display: flex;
         align-items: center;
@@ -129,7 +133,6 @@
     
 </style>
 
-<!-- Menu de filtro com botão -->
 <div class="menu-container">
     <div>
         <div style="padding-bottom: 3%;">
@@ -148,7 +151,6 @@
 
 <h2 style="text-align: center;">Cipeiros</h2>
 
-<!-- Container dos cartões -->
 <div class="card-container" id="card-container">
     {% for cipeiro in cipeiros %}
     <div class="card {% if cipeiro.status == 'ativo' %}card-ativo{% else %}card-inativo{% endif %}" data-status="{{ cipeiro.status }}">
@@ -173,6 +175,10 @@
             }
         });
     }
+
+    document.addEventListener('DOMContentLoaded', function () {
+        filtrarCipeiros('ativo'); // Mostra apenas os ativos ao carregar
+    });
 </script>
 
 {% endblock %}

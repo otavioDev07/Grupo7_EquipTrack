@@ -394,14 +394,14 @@ button:hover {
                     <img src="/static/images/icone1.png" alt="Ilustração" class="image">
                 </div>
                 <div class="text-content">
-                    <div style="padding-left: 90%; "><button class="close-btn-close" onclick="closeWelcomeBox()">X</button> <!-- Botão de fechar --></div>
+                    <div style="padding-left: 90%;">
+                        <button class="close-btn-close" onclick="closeWelcomeBox()">X</button> <!-- Botão de fechar -->
+                    </div>
                     <h1 class="fw-bold">Seja Bem-vindo</h1>
                     <p>Aqui você tem acesso aos EPIs da escola. Use esta página para verificar datas de validade, estado de conservação e estoque, além de atualizar o status dos equipamentos e receber notificações sobre vencimentos próximos.</p>
                 </div>
             </div>
-            
         </div>
-        <!-- Modal para opções de cadastro -->
         <div class="modal fade" id="cadastrarModal" tabindex="-1" aria-labelledby="cadastrarModalLabel" aria-hidden="true">
             <div class="modal-dialog modal-dialog-centered">
                 <div class="modal-content">
@@ -422,89 +422,29 @@ button:hover {
             </div>
         </div>
         <div class="card-container">
-            <a href="{{url_for('admin.get_funcionarios', idSetor=1)}}">
+            {% for setor in setores %}
+            <a href="{{ url_for('admin.get_funcionarios', idSetor=setor.idSetor) }}" style="text-decoration: none;">
                 <div class="card">
                     <div class="icon">
-                        <img src="/static/images/cozinha.png" alt="Cozinha">
+                        <img src="/static/images/{{ setor.nomeSetor | lower | replace(' ', '_') }}.png" alt="{{ setor.nomeSetor }}">
                     </div>
-                    <h3>Cozinha</h3>
+                    <h3>{{ setor.nomeSetor }}</h3>
                     <div class="icon">
                         <div class="indicators">
-                            <div class="indicator red">
+                            <!-- Bolinhas dinâmicas -->
+                            <div class="indicator red" {% if setor.vencidos == 0 %}style="display: none;"{% endif %}>
                                 <div class="circle"></div>
-                                <span class="number">5</span>
+                                <span class="number">{{ setor.vencidos }}</span>
                             </div>
-                            <div class="indicator yellow">
+                            <div class="indicator yellow" {% if setor.perto_vencimento == 0 %}style="display: none;"{% endif %}>
                                 <div class="circle"></div>
-                                <span class="number">2</span>
+                                <span class="number">{{ setor.perto_vencimento }}</span>
                             </div>
                         </div>
                     </div>
                 </div>
             </a>
-        
-            <a href="{{url_for('admin.get_funcionarios', idSetor=2)}}">
-                <div class="card">
-                    <div class="icon">
-                        <img src="/static/images/manutenção.png" alt="Manutenção">
-                    </div>
-                    <h3>Manutenção</h3>
-                    <div class="icon">
-                        <div class="indicators">
-                            <div class="indicator red">
-                                <div class="circle"></div>
-                                <span class="number">5</span>
-                            </div>
-                            <div class="indicator yellow">
-                                <div class="circle"></div>
-                                <span class="number">2</span>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </a>
-        
-            <a href="{{url_for('admin.get_funcionarios', idSetor=4)}}">
-                <div class="card">
-                    <div class="icon">
-                        <img src="/static/images/profs.png" alt="Professores">
-                    </div>
-                    <h3>Professores</h3>
-                    <div class="icon">
-                        <div class="indicators">
-                            <div class="indicator red">
-                                <div class="circle"></div>
-                                <span class="number">5</span>
-                            </div>
-                            <div class="indicator yellow">
-                                <div class="circle"></div>
-                                <span class="number">2</span>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </a>
-        
-            <a href="{{url_for('admin.get_funcionarios', idSetor=3)}}">
-                <div class="card">
-                    <div class="icon">
-                        <img src="/static/images/inspetores.png" alt="Inspetores">
-                    </div>
-                    <h3>Inspetores</h3>
-                    <div class="icon">
-                        <div class="indicators">
-                            <div class="indicator red">
-                                <div class="circle"></div>
-                                <span class="number">5</span>
-                            </div>
-                            <div class="indicator yellow">
-                                <div class="circle"></div>
-                                <span class="number">2</span>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </a>
+            {% endfor %}
         </div>
 
 <!-- Atividade Mensal -->
@@ -550,24 +490,39 @@ button:hover {
 </div>
     </main>
 
-    <footer class="border-top bg-light shadow border-3 border-dark border-opacity-25">
+
+    <footer class="border-top shadow border-3 border-dark border-opacity-25 pt-2" style="background-color: #015799">
         <div class="container">
-            <div class="row py-2">
-                <div class="col-12 col-md-4 text-center">
-                    &copy; 2024 - EquipTrack LTDA-ME<br>
-                    SESI SENAI, Itapeva/SP
-                    <br>CNPJ 99.999.999/0001-99
+            <div class="row text-center text-md-start py-2" style="color: #f9f9f9;">
+                <!-- Logo e Informações da Empresa -->
+                <div class="col-12 col-md-4 mb-3 mb-md-0">
+                    <h5 class="fw-bold" style="color: #ff9900;">EquipTrack LTDA-ME</h5>
+                    <p class="mb-0">SESI SENAI, Itapeva/SP</p>
+                    <p>CNPJ: 99.999.999/0001-99</p>
+                    <small style="color: #f9f9f9;">&copy; 2024 - Todos os direitos reservados.</small>
                 </div>
-                <div class="col-12 col-md-4 text-center">
-                    Política de Privacidade<br>Termos de uso<br>Trocas e Devoluções
-                    <br>
-                    <a href="{{url_for('telaadm.telaadm')}}" class="text-decoration-none text-outline-danger">
-                        Área administrativa
-                    </a>
+                
+                <!-- Links de Políticas e Administração -->
+                <div class="col-12 col-md-4 mb-3 mb-md-0">
+                    <h5 class="fw-bold" style="color: #ff9900;">Informações</h5>
+                    <ul class="list-unstyled">
+                        <li><a href="#" class="text-decoration-none" style="color: #f9f9f9;">Política de Privacidade</a></li>
+                        <li><a href="#" class="text-decoration-none" style="color: #f9f9f9;">Termos de Uso</a></li>
+                        <li><a href="#" class="text-decoration-none" style="color: #f9f9f9;">Trocas e Devoluções</a></li>
+                        <a href="{{url_for('telaadm.telaadm')}}" class="text-decoration-none" style="color: #ff9900;">
+                            Área administrativa
+                        </a>
+                    </ul>
                 </div>
-                <div class="col-12 col-md-4 text-center">
-                    Contato pelo Site<br>E-mail: contato@equiptrack.com.br<br>Cel: (15) 99999-9999
-                    <br>
+                
+                <!-- Contato -->
+                <div class="col-12 col-md-4">
+                    <h5 class="fw-bold" style="color: #ff9900;">Contato</h5>
+                    <ul class="list-unstyled">
+                        <li><i class="fas fa-envelope me-2"></i><a href="mailto:contato@equiptrack.com.br" class="text-decoration-none" style="color: #f9f9f9;" >contato@equiptrack.com.br</a></li>
+                        <li><i class="fas fa-phone-alt me-2"></i><a href="tel:+5515999999999" class="text-decoration-none" style="color: #f9f9f9;">(15) 99999-9999</a></li>
+                        <li><i class="fas fa-globe me-2"></i><a href="#" class="text-decoration-none" style="color: #f9f9f9;">Contato pelo site</a></li>
+                    </ul>
                 </div>
             </div>
         </div>

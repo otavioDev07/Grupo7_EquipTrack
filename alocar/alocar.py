@@ -47,7 +47,7 @@ def alocar_equipamento(idEPI):
                 cursor.execute(comando_backlog, (acao, idSupervisor))   
                 conexao.commit()
                 print('Cadastro realizado com sucesso!', 'success')
-                return redirect('/')
+                return redirect('/estoque')
             except Exception as e:
                 conexao.rollback()
                 print(f'Erro ao alocar equipamento: {str(e)}', 'error')

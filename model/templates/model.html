@@ -86,7 +86,7 @@
     </style>
 
     <!-- Botão de voltar estilizado -->
-    <a href="/home" class="btn-back">
+    <a href="javascript:window.history.back();" class="btn-back">
         <i class="bi bi-arrow-left"></i> Voltar
     </a>
 
@@ -94,8 +94,8 @@
         <div class="row">
             <!-- Sidebar -->
             <div class="col-md-2 col-sm-3 sidebar d-flex flex-column align-items-center">
-                <img src="/static/images/logo1.png" alt="Logo" class="sidebar-logo img-fluid">
-                <div class="sidebar-title">{{ titulo_pagina }}</div> <!-- Título dinâmico da sidebar logo abaixo da logo -->
+                <a href="{{url_for('home.home')}}"><img src="/static/images/logo1.png" alt="Logo" class="sidebar-logo img-fluid"></a>
+                <div class="sidebar-title">{{ titulo_pagina }}</div> 
             </div>
 
             <!-- Conteúdo Principal -->
