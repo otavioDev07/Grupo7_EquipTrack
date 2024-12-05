@@ -312,36 +312,32 @@
 </head>
 <body>
 
-<!-- Barra de pesquisa -->
-<div class="search-container">
-    <!-- Ícone de filtro -->
-    <svg class="filter-icon" onclick="toggleFilterOptions()" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-        <polygon points="3 3 21 3 14 10 14 21 10 21 10 10 3 3"></polygon>
-    </svg>
+    <div class="search-container">
+        <!-- Ícone de Filtro -->
+        <svg class="filter-icon" onclick="toggleFilterOptions()" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <polygon points="3 3 21 3 14 10 14 21 10 21 10 10 3 3"></polygon>
+        </svg>
     
-    
-    <form action="/buscaEPI" method="post">
+        <!-- Barra de Pesquisa -->
         <div class="search-bar">
-            <input type="text" name="pesquisa" class="form-control" placeholder="Busque aqui...">
-            <button type="submit">
-                <svg class="search-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                    <circle cx="11" cy="11" r="8"></circle>
-                    <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
-                </svg>
-            </button>
+            <input type="text" id="searchInput" name="pesquisa" class="form-control" placeholder="Busque aqui...">
+            
+            <!-- Ícone de Busca -->
+            <svg class="search-icon" onclick="submitSearch()" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <circle cx="11" cy="11" r="8"></circle>
+                <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+            </svg>
         </div>
-    </form>
-
-    <!-- Menu de opções de filtro -->
-    <div class="filter-options" id="filterOptions">
-        <div onclick="applyFilter('Cozinha')">Cozinha</div>
-        <div onclick="applyFilter('Manutenção')">Manutenção</div>
-        <div onclick="applyFilter('Inspetores')">Inspetores</div>
-        <div onclick="applyFilter('Professores')">Professores</div>
+    
+        <!-- Opções de Filtro -->
+        <div class="filter-options" id="filterOptions">
+            <div onclick="applyFilter('Cozinha')">Cozinha</div>
+            <div onclick="applyFilter('Manutenção')">Manutenção</div>
+            <div onclick="applyFilter('Inspetores')">Inspetores</div>
+            <div onclick="applyFilter('Professores')">Professores</div>
+        </div>
     </div>
-</div>
 
-<!-- Menu de opções -->
 <div class="menu" style="padding-top: 2%;"> 
     <div class="menu-container">
         <div class="botao no-prazo" onclick="filtrarEstoque('no_prazo')">
@@ -364,7 +360,6 @@
         {% for item in EPIs %}
         <div class="col">
             <div class="card h-100 shadow-sm position-relative">
-                <!-- Círculo de status -->
                 <div class="status-circle
                     {% if filtro == 'no_prazo' %} green
                     {% elif filtro == 'perto_vencimento' %} yellow
@@ -372,7 +367,6 @@
                     {% endif %}">
                 </div>
 
-                <!-- Conteúdo do card -->
                 <div class="card-body">
                     <h5 class="card-title">Código CA: {{ item[1] }}</h5>
                     <p class="card-text">Equipamento: {{ item[2] }}</p>
@@ -415,19 +409,16 @@
         window.location.href = `/estoque?filtro=${filtro}`;
     }
 
-    // Função para alternar a visibilidade das opções de filtro
     function toggleFilterOptions() {
         const filterOptions = document.getElementById("filterOptions");
         filterOptions.style.display = filterOptions.style.display === "none" ? "block" : "none";
     }
 
-    // Função para aplicar o filtro selecionado e exibir no campo de busca
     function applyFilter(filter) {
         document.querySelector(".search-bar input").value = filter;
-        toggleFilterOptions(); // Fecha o menu de opções
+        toggleFilterOptions(); 
     }
 
-    // Fecha o menu de opções ao clicar fora dele
     document.addEventListener("click", function(event) {
         const filterOptions = document.getElementById("filterOptions");
         const filterIcon = document.querySelector(".filter-icon");
@@ -435,6 +426,38 @@
             filterOptions.style.display = "none";
         }
     });
+
+    function submitSearch() {
+        const searchInput = document.getElementById('searchInput').value;
+    
+        if (!searchInput) {
+            alert('Por favor, insira um termo de pesquisa.');
+            return;
+        }
+    
+        const formData = new FormData();
+        formData.append('pesquisa', searchInput);
+    
+        fetch('/buscaEPI', {
+            method: 'POST',
+            body: formData,
+        })
+        .then(response => {
+            if (!response.ok) {
+                return response.text().then(text => { throw new Error(text); });
+            }
+            return response.text();
+        })
+        .then(html => {
+            // Atualiza o conteúdo da página com a resposta
+            document.body.innerHTML = html;
+        })
+        .catch(error => {
+            console.error('Erro ao buscar EPI:', error);
+            alert('Erro ao buscar EPI: ' + error.message);
+        });
+    }
+    
 </script>
 
 {% endblock %}

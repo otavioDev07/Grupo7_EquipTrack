@@ -8,7 +8,7 @@ estoque_blueprint = Blueprint('estoqueEPI', __name__, template_folder="templates
 @estoque_blueprint.route('/estoque', methods=['GET'])
 @require_login
 def get_estoque():
-    filtro = request.args.get('filtro', 'no_prazo')  # Filtro padrão: 'no_prazo'
+    filtro = request.args.get('filtro', 'no_prazo') 
 
     query_base = '''
         SELECT idEPI, codigoCA, nomeEquipamento, quantidade, dataVencimento 
@@ -50,14 +50,7 @@ def buscaEPI():
         '''
         cursor.execute(query, (pesquisa,))
         EPIs = cursor.fetchall()
-
-        #Verificação do status
-        if EPIs[4] > datetime.now() + timedelta(days=30):
-            filtro = 'no_prazo'
-        elif EPIs[4] <= datetime.now() + timedelta(days=30):
-            filtro = 'perto_vencimento'
-        else:
-            status = 'vencido'
-        return render_template('estoqueEPI.html', EPIs=EPIs, filtro=filtro)
+        
+        return render_template('estoqueEPI.html', EPIs=EPIs)
     
         

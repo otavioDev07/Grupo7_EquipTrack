@@ -9,7 +9,6 @@ home_blueprint = Blueprint('home', __name__, template_folder="templates")
 def home():
     with conecta_db() as (conexao, cursor):
         try:
-            # Atualiza status de EPIs na tabela principal
             comando_update = '''
                 UPDATE epi 
                 SET status = "Descartado" 
@@ -29,8 +28,6 @@ def home():
             setores_data = []
             for setor in setores:
                 idSetor = setor[0]
-                
-                # Obtém dados de EPIs por meio de epi_funcionário
                 comando_epi_funcionario = '''
                 SELECT 
                     SUM(CASE 

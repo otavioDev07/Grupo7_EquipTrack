@@ -27,8 +27,7 @@ def cadastro_EPI():
                 quantidade = request.form['quantidade']
                 dataVencimento = request.form['dataVencimento']
 
-                idSetor = request.form['idSetor'] #Verificar se o valor está vindo 
-                idSupervisor = session['idSupervisor']
+                idSetor = request.form['idSetor'] 
 
                 modelo = request.form.get('modelo')
                 observacoes = request.form.get('observacoes')
@@ -49,15 +48,6 @@ def cadastro_EPI():
                 '''
                 cursor.execute(comando, (codigoCA, numeroSerie, marca, modelo, dataVencimento, status, observacoes, nomeEquipamento, dataAquisicao, tamanho, quantidade, idSetor))
                 conexao.commit()
-        
-                comando_backlog = '''
-                    INSERT INTO Backlog (dataHora, acao, idSupervisor) 
-                    VALUES (NOW(), %s, %s)
-                '''
-                acao = f"Cadastro de EPI: {nomeEquipamento}" 
-                cursor.execute(comando_backlog, (acao, idSupervisor))   
-                conexao.commit()
-                print('Cadastro realizado com sucesso!', 'success')
                 return redirect('/home')
             except Exception as e:
                 return f"Erro de BackEnd: {e}"
@@ -106,16 +96,6 @@ def editarEPI(idEPI):
                                          data_vencimento, setor_id, quantidade, observacoes,
                                          tamanho, idEPI))
                 conexao.commit()
-
-                idSupervisor = session['idSupervisor']
-                comando_backlog = '''
-                    INSERT INTO Backlog (dataHora, acao, idSupervisor) 
-                    VALUES (NOW(), %s, %s)
-                '''
-                acao = f"Edição de EPI: {nome}" 
-                cursor.execute(comando_backlog, (acao, idSupervisor))   
-                conexao.commit()
-
                 return redirect(f'/descricaoEPI/{idEPI}') 
             except Exception as e:
                 return f"Erro ao salvar as edições: {e}", 500
@@ -141,21 +121,11 @@ def cadastro_Funcionario():
                 roupa = request.form['tamanhoRoupa']
                 calcados = request.form['calcados']
                 especial = request.form.get('condicoesEspeciais')
-                idSupervisor = session['idSupervisor']
                 comando = '''
                     INSERT INTO funcionário (nomeFuncionário, NIF, CPF, idSetor, condicoesEspeciais, cargo, tamCalcado, tamRoupa) VALUES (%s, %s, %s, %s, %s, %s, %s, %s)
                 '''
                 cursor.execute(comando, (nome, nif, cpf, idSetor, especial, cargo, calcados, roupa))
                 conexao.commit()
-
-                comando_backlog = '''
-                    INSERT INTO Backlog (dataHora, acao, idSupervisor) 
-                    VALUES (NOW(), %s, %s)
-                '''
-                acao = f"Cadastro de funcionário: {nome}" 
-                cursor.execute(comando_backlog, (acao, idSupervisor))   
-                conexao.commit()
-
                 print('Cadastro realizado com sucesso!', 'success')
                 return redirect('/home')
 
@@ -279,20 +249,6 @@ def cadastroDescarte(idEPI):
                 cursor.execute(comando_update, (quantidade_descartar, idEPI))
                 conexao.commit()
 
-                cursor.execute('SELECT nomeEquipamento FROM epi WHERE idEPI = %s', (idEPI,))
-                result = cursor.fetchone()
-                if result:
-                    nomeEPI = result[0]
-                else:
-                    nomeEPI = "Desconhecido"
-                    
-                comando_backlog = '''
-                    INSERT INTO Backlog (dataHora, acao, idSupervisor) 
-                    VALUES (NOW(), %s, %s)
-                '''
-                acao = f"Descarte de EPI: {nomeEPI}"
-                cursor.execute(comando_backlog, (acao, idSupervisor))
-                conexao.commit()
                 return redirect('/estoque')
 
             except Exception as e:
@@ -382,15 +338,6 @@ def editDescarte(idDescarte):
                 ''', (novo_motivo, novo_localDescarte, nova_quantidade, idDescarte))
                 conexao.commit()
 
-                comando_backlog = '''
-                    INSERT INTO Backlog (dataHora, acao, idSupervisor) 
-                    VALUES (NOW(), %s, %s)
-                '''
-                idSupervisor = session['idSupervisor']  
-                acao = f"Edição de descarte do EPI: {idEPI}"
-                cursor.execute(comando_backlog, (acao, idSupervisor))
-                conexao.commit()
-
                 return redirect(f'/descricaoDescarte/{idDescarte}')
 
             except Exception as e:
@@ -448,15 +395,6 @@ def editarFuncionario(idFuncionario):
                         WHERE idFuncionario = %s
                     '''
                     cursor.execute(query, (nome, cpf, nif, cargo, idSetor, tamanhoRoupa, calcados, condicoesEspeciais, idFuncionario))
-                    conexao.commit()
-
-                    idSupervisor = session['idSupervisor']
-                    comando_inserir_backlog = '''
-                        INSERT INTO Backlog (dataHora, acao, idSupervisor) 
-                        VALUES (NOW(), %s, %s)
-                    '''
-                    acao = f"Edição do Funcionário: {nome}"
-                    cursor.execute(comando_inserir_backlog, (acao, idSupervisor))
                     conexao.commit()
 
                     return redirect(f'/descFuncionario/{idFuncionario}')
@@ -698,17 +636,6 @@ def descarteEPI_alocado(id):
                     cursor.execute(comando_delete_epi_funcionario, (id,))
                     conexao.commit()
 
-                cursor.execute('SELECT nomeEquipamento FROM epi WHERE idEPI = %s', (idEPI,))
-                nomeEPI = cursor.fetchone()[0]
-
-                comando_inserir_backlog = '''
-                    INSERT INTO Backlog (dataHora, acao, idSupervisor) 
-                    VALUES (NOW(), %s, %s)
-                '''
-                acao = f"Descarte de EPI: {nomeEPI}"
-                cursor.execute(comando_inserir_backlog, (acao, idSupervisor))
-                conexao.commit()
-
                 return redirect('/estoque')
 
             except Exception as e:
@@ -729,16 +656,6 @@ def excluirDescarte(idDescarte):
 
             cursor.execute('DELETE FROM descarte WHERE idDescarte = %s', (idDescarte,))
             conexao.commit()
-
-            idSupervisor = session['idSupervisor']  
-            comando_backlog = '''
-                INSERT INTO Backlog (dataHora, acao, idSupervisor)
-                VALUES (NOW(), %s, %s)
-            '''
-            acao = f"Exclusão do descarte do EPI: {idEPI}"
-            cursor.execute(comando_backlog, (acao, idSupervisor))
-            conexao.commit()
-
             return redirect('/descarte') 
 
     except Exception as e:

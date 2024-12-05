@@ -31,22 +31,6 @@ def alocar_equipamento(idEPI):
                 atualizar_epi = 'UPDATE epi SET quantidade = quantidade - %s, idFuncionario = %s, status = %s WHERE idEPI = %s'
                 cursor.execute(atualizar_epi, (quantidade, idFuncionario,'Em uso', idEPI))
                 conexao.commit()    
-
-                #backlog
-                cursor.execute('SELECT nomeFuncionário FROM funcionário WHERE idFuncionario = %s', (idFuncionario,))
-                funcionario = cursor.fetchone()[0]
-
-                cursor.execute('SELECT nomeEquipamento FROM epi WHERE idEPI = %s', (idEPI,))
-                equipamento = cursor.fetchone()[0]
-
-                comando_backlog = '''
-                    INSERT INTO Backlog (dataHora, acao, idSupervisor) 
-                    VALUES (NOW(), %s, %s)
-                '''
-                acao = f"Locação de EPI: {equipamento} para colaborador {funcionario}" 
-                cursor.execute(comando_backlog, (acao, idSupervisor))   
-                conexao.commit()
-                print('Cadastro realizado com sucesso!', 'success')
                 return redirect('/estoque')
             except Exception as e:
                 conexao.rollback()
