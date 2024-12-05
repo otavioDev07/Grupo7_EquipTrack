@@ -447,12 +447,6 @@ def get_funcionarios(idSetor):
             cursor.execute('SELECT nomeSetor FROM setor WHERE idSetor = %s', (idSetor,))
             nomeSetor = cursor.fetchone() 
 
-            if not nomeSetor:
-                return 'Setor não encontrado', 404
-
-            if not funcionarios:
-                return 'Funcionários não encontrados', 404
-            
             lista_funcionarios = [
                 {
                     'idFuncionario': funcionario[0],

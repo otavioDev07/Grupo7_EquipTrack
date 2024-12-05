@@ -182,7 +182,7 @@
                     <button class="editar">Editar</button>
                 </a>
                 
-                {% if cipeiro[0]['status'] == 'inativo'%}
+                {% if cipeiro[0]['status'] == 'inativo' and lista_cipeiros|length > 1 %}
                 <form method="POST" action="/excluirCipeiro/{{ cipeiro[0]['idSupervisor'] }}">
                     <button type="submit" class="excluir">Excluir</button>
                 </form>
