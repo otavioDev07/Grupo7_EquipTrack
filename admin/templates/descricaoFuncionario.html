@@ -138,11 +138,18 @@ button:hover {
             </div>
         </div>
 
-        <form action="/editarFuncionario/{{ funcionario.idFuncionario }}" method="get">
-            <div class="col-md-2">
-                <button type="submit">Editar</button>
-            </div>
-        </form>
+        <div style="display: flex; margin-top: 2%;">
+            <form action="/editarFuncionario/{{ funcionario.idFuncionario }}" method="get">
+                <div class="col-md-2 me-5">
+                    <button type="submit">Editar</button>
+                </div>
+            </form>
+            <form action="/excluirFuncionario/{{ funcionario.idFuncionario }}" method="post">
+                <div class="col-md-2">
+                    <button type="submit" style="background-color: red;">Excluir</button>
+                </div>
+            </form>
+        </div>
     </div>
 
     <div class="col-md-12 mt-4">

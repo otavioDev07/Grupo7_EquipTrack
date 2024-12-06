@@ -518,6 +518,22 @@ def descFuncionario(idFuncionario):
     except Exception as e:
         return f"Erro: {str(e)}", 500
     
+@admin_blueprint.route('/excluirFuncionario/<int:id>', methods=['POST'])
+@require_login
+def excluirFuncionario(id):
+    try:
+        with conecta_db() as (conexao, cursor):
+            cursor.execute('DELETE FROM epi_funcionário WHERE idFuncionario = %s', (id,))
+            conexao.commit()
+
+            cursor.execute('DELETE FROM funcionário WHERE idFuncionario = %s', (id,))
+            conexao.commit()
+            return redirect('/home') 
+
+    except Exception as e:
+        return f"Erro ao excluir o funcionário: {e}", 500
+
+    
 
 @admin_blueprint.route('/epiFuncionario/<int:id>', methods=['GET'])
 @require_login
@@ -645,8 +661,6 @@ def excluirDescarte(idDescarte):
 
             if not result:
                 return "Descarte não encontrado", 404
-
-            idEPI = result[0]  
 
             cursor.execute('DELETE FROM descarte WHERE idDescarte = %s', (idDescarte,))
             conexao.commit()
