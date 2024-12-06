@@ -136,18 +136,6 @@ def editarCipeiro(idSupervisor):
             except Exception as e:
                 return f"Erro ao salvar as edições: {e}", 500
 
-@telaadm_blueprint.route('/excluirCipeiro/<int:idSupervisor>', methods=['POST'])
-@require_login
-def excluirCipeiro(idSupervisor):
-    with conecta_db() as (conexao, cursor):
-        try:
-            comando = 'DELETE FROM supervisor WHERE idSupervisor = %s'
-            cursor.execute(comando, (idSupervisor,))
-            conexao.commit()
-            return redirect('/telaadm')
-        except Exception as e:
-            return f"Erro ao excluir o CIPEIRO: {e}", 500
-
 if __name__ == '__main__':
     telaadm_blueprint.run(debug=True)
 
