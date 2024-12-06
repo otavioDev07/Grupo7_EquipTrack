@@ -428,30 +428,31 @@
 </head>
 <body>
 
-<!-- Barra de pesquisa -->
-<div class="search-container">
-    <!-- Ícone de filtro -->
-    <svg class="filter-icon" onclick="toggleFilterOptions()" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-        <polygon points="3 3 21 3 14 10 14 21 10 21 10 10 3 3"></polygon>
-    </svg>
-    
-    <!-- Campo de pesquisa -->
-    <div class="search-bar">
-        <input type="text" class="form-control" placeholder="Busque aqui..." value="{{ busca|default('') }}" onkeypress="if(event.key === 'Enter') realizarBusca()">
-        <svg class="search-icon" onclick="realizarBusca()" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-            <circle cx="11" cy="11" r="8"></circle>
-            <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+    <div class="search-container">
+        <!-- Ícone de Filtro -->
+        <svg class="filter-icon" onclick="toggleFilterOptions()" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <polygon points="3 3 21 3 14 10 14 21 10 21 10 10 3 3"></polygon>
         </svg>
+    
+        <!-- Barra de Pesquisa -->
+        <div class="search-bar">
+            <input type="text" id="searchInput" name="pesquisa" class="form-control" placeholder="Busque aqui...">
+            
+            <!-- Ícone de Busca -->
+            <svg class="search-icon" onclick="submitSearch()" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <circle cx="11" cy="11" r="8"></circle>
+                <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+            </svg>
+        </div>
+    
+        <!-- Opções de Filtro -->
+        <div class="filter-options" id="filterOptions">
+            <div onclick="applyFilter('Cozinha')">Cozinha</div>
+            <div onclick="applyFilter('Manutenção')">Manutenção</div>
+            <div onclick="applyFilter('Inspetores')">Inspetores</div>
+            <div onclick="applyFilter('Professores')">Professores</div>
+        </div>
     </div>
-
-    <!-- Menu de opções de filtro -->
-    <div class="filter-options" id="filterOptions">
-        <div onclick="applyFilter('Cozinha')">Cozinha</div>
-        <div onclick="applyFilter('Manutenção')">Manutenção</div>
-        <div onclick="applyFilter('Inspetores')">Inspetores</div>
-        <div onclick="applyFilter('Professores')">Professores</div>
-    </div>
-</div>
 
 <div class="menu" style="padding-top: 2%;"> 
     <div class="menu-container">
@@ -473,42 +474,39 @@
 <div class="container py-4">
     <div class="grid-container">
         {% for item in EPIs %}
-        <div class="card 
-            {% if filtro == 'no_prazo' %} border-green
-            {% elif filtro == 'perto_vencimento' %} border-yellow
-            {% elif filtro == 'vencido' %} border-red
-            {% endif %}">
-            <!-- Círculo de status -->
-            <div class="status-circle
-                {% if filtro == 'no_prazo' %} green
-                {% elif filtro == 'perto_vencimento' %} yellow
-                {% elif filtro == 'vencido' %} red
-                {% endif %}">
-            </div>
+        <div class="col">
+            <div class="card h-100 shadow-sm position-relative">
+                <div class="status-circle
+                    {% if filtro == 'no_prazo' %} green
+                    {% elif filtro == 'perto_vencimento' %} yellow
+                    {% elif filtro == 'vencido' %} red
+                    {% endif %}">
+                </div>
 
-            <!-- Conteúdo do card -->
-            <div class="card-body">
-                <h5 class="card-title">Código CA: {{ item[1] }}</h5>
-                <p class="card-text">Equipamento: {{ item[2] }}</p>
-                <p class="card-text">Quantidade: {{ item[3] }}</p>
-                <p class="card-text">
-                    Status:
-                    <span class="status-text
-                        {% if filtro == 'no_prazo' %} green
-                        {% elif filtro == 'perto_vencimento' %} yellow
-                        {% elif filtro == 'vencido' %} red
-                        {% endif %}">
-                        {% if filtro == 'no_prazo' %} No prazo
-                        {% elif filtro == 'perto_vencimento' %} Perto do vencimento
-                        {% elif filtro == 'vencido' %} Vencido
-                        {% endif %}
-                    </span>
-                </p>
-            </div>
-
-            <!-- Botão "Ver mais" -->
-            <div>
-                <a href="{{ url_for('admin.descricaoEPI', idEPI=item[0]) }}" class="btn ver-mais">Ver mais</a>
+                <div class="card-body">
+                    <h5 class="card-title">Código CA: {{ item[1] }}</h5>
+                    <p class="card-text">Equipamento: {{ item[2] }}</p>
+                    <p class="card-text">Quantidade: {{ item[3] }}</p>
+                    <p class="card-text">
+                        Status:
+                        <span class="status-text
+                            {% if filtro == 'no_prazo' %} green
+                            {% elif filtro == 'perto_vencimento' %} yellow
+                            {% elif filtro == 'vencido' %} red
+                            {% endif %}">
+                            {% if filtro == 'no_prazo' %}
+                                No prazo
+                            {% elif filtro == 'perto_vencimento' %}
+                                Perto do vencimento
+                            {% elif filtro == 'vencido' %}
+                                Vencido
+                            {% endif %}
+                        </span>
+                    </p>
+                </div>
+                <div class="bg-transparent">
+                    <a href="{{ url_for('admin.descricaoEPI', idEPI=item[0]) }}" class="btn ver-mais" style="margin-left: 70%;">Ver mais</a>
+                </div>
             </div>
         </div>
         {% endfor %}
@@ -527,19 +525,16 @@
         window.location.href = `/estoque?filtro=${filtro}`;
     }
 
-    // Função para alternar a visibilidade das opções de filtro
     function toggleFilterOptions() {
         const filterOptions = document.getElementById("filterOptions");
         filterOptions.style.display = filterOptions.style.display === "none" ? "block" : "none";
     }
 
-    // Função para aplicar o filtro selecionado e exibir no campo de busca
     function applyFilter(filter) {
         document.querySelector(".search-bar input").value = filter;
-        toggleFilterOptions(); // Fecha o menu de opções
+        toggleFilterOptions(); 
     }
 
-    // Fecha o menu de opções ao clicar fora dele
     document.addEventListener("click", function(event) {
         const filterOptions = document.getElementById("filterOptions");
         const filterIcon = document.querySelector(".filter-icon");
@@ -547,16 +542,37 @@
             filterOptions.style.display = "none";
         }
     });
+
+    function submitSearch() {
+        const searchInput = document.getElementById('searchInput').value;
     
-    function filtrarEstoque(filtro) {
-        window.location.href = `/estoque?filtro=${filtro}`;
+        if (!searchInput) {
+            alert('Por favor, insira um termo de pesquisa.');
+            return;
+        }
+    
+        const formData = new FormData();
+        formData.append('pesquisa', searchInput);
+    
+        fetch('/buscaEPI', {
+            method: 'POST',
+            body: formData,
+        })
+        .then(response => {
+            if (!response.ok) {
+                return response.text().then(text => { throw new Error(text); });
+            }
+            return response.text();
+        })
+        .then(html => {
+            // Atualiza o conteúdo da página com a resposta
+            document.body.innerHTML = html;
+        })
+        .catch(error => {
+            console.error('Erro ao buscar EPI:', error);
+            alert('Erro ao buscar EPI: ' + error.message);
+        });
     }
-    function realizarBusca() {
-    const query = document.querySelector(".search-bar input").value.trim();
-    if (query) {
-        window.location.href = `/estoque?busca=${encodeURIComponent(query)}`;
-    }
-}
     
 </script>
 

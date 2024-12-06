@@ -35,6 +35,10 @@ def detalhesCipeiro(idSupervisor):
             query = 'SELECT idSupervisor, nomeSupervisor, CPF, status FROM supervisor WHERE idSupervisor = %s'
             cursor.execute(query, (idSupervisor,))
             result = cursor.fetchall()
+        
+            cursor.execute('SELECT idSupervisor FROM supervisor')
+            lista_cipeiros = cursor.fetchall()
+            
 
             if result:
                 cipeiro = [
@@ -46,7 +50,7 @@ def detalhesCipeiro(idSupervisor):
                     }
                     for row in result
                 ]
-                return render_template('detalhesCipeiro.html', cipeiro=cipeiro)
+                return render_template('detalhesCipeiro.html', cipeiro=cipeiro, lista_cipeiros=lista_cipeiros)
             else:
                 return "Nenhum CIPEIRO encontrado.", 404
         except Exception as e:
@@ -70,16 +74,7 @@ def cadastrarCipeiro():
                 query = 'INSERT INTO supervisor (nomeSupervisor, CPF, senhaAcesso) VALUES (%s, %s, %s)'
                 cursor.execute(query, (nomeSupervisor, cpf, senha_cript))
                 conexao.commit()
-
-                comando_backlog = '''
-                    INSERT INTO Backlog (dataHora, acao, idSupervisor) 
-                    VALUES (NOW(), %s, %s)
-                '''
-                acao = f"Cadastro de supervisor: {nomeSupervisor}" 
-                cursor.execute(comando_backlog, (acao, idSupervisor))   
-                conexao.commit()
-                
-                return redirect('/home')
+                return redirect('/telaadm')
             except Exception as e:
                 return f"Erro de BackEnd: {e}", 500
 
@@ -89,6 +84,9 @@ def editarCipeiro(idSupervisor):
     with conecta_db() as (conexao, cursor):
         if request.method == 'GET':
             try:
+                cursor.execute('SELECT COUNT(*) FROM supervisor')
+                total_cipeiros = cursor.fetchone()[0] 
+
                 query = 'SELECT idSupervisor, nomeSupervisor, CPF, status FROM supervisor WHERE idSupervisor = %s'
                 cursor.execute(query, (idSupervisor,))
                 result = cursor.fetchone()
@@ -100,7 +98,7 @@ def editarCipeiro(idSupervisor):
                         'CPF': result[2],
                         'status': result[3]
                     }
-                    return render_template('editarCipeiro.html', cipeiro=cipeiro)
+                    return render_template('editarCipeiro.html', cipeiro=cipeiro, total_cipeiros=total_cipeiros, idSupervisorSessao=session['idSupervisor'])
                 else:
                     return "Cipeiro não encontrado", 404
             except Exception as e:
@@ -133,44 +131,22 @@ def editarCipeiro(idSupervisor):
                 if senhaAcesso:
                     senha_cript = generate_password_hash(senhaAcesso)
                     cursor.execute('UPDATE supervisor SET senhaAcesso = %s WHERE idSupervisor = %s', (senha_cript, idSupervisor))
-
                 conexao.commit()
-
-                comando_inserir_backlog = '''
-                    INSERT INTO Backlog (dataHora, acao, idSupervisor) 
-                    VALUES (NOW(), %s, %s)
-                '''
-                acao = f"Edição do Cipeiro: {nome}"
-                cursor.execute(comando_inserir_backlog, (acao, idSupervisor))
-                conexao.commit()
-
                 return redirect(f'/detalhesCipeiro/{idSupervisor}')
             except Exception as e:
                 return f"Erro ao salvar as edições: {e}", 500
 
-# @telaadm_blueprint.route('/excluirCipeiro/<int:idSupervisor>', methods=['POST'])
-# @require_login
-# def excluirCipeiro(idSupervisor):
-#     with conecta_db() as (conexao, cursor):
-#         try:
-#             comando = 'DELETE FROM supervisor WHERE idSupervisor = %s'
-#             cursor.execute(comando, (idSupervisor,))
-#             conexao.commit()
-
-#             cursor.execute('SELECT nomeSupervisor FROM supervisor WHERE idSupervisor = %s', (idSupervisor,))
-#             nomeSupervisor = cursor.fetchone()[0]
-#             idSupervisor = session['idSupervisor']
-
-#             comando_inserir_backlog = '''
-#                     INSERT INTO Backlog (dataHora, acao, idSupervisor) 
-#                     VALUES (NOW(), %s, %s)
-#                 ''' 
-#             acao = f"Exclusão do Cipeiro: {nomeSupervisor} "
-#             cursor.execute(comando_inserir_backlog, (acao, idSupervisor))
-#             conexao.commit()        
-#             return redirect('/telaadm')
-#         except Exception as e:
-#             return f"Erro ao excluir o CIPEIRO: {e}", 500
+@telaadm_blueprint.route('/excluirCipeiro/<int:idSupervisor>', methods=['POST'])
+@require_login
+def excluirCipeiro(idSupervisor):
+    with conecta_db() as (conexao, cursor):
+        try:
+            comando = 'DELETE FROM supervisor WHERE idSupervisor = %s'
+            cursor.execute(comando, (idSupervisor,))
+            conexao.commit()
+            return redirect('/telaadm')
+        except Exception as e:
+            return f"Erro ao excluir o CIPEIRO: {e}", 500
 
 if __name__ == '__main__':
     telaadm_blueprint.run(debug=True)

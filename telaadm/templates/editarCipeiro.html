@@ -116,6 +116,8 @@
                     <input type="text" id="CPF" name="CPF" value="{{ cipeiro.CPF }}" required>
                 </div>
 
+                
+                {% if total_cipeiros > 1 and cipeiro.idSupervisor != idSupervisorSessao %}
                 <div class="form-group">
                     <label for="status">Status</label>
                     <select id="status" name="status" required>
@@ -123,6 +125,7 @@
                         <option value="inativo" {% if cipeiro.status == 'inativo' %}selected{% endif %}>Inativo</option>
                     </select>
                 </div>
+                {% endif %}
 
                 <div class="form-group">
                     <label for="senhaAcesso">Nova senha de Acesso</label>

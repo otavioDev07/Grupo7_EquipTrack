@@ -34,23 +34,6 @@ DEFAULT CHARACTER SET = utf8mb3;
 
 
 -- -----------------------------------------------------
--- Table `equiptrack`.`backlog`
--- -----------------------------------------------------
-CREATE TABLE IF NOT EXISTS `equiptrack`.`backlog` (
-  `idBacklog` INT NOT NULL AUTO_INCREMENT,
-  `dataHora` TIMESTAMP NOT NULL,
-  `acao` VARCHAR(100) NOT NULL,
-  `idSupervisor` INT NOT NULL,
-  PRIMARY KEY (`idBacklog`),
-  INDEX `fk_Backlog_Supervisor1_idx` (`idSupervisor` ASC) VISIBLE,
-  CONSTRAINT `fk_Backlog_Supervisor1`
-    FOREIGN KEY (`idSupervisor`)
-    REFERENCES `equiptrack`.`supervisor` (`idSupervisor`))
-ENGINE = InnoDB
-DEFAULT CHARACTER SET = utf8mb3;
-
-
--- -----------------------------------------------------
 -- Table `equiptrack`.`setor`
 -- -----------------------------------------------------
 CREATE TABLE IF NOT EXISTS `equiptrack`.`setor` (

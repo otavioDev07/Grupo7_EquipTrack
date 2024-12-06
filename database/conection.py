@@ -5,12 +5,11 @@ from contextlib import contextmanager
 db_blueprint = Blueprint('database', __name__)
 
 DB_CONFIG = {
-    'host': '10.142.227.160',
+    'host': 'localhost',
     'user': 'root',
-    'password': 'senai',
+    'password': 'ratinholouco20',
     'database': 'equiptrack'
 }
-
 
 @contextmanager
 def conecta_db():
