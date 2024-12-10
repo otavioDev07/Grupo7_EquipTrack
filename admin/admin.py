@@ -12,52 +12,70 @@ def get_setores():
         cursor.execute('SELECT * FROM setor')
         return cursor.fetchall()
 
-@admin_blueprint.route('/cadastroEPI', methods=['GET','POST'])
+@admin_blueprint.route('/cadastroEPI', methods=['GET', 'POST'])
 @require_login
 def cadastro_EPI():
     if request.method == 'GET':
-        with conecta_db() as (conexao, cursor):
-            cursor.execute('SELECT * FROM setor')
-            setores = cursor.fetchall()
-            return render_template('cadastroEPI.html',setores=setores)
-    
+            return render_template('cadastroEPI.html', setores=get_setores())
+
     if request.method == 'POST':
-        with conecta_db() as (conexao, cursor):
+        try:
+            codigoCA = request.form.get('ca', '').strip()
+            numeroSerie = request.form.get('numero-serie', '').strip()
+            marca = request.form.get('marca', '').strip()
+            nomeEquipamento = request.form.get('nome', '').strip()
+            dataAquisicao = request.form.get('dataAquisicao', '').strip()
+            quantidade = request.form.get('quantidade', '').strip()
+            dataVencimento = request.form.get('dataVencimento', '').strip()
+            idSetor = request.form.get('idSetor', '').strip()
+            
+            if not numeroSerie:
+                raise ValueError("O campo Número de Série é obrigatório.")
+            
+            if any(not campo for campo in [codigoCA, marca, nomeEquipamento, dataAquisicao, quantidade, dataVencimento, idSetor]):
+                raise ValueError("Todos os campos obrigatórios devem ser preenchidos.")
+            
+            if not codigoCA.isdigit():
+                raise ValueError("O CA deve conter apenas números.")
+            
+            if not quantidade.isdigit() or int(quantidade) <= 0:
+                raise ValueError("A quantidade deve ser um número maior que zero.")
+
             try:
-                codigoCA = request.form['ca']
-                numeroSerie = request.form['numero-serie']
-                marca = request.form['marca']
-                nomeEquipamento = request.form['nome']
-                dataAquisicao = request.form['dataAquisicao']
-                quantidade = request.form['quantidade']
-                dataVencimento = request.form['dataVencimento']
+                dataVencimento = datetime.strptime(dataVencimento, '%Y-%m-%d').strftime('%Y/%m/%d')
+                dataAquisicao = datetime.strptime(dataAquisicao, '%Y-%m-%d').strftime('%Y/%m/%d')
+            except ValueError:
+                raise ValueError("Formato de data inválido. Use o formato AAAA-MM-DD.")
 
-                idSetor = request.form['idSetor'] 
+            modelo = request.form.get('modelo', '').strip()
+            observacoes = request.form.get('observacoes', '').strip()
+            tamanho = request.form.get('tamanho', '').strip()
 
-                modelo = request.form.get('modelo')
-                observacoes = request.form.get('observacoes')
-                tamanho = request.form.get('tamanho')
+            status = 'Estoque'
 
-                
-                status = 'Estoque'
-
-                try:
-                    dataVencimento = datetime.strptime(dataVencimento, '%Y-%m-%d').strftime('%Y/%m/%d')
-                    dataAquisicao = datetime.strptime(dataAquisicao, '%Y-%m-%d').strftime('%Y/%m/%d')
-                except ValueError:
-                    print('Formato de data inválido. Use o formato AAAA-MM-DD.')
-                    return redirect(request.url)
+            with conecta_db() as (conexao, cursor):
                 comando = '''
-                    INSERT INTO EPI (codigoCA, numeroSerie, marca, modelo, dataVencimento, status, observacoes, nomeEquipamento, dataAquisicao, tamanho, quantidade, idSetor) 
+                    INSERT INTO EPI (codigoCA, numeroSerie, marca, modelo, dataVencimento, status, observacoes, 
+                                     nomeEquipamento, dataAquisicao, tamanho, quantidade, idSetor) 
                     VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s)
                 '''
-                cursor.execute(comando, (codigoCA, numeroSerie, marca, modelo, dataVencimento, status, observacoes, nomeEquipamento, dataAquisicao, tamanho, quantidade, idSetor))
+                cursor.execute(
+                    comando, 
+                    (codigoCA, numeroSerie, marca, modelo, dataVencimento, status, observacoes, 
+                     nomeEquipamento, dataAquisicao, tamanho, quantidade, idSetor)
+                )
                 conexao.commit()
-                return redirect('/home')
-            except Exception as e:
-                return f"Erro de BackEnd: {e}"
-            except Error as e:
-                return f"Erro de BD:{e}"
+
+            return redirect('/home')
+
+        except ValueError as e:
+            with conecta_db() as (conexao, cursor):
+                cursor.execute('SELECT * FROM setor')
+                setores = cursor.fetchall()
+                return render_template('cadastroEPI.html', setores=setores, error_message=str(e))
+
+        except Exception as e:
+            return f"Erro de BackEnd: {e}", 500
 
 @admin_blueprint.route('/editarEPI/<int:idEPI>', methods=['GET', 'POST'])
 @require_login
@@ -70,7 +88,6 @@ def editarEPI(idEPI):
                 if epi:
                     cursor.execute('SELECT idSetor, nomeSetor FROM setor')
                     setores = cursor.fetchall()
-
                     return render_template('edicaoEPI.html', epi=epi, setores=setores, idEPI=idEPI)
                 else:
                     return "EPI não encontrado", 404
@@ -79,29 +96,58 @@ def editarEPI(idEPI):
 
         if request.method == 'POST':
             try:
-                nome = request.form['nome']
-                numero_serie = request.form['numero-serie']
-                ca = request.form['ca']
-                marca = request.form['marca']
-                modelo = request.form.get('modelo', '') 
-                data_aquisicao = request.form['dataAquisicao']
-                data_vencimento = request.form['dataVencimento']
-                setor_id = request.form['setor']
-                quantidade = request.form['quantidade']
-                observacoes = request.form.get('observacoes', '')  
-                tamanho = request.form.get('tamanho', '') 
+                cursor.execute('SELECT nomeEquipamento, numeroSerie, codigoCA, marca, modelo, dataAquisicao, dataVencimento, idSetor, status, quantidade, observacoes, tamanho FROM epi WHERE idEPI = %s', (idEPI,))
+                epi = cursor.fetchone()
+                if not epi:
+                    return "EPI não encontrado", 404
+
+                nome = request.form.get('nome', '').strip()
+                numero_serie = request.form.get('numero-serie', '').strip()
+                ca = request.form.get('ca', '').strip()
+                marca = request.form.get('marca', '').strip()
+                modelo = request.form.get('modelo', '').strip()
+                data_aquisicao = request.form.get('dataAquisicao', '').strip()
+                data_vencimento = request.form.get('dataVencimento', '').strip()
+                setor_id = request.form.get('setor', '').strip()
+                quantidade = request.form.get('quantidade', '').strip()
+                observacoes = request.form.get('observacoes', '').strip()
+                tamanho = request.form.get('tamanho', '').strip()
+
+                if not numero_serie:
+                    raise ValueError("O campo Número de Série é obrigatório.")
+                
+                if any(not campo for campo in [nome, ca, marca, data_aquisicao, data_vencimento, setor_id, quantidade]):
+                    raise ValueError("Todos os campos obrigatórios devem ser preenchidos.")
+                
+                if not ca.isdigit():
+                    raise ValueError("O CA deve conter apenas números.")
+                
+                if not quantidade.isdigit() or int(quantidade) <= 0:
+                    raise ValueError("A quantidade deve ser um número maior que zero.")
+                
+                try:
+                    data_aquisicao = datetime.strptime(data_aquisicao, '%Y-%m-%d').strftime('%Y/%m/%d')
+                    data_vencimento = datetime.strptime(data_vencimento, '%Y-%m-%d').strftime('%Y/%m/%d')
+                except ValueError:
+                    raise ValueError("Formato de data inválido. Use o formato AAAA-MM-DD.")
 
                 comando = '''
                     UPDATE epi
                     SET nomeEquipamento = %s, numeroSerie = %s, codigoCA = %s, marca = %s, modelo = %s,
-                        dataAquisicao = %s, dataVencimento = %s, idSetor = %s, quantidade = %s, observacoes = %s, tamanho = %s
+                        dataAquisicao = %s, dataVencimento = %s, idSetor = %s, quantidade = %s, 
+                        observacoes = %s, tamanho = %s
                     WHERE idEPI = %s
                 '''
                 cursor.execute(comando, (nome, numero_serie, ca, marca, modelo, data_aquisicao,
                                          data_vencimento, setor_id, quantidade, observacoes,
                                          tamanho, idEPI))
                 conexao.commit()
-                return redirect(f'/descricaoEPI/{idEPI}') 
+
+                return redirect(f'/descricaoEPI/{idEPI}')
+            except ValueError as e:
+                cursor.execute('SELECT idSetor, nomeSetor FROM setor')
+                setores = cursor.fetchall()
+                return render_template('edicaoEPI.html', epi=epi, setores=setores, idEPI=idEPI, error_message=str(e))
             except Exception as e:
                 return f"Erro ao salvar as edições: {e}", 500
 
