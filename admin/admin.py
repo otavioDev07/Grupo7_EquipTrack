@@ -7,6 +7,11 @@ from session.session import require_login
 
 admin_blueprint = Blueprint('admin', __name__, template_folder="templates")
 
+def get_setores():
+    with conecta_db() as (conexao, cursor):
+        cursor.execute('SELECT * FROM setor')
+        return cursor.fetchall()
+
 @admin_blueprint.route('/cadastroEPI', methods=['GET','POST'])
 @require_login
 def cadastro_EPI():
@@ -101,38 +106,43 @@ def editarEPI(idEPI):
                 return f"Erro ao salvar as edições: {e}", 500
 
 
-@admin_blueprint.route('/cadastroFuncionario', methods=['GET','POST'])
+@admin_blueprint.route('/cadastroFuncionario', methods=['GET', 'POST'])
 @require_login
 def cadastro_Funcionario():
     if request.method == 'GET':
-        with conecta_db() as (conexao, cursor):
-            cursor.execute('SELECT * FROM setor')
-            setores = cursor.fetchall()
-            return render_template('cadastroFuncionario.html',setores=setores)
-    
+            return render_template('cadastroFuncionario.html', setores=get_setores())
+
     if request.method == 'POST':
         with conecta_db() as (conexao, cursor):
             try:
-                nome = request.form['nome']
-                nif = request.form['nif']
-                cpf = request.form['cpf']
-                cargo = request.form['cargo']
+                nome = request.form['nome'].strip()
+                nif = request.form['nif'].strip()
+                cpf = request.form['cpf'].strip()
+                cargo = request.form['cargo'].strip()
                 idSetor = request.form['idSetor']
                 roupa = request.form['tamanhoRoupa']
                 calcados = request.form['calcados']
-                especial = request.form.get('condicoesEspeciais')
+                especial = request.form.get('condicoesEspeciais', '').strip()
+
+                if not nome or not cpf or not nif or not cargo or not idSetor or not roupa or not calcados:
+                    return render_template('cadastroFuncionario.html', error_message="Todos os campos devem ser preenchidos.", setores=get_setores())
+
+                if not cpf.isdigit() or len(cpf) != 11:
+                    return render_template('cadastroFuncionario.html', error_message="O CPF deve conter exatamente 11 números.", setores=get_setores())
+
+                if not nif.isdigit():
+                    return render_template('cadastroFuncionario.html', error_message="O NIF deve conter apenas números.", setores=get_setores())
+
                 comando = '''
-                    INSERT INTO funcionário (nomeFuncionário, NIF, CPF, idSetor, condicoesEspeciais, cargo, tamCalcado, tamRoupa) VALUES (%s, %s, %s, %s, %s, %s, %s, %s)
+                    INSERT INTO funcionário (nomeFuncionário, NIF, CPF, idSetor, condicoesEspeciais, cargo, tamCalcado, tamRoupa)
+                    VALUES (%s, %s, %s, %s, %s, %s, %s, %s)
                 '''
                 cursor.execute(comando, (nome, nif, cpf, idSetor, especial, cargo, calcados, roupa))
                 conexao.commit()
-                print('Cadastro realizado com sucesso!', 'success')
                 return redirect('/home')
 
             except Exception as e:
-                return f"Erro de BackEnd: {e}"
-            except Error as e:
-                return f"Erro de BD:{e}"
+                return render_template('cadastroFuncionario.html', error_message="Erro no processamento dos dados.", setores=get_setores())
                 
 
 @admin_blueprint.route('/descarte')
@@ -346,6 +356,10 @@ def editDescarte(idDescarte):
 @admin_blueprint.route('/editarFuncionario/<int:idFuncionario>', methods=['GET', 'POST'])
 @require_login
 def editarFuncionario(idFuncionario):
+    def get_setores(cursor):
+        cursor.execute('SELECT idSetor, nomeSetor FROM setor')
+        return cursor.fetchall()
+
     with conecta_db() as (conexao, cursor):
         if request.method == 'GET':
             try:
@@ -368,38 +382,71 @@ def editarFuncionario(idFuncionario):
                         'calcados': result[6],
                         'condicoesEspeciais': result[7],
                     }
-                    cursor.execute('SELECT idSetor, nomeSetor FROM setor')
-                    setores = cursor.fetchall()
-
-                    return render_template('edicaoFuncionario.html', funcionario=funcionario, setores=setores, idFuncionario=idFuncionario)
+                    setores = get_setores(cursor)
+                    return render_template(
+                        'edicaoFuncionario.html', 
+                        funcionario=funcionario, 
+                        setores=setores, 
+                        idFuncionario=idFuncionario
+                    )
                 else:
                     return "Funcionário não encontrado", 404
             except Exception as e:
                 return f"Erro de BackEnd: {e}", 500
 
         if request.method == 'POST':
-                try:
-                    nome = request.form['nome']
-                    cpf = request.form['cpf']
-                    nif = request.form['nif']
-                    cargo = request.form['cargo']
-                    idSetor = request.form['idSetor']
-                    tamanhoRoupa = request.form['tamanhoRoupa']
-                    calcados = request.form['calcados']
-                    condicoesEspeciais = request.form['condicoesEspeciais']
+            try:
+                nome = request.form['nome']
+                cpf = request.form['cpf']
+                nif = request.form['nif']
+                cargo = request.form['cargo']
+                idSetor = request.form['idSetor']
+                tamanhoRoupa = request.form['tamanhoRoupa']
+                calcados = request.form['calcados']
+                condicoesEspeciais = request.form['condicoesEspeciais']
 
-                    query = '''
-                        UPDATE funcionário
-                        SET nomeFuncionário = %s, CPF = %s, NIF = %s, cargo = %s, idSetor = %s, 
-                            tamRoupa = %s, tamCalcado = %s, condicoesEspeciais = %s
-                        WHERE idFuncionario = %s
-                    '''
-                    cursor.execute(query, (nome, cpf, nif, cargo, idSetor, tamanhoRoupa, calcados, condicoesEspeciais, idFuncionario))
-                    conexao.commit()
+                if not nome or not cpf or not nif or not cargo or not idSetor or not tamanhoRoupa or not calcados:
+                    setores = get_setores(cursor)
+                    error_message = "Todos os campos obrigatórios devem ser preenchidos."
+                    return render_template(
+                        'edicaoFuncionario.html', 
+                        funcionario=request.form, 
+                        setores=setores, 
+                        idFuncionario=idFuncionario, 
+                        error_message=error_message
+                    )
+                if len(cpf) != 11 or not cpf.isdigit():
+                    setores = get_setores(cursor)
+                    error_message = "O CPF deve conter exatamente 11 dígitos numéricos."
+                    return render_template(
+                        'edicaoFuncionario.html', 
+                        funcionario=request.form, 
+                        setores=setores, 
+                        idFuncionario=idFuncionario, 
+                        error_message=error_message
+                    )
+                if not nif.isdigit():
+                    setores = get_setores(cursor)
+                    error_message = "O NIF deve conter apenas números."
+                    return render_template(
+                        'edicaoFuncionario.html', 
+                        funcionario=request.form, 
+                        setores=setores, 
+                        idFuncionario=idFuncionario, 
+                        error_message=error_message
+                    )
 
-                    return redirect(f'/descFuncionario/{idFuncionario}')
-                except Exception as e:
-                    return f"Erro ao salvar as edições: {e}", 500
+                query = '''
+                    UPDATE funcionário
+                    SET nomeFuncionário = %s, CPF = %s, NIF = %s, cargo = %s, idSetor = %s, 
+                        tamRoupa = %s, tamCalcado = %s, condicoesEspeciais = %s
+                    WHERE idFuncionario = %s
+                '''
+                cursor.execute(query, (nome, cpf, nif, cargo, idSetor, tamanhoRoupa, calcados, condicoesEspeciais, idFuncionario))
+                conexao.commit()
+                return redirect(f'/descFuncionario/{idFuncionario}')
+            except Exception as e:
+                return f"Erro ao salvar as edições: {e}", 500
 
 @admin_blueprint.route('/descricaoEPI/<int:idEPI>', methods=['GET'])
 @require_login

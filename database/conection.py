@@ -7,7 +7,7 @@ db_blueprint = Blueprint('database', __name__)
 DB_CONFIG = {
     'host': 'localhost',
     'user': 'root',
-    'password': 'senai',
+    'password': 'ratinholouco20',
     'database': 'equiptrack'
 }
 
