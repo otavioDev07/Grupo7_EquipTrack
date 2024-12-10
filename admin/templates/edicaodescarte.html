@@ -164,6 +164,11 @@ button[type="submit"]:hover {
     <div class="dashed-border">
         <h2>Edição de Descarte - {{ descarte.nomeEquipamento }}</h2>
         <form class="epi-form" action="/editDescarte/{{ descarte.idEPI }}" method="post">
+            {% if error_message %}
+            <div class="alert alert-danger">
+                {{ error_message }}
+            </div>
+            {% endif %}
             <div class="form-group">
                 <label for="motivoDescarte">Motivo do descarte:</label>
                 <input type="text" id="motivoDescarte" name="motivoDescarte" 

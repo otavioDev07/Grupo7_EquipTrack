@@ -164,6 +164,11 @@ button[type="submit"]:hover {
 <div class="form-container">
     <div class="dashed-border">
         <form class="epi-form" action="/cadastroDescarte/{{ idEPI }}" method="post" onsubmit="event.preventDefault(); showModal();">
+            {% if error_message %}
+            <div class="alert alert-danger">
+                {{ error_message }}
+            </div>
+            {% endif %}
             <div class="form-group">
                 <label for="motivoDescarte">Por que você está descartando este EPI?</label>
                 <input type="text" id="motivoDescarte" placeholder="Escreva aqui..." name="motivoDescarte">

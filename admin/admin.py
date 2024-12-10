@@ -280,7 +280,9 @@ def cadastroDescarte(idEPI):
                 quantidade_descartar = int(request.form['quantidade'])
                 motivo = request.form['motivoDescarte']
                 localDescarte = request.form['localDescarte']
-                idSupervisor = session['idSupervisor'] 
+
+                if any(not campo for campo in [quantidade_descartar, motivo, localDescarte]):
+                    return render_template('cadastroDescarte.html', error_message="Todos os campos devem estar preenchidos.", setores=get_setores())
 
                 cursor.execute('SELECT quantidade FROM epi WHERE idEPI = %s', (idEPI,))
                 result = cursor.fetchone()
@@ -357,6 +359,9 @@ def editDescarte(idDescarte):
                 novo_motivo = request.form['motivoDescarte']
                 novo_localDescarte = request.form['localDescarte']
                 nova_quantidade = int(request.form['quantidade'])
+
+                if any(not campo for campo in [novo_motivo, novo_localDescarte, nova_quantidade]):
+                    return render_template('edicaoDescarte.html', error_message="Todos os campos devem estar preenchidos.", setores=get_setores())
 
                 cursor.execute('SELECT idEquipamento FROM descarte WHERE idDescarte = %s', (idDescarte,))
                 result = cursor.fetchone()
