@@ -1,0 +1,236 @@
+{% extends 'model.html' %}
+
+{% block conteudo %}
+
+<style>
+/* Layout do contêiner centralizado */
+.form-container {
+    display: flex;
+    justify-content: center;
+    margin-top: 1%; /* Reduz ainda mais a margem superior */
+}
+
+/* Estilo da caixa com bordas tracejadas */
+.dashed-border {
+    border: 2px dashed orange;
+    border-radius: 10px;
+    padding: 8px; /* Menor padding interno */
+    width: 500px; /* Ligeiramente menor */
+}
+
+/* Estilo dos campos de entrada e seletores */
+input[type="text"],
+select {
+    width: 100%;
+    padding: 6.8px; /* Reduzido ainda mais o padding para economizar espaço */
+    margin-bottom: 8px; /* Menor margem entre os campos */
+    border: 1px solid orange;
+    border-radius: 4px;
+    font-size: 14px; /* Fonte ligeiramente menor */
+}
+
+/* Estilo do botão */
+button {
+    background-color: #015799;
+    color: white;
+    padding: 8px 15px; /* Ajuste do padding do botão */
+    border: none;
+    border-radius: 15px;
+    font-size: 15px; /* Fonte ligeiramente menor */
+    cursor: pointer;
+    width: 100%;
+    transition: background-color 200ms;
+}
+
+button:hover {
+    background-color: #ff914d;
+}
+
+/* Overlay para escurecer o fundo */
+.modal-overlay {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5);
+    justify-content: center;
+    align-items: center;
+    z-index: 999;
+}
+
+/* Modal de confirmação estilizado */
+.modal-content {
+    background-color: #015799;
+    border-radius: 20px;
+    padding: 30px;
+    color: white;
+    width: 400px;
+    position: relative;
+    text-align: center;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+    z-index: 1000;
+}
+
+/* Círculo decorativo com logo */
+.modal-content .logo-circle {
+    position: absolute;
+    top: -30px;
+    left: 20px;
+    width: 80px;
+    height: 80px;
+    background-color: white;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+}
+
+.modal-content .logo-circle img {
+    width: 100%; 
+    height: auto;
+}
+
+/* Texto do modal */
+.modal-content p {
+    font-size: 18px;
+    font-weight: bold;
+    margin-bottom: 20px;
+}
+
+/* Botões "Sim" e "Voltar" */
+.button-group {
+    display: flex;
+    justify-content: space-around;
+    margin-top: 10px;
+}
+
+.confirm-button,
+.cancel-button {
+    padding: 10px 20px;
+    font-size: 16px;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    width: 100px;
+    font-weight: bold;
+}
+
+.confirm-button {
+    background-color: #e91e1e;
+    color: white;
+}
+
+.cancel-button {
+    background-color: #015799;
+    color: white;
+    border: 2px solid white;
+}
+
+.confirm-button:hover, .cancel-button:hover {
+    opacity: 0.9;
+}
+</style>
+
+<div class="form-container">
+    <form action="/editarFuncionario/{{ idFuncionario }}" method="post">
+        {% if error_message %}
+        <div class="alert alert-danger" role="alert">
+            {{ error_message }}
+        </div>
+        {% endif %}
+        <div class="dashed-border">
+            <div class="form-group">
+                <label for="nome-completo">Nome Completo</label>
+                <input type="text" id="nome-completo" name="nome" placeholder="Escreva aqui..." value="{{ funcionario.nome }}">
+            </div>
+            <div class="form-group">
+                <label for="cpf">CPF</label>
+                <input type="text" id="cpf" name="cpf" placeholder="Escreva aqui..." value="{{ funcionario.CPF }}">
+            </div>
+            <div class="form-group">
+                <label for="nif">Número de Identificação NIF</label>
+                <input type="text" id="nif" name="nif" placeholder="Escreva aqui..." value="{{ funcionario.nif }}">
+            </div>
+            <div class="form-group">
+                <label for="cargo">Cargo/Posição</label>
+                <input type="text" id="cargo" name="cargo" placeholder="Escreva aqui..." value="{{ funcionario.cargo }}">
+            </div>
+            <div class="form-group">
+                <label for="setor">Setor</label>
+                <select id="setor" name="idSetor">
+                    <option value="">Selecione o setor</option>
+                    {% for setor in setores %}
+                        <option value="{{ setor[0] }}" {% if setor[0] == funcionario.idSetor %}selected{% endif %}>
+                            {{ setor[1] }}
+                        </option>
+                    {% endfor %}
+                </select>
+            </div>
+            <div class="form-group">
+                <label for="tamanho-roupa">Tamanho de Roupas</label>
+                <select id="tamanho-roupa" name="tamanhoRoupa">
+                    <option value="">Selecione o tamanho</option>
+                    <option value="P" {% if funcionario.tamanhoRoupa == "P" %}selected{% endif %}>P</option>
+                    <option value="M" {% if funcionario.tamanhoRoupa == "M" %}selected{% endif %}>M</option>
+                    <option value="G" {% if funcionario.tamanhoRoupa == "G" %}selected{% endif %}>G</option>
+                    <option value="GG" {% if funcionario.tamanhoRoupa == "GG" %}selected{% endif %}>GG</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <label for="calcados">Calçados</label>
+                <select id="calcados" name="calcados">
+                    <option>Selecione o tamanho</option>
+                    {% for numero in range(33, 46) %}
+                        <option value="{{ numero }}" {% if numero == funcionario.calcados %}selected{% endif %}>
+                            {{ numero }}
+                        </option>
+                    {% endfor %}
+                </select>
+            </div>
+            <div class="form-group">
+                <label for="condicoes-especiais">Condições Especiais</label>
+                <input type="text" id="condicoes-especiais" name="condicoesEspeciais" placeholder="Restrições ou condições que possam exigir EPIs especiais" value="{{ funcionario.condicoesEspeciais }}">
+            </div>
+            <div class="form-group">
+                <button type="button" onclick="showModal()">Editar</button>
+            </div>
+        </div>
+    </form>
+</div>
+
+<!-- Modal de confirmação -->
+<div id="confirmationModal" class="modal-overlay">
+    <div class="modal-content">
+        <div class="logo-circle">
+            <img src="/static/images/logoprincipal.png" alt="Logo">
+        </div>
+        <p>Tem certeza?<br>Que deseja editar as informações do funcionário?</p>
+        <div class="button-group">
+            <button class="confirm-button" onclick="confirmEdit()">Sim</button>
+            <button class="cancel-button" onclick="closeModal()">Voltar</button>
+        </div>
+    </div>
+</div>
+
+<script>
+// Função para mostrar o modal
+function showModal() {
+    document.getElementById("confirmationModal").style.display = "flex";
+}
+
+// Função para fechar o modal
+function closeModal() {
+    document.getElementById("confirmationModal").style.display = "none";
+}
+
+// Função de confirmação da edição
+function confirmEdit() {
+    closeModal();
+    document.querySelector("form").submit(); // Envia o formulário
+}
+</script>
+
+{% endblock %}

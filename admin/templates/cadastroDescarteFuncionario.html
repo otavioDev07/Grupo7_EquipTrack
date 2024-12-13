@@ -1,0 +1,118 @@
+{% extends 'model.html' %}
+
+{% block conteudo %}
+
+<style>
+/* Layout geral do contêiner */
+.form-container {
+    display: flex;
+    justify-content: center; /* Centraliza o conteúdo */
+    margin-top: 5%;
+}
+
+/* Bordas tracejadas */
+.dashed-border {
+    border: 2px dashed orange;
+    border-radius: 10px;
+    padding: 15px;
+    margin: 10px;
+    width: 70%; /* Ajuste para preencher mais espaço e deixar alinhado */
+}
+
+/* Contêiner do formulário */
+.form-container {
+    display: flex;
+    justify-content: center;
+    width: 100%; /* Ajuste da largura do contêiner do formulário */
+    padding: 10px;
+    margin-left: 11%;
+}
+
+.epi-form {
+    display: flex;
+    justify-content: space-between;
+    width: 100%;
+}
+label {
+    display: block;
+    margin-bottom: 5px;
+    color: #000;
+}
+
+input[type="text"],
+select {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    font-size: 16px;
+    border: 1px solid #ddd;
+    border: 1px solid orange; /* Adiciona borda laranja */
+}
+
+input[type="text"]::placeholder {
+    color: #ccc;
+    
+}
+
+button {
+    background-color: #015799;
+    color: white;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 15px;
+    font-size: 16px;
+    cursor: pointer;
+    margin-left: 40%;
+    transition: all 200ms;
+    display: inline-block;
+}
+
+button:hover {
+    background-color: #ff914d;
+    transform: scale(1.05);
+}
+/* Campos de entrada */
+input[type="text"],
+    input[type="date"],
+    select,
+    input[type="number"] {
+        width: 100%;
+        padding: 8px;
+        /* Reduzido para um layout mais compacto */
+        border-radius: 5px;
+        border: 1px solid #ddd;
+        border: 1px solid orange;
+        /* Adiciona borda laranja */
+        margin-bottom: 0.5em;
+        /* Margem entre os campos */
+    }
+</style>
+
+<div class="form-container">
+    <div class="dashed-border">
+    <form class="epi-form" action="/DescarteEPIalocado/{{ idEPI }}" method="post">
+        <div style="margin-bottom: 10px;" class="form-group">
+            <label for="nome-completo">Por que você está descartando esse EPI?</label>
+            <input type="text" id="motivoDescarte" placeholder="Escreva aqui..." name="motivoDescarte">
+        </div>
+
+        <div style="margin-bottom: 10px;" class="form-group">
+            <label for="nif">Onde foi/será descartado esse EPI?</label>
+            <input type="text" id="localDescarte" placeholder="Escreva aqui..." name="localDescarte">
+        </div>
+
+        <div class="form-group">
+                <label for="quantidade">Quantidade:</label>
+                <input type="number" max="{{quantidade}}" min="1" id="quantidade" name="quantidade">
+        </div>
+        <div class="form-group">
+            <button type="submit">Descartar</button>
+        </div>
+    </form>
+</div>
+</div>
+</div>
+
+
+{% endblock %}

@@ -1,0 +1,147 @@
+{% extends 'model.html' %}
+
+{% block conteudo %}
+
+<style>
+
+    /* Layout geral do contêiner */
+    .container {
+        display: flex;
+        justify-content: center; /* Centraliza o conteúdo */
+        margin-top: 5%;
+    }
+    
+    /* Bordas tracejadas */
+    .dashed-border {
+        border: 2px dashed #ff9900; /* Cor laranja */
+        border-radius: 10px;
+        padding: 20px;
+        margin: 10px;
+        width: 190%; /* Aumentar a largura do formulário */
+    }
+    
+    /* Contêiner do formulário */
+    .form-container {
+        display: flex;
+        justify-content: center;
+        width: 100%;
+        padding: 10px;
+        align-items: center;
+        margin-right: 20%;
+        margin-top: -0.7%;
+    }
+    
+    .epi-form {
+        display: flex;
+        justify-content: space-between;
+        width: 100%;
+    }
+    
+    /* Ajustes nos labels e inputs */
+    label {
+        display: block;
+        margin-bottom: 5px;
+        color: #333;
+    }
+    
+    input[type="text"],
+    select {
+        width: 100%;
+        padding: 12px;
+        border: 1px solid #ff9900; /* Cor laranja nas bordas */
+        border-radius: 6px;
+        font-size: 16px;
+        margin-bottom: 15px; /* Espaçamento uniforme entre os campos */
+    }
+    
+    input[type="text"]::placeholder {
+        color: #999;
+        font-style: italic;
+    }
+    
+    /* Estilizando o botão */
+    button {
+        background-color: #015799; /* Botão azul */
+        color: white;
+        padding: 12px 20px;
+        border: none;
+        border-radius: 6px;
+        font-size: 16px;
+        cursor: pointer;
+        width: 200px; /* Aumentar a largura do botão */
+        margin: 20px auto 0 auto; /* Centralizar o botão */
+        display: block; /* Para garantir que fique centralizado */
+        transition: all 200ms;
+    }
+    
+    button:hover {
+        background-color: #003d66; /* Tom mais escuro ao passar o mouse */
+        transform: scale(1.05);
+    }
+    </style>
+    
+
+    <div class="form-container">
+        <form action="/cadastroFuncionario" method="post">
+            <div class="dashed-border">
+                {% if error_message %}
+                <div class="alert alert-danger" role="alert">
+                    {{ error_message }}
+                </div>
+                {% endif %}
+                <div class="form-group">
+                    <label for="nome-completo">Nome Completo</label>
+                    <input type="text" id="nome-completo" name="nome" placeholder="Escreva aqui...">
+                </div>
+                <div class="form-group">
+                    <label for="cpf">CPF</label>
+                    <input type="text" id="cpf" name="cpf" placeholder="Escreva aqui...">
+                </div>
+                <div class="form-group">
+                    <label for="nif">Número de Identificação NIF</label>
+                    <input type="text" id="nif" name="nif" placeholder="Escreva aqui...">
+                </div>
+                <div class="form-group">
+                    <label for="cargo">Cargo/Posição</label>
+                    <input type="text" id="cargo" name="cargo" placeholder="Escreva aqui...">
+                </div>
+                <div class="form-group">
+                    <label for="setor">Setor</label>
+                    <select id="setor" name="idSetor">
+                        <option value="">Selecione o setor</option>
+                        {% for setor in setores %}
+                            <option value="{{ setor[0] }}">{{ setor[1] }}</option>
+                        {% endfor %}
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="tamanho-roupa">Tamanho de Roupas</label>
+                    <select id="tamanho-roupa" name="tamanhoRoupa">
+                        <option value="">Selecione o tamanho</option>
+                        <option value="P">P</option>
+                        <option value="M">M</option>
+                        <option value="G">G</option>
+                        <option value="GG">GG</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="calcados">Calçados</label>
+                    <select id="calcados" name="calcados">
+                        <option>Selecione o tamanho</option>
+                        {% for numero in range(33, 46) %}
+                            <option value="{{ numero }}">{{ numero }}</option>
+                        {% endfor %}
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="condicoes-especiais">Condições Especiais</label>
+                    <input type="text" id="condicoes-especiais" name="condicoesEspeciais" placeholder="Restrições ou condições que possam exigir EPIs especiais">
+                </div>
+                <div class="form-group">
+                    <button type="submit">Cadastrar</button>
+                </div>
+            </div>
+        </form>
+    </div>
+
+{% endblock %}

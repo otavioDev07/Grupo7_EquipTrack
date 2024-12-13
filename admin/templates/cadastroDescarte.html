@@ -1,0 +1,210 @@
+{% extends 'model.html' %}
+
+{% block conteudo %}
+
+<style>
+/* Estilo do modal */
+.modal-overlay {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5);
+    justify-content: center;
+    align-items: center;
+    z-index: 999;
+}
+
+.modal-content {
+    width: 450px;
+    background-color: #ffffff;
+    border-radius: 15px;
+    padding: 30px;
+    text-align: center;
+    box-shadow: 0px 8px 15px rgba(0, 0, 0, 0.3);
+    animation: fadeIn 0.3s ease-in-out;
+}
+
+.logo-circle {
+    width: 90px;
+    height: 90px;
+    margin: 0 auto 20px;
+    border-radius: 50%;
+    background: linear-gradient(135deg, #ff914d, #ffcf4d);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.2);
+}
+
+.logo-circle img {
+    width: 70px;
+    height: 70px;
+}
+
+.modal-content p {
+    font-size: 18px;
+    color: #333;
+    font-weight: bold;
+    margin: 15px 0;
+    line-height: 1.5;
+}
+
+.button-group button {
+    padding: 12px 25px;
+    margin: 10px;
+    border: none;
+    border-radius: 5px;
+    font-size: 16px;
+    cursor: pointer;
+    transition: 0.3s ease-in-out;
+}
+
+.confirm-button {
+    background-color: #28a745;
+    color: white;
+    font-weight: bold;
+}
+
+.confirm-button:hover {
+    background-color: #218838;
+    transform: translateY(-3px);
+    box-shadow: 0px 5px 15px rgba(40, 167, 69, 0.3);
+}
+
+.cancel-button {
+    background-color: #dc3545;
+    color: white;
+    font-weight: bold;
+}
+
+.cancel-button:hover {
+    background-color: #c82333;
+    transform: translateY(-3px);
+    box-shadow: 0px 5px 15px rgba(220, 53, 69, 0.3);
+}
+
+.form-container {
+    display: flex;
+    justify-content: center;
+    margin-top: 5%;
+    animation: slideIn 0.5s ease-out;
+}
+
+.dashed-border {
+    border: 2px dashed #ff914d;
+    border-radius: 15px;
+    padding: 20px;
+    margin: 10px;
+    width: 80%;
+    background-color: #fff8f0;
+    box-shadow: 0px 5px 15px rgba(0, 0, 0, 0.1);
+}
+
+label {
+    display: block;
+    font-weight: bold;
+    margin-bottom: 5px;
+    color: #333;
+}
+
+input[type="text"],
+input[type="number"],
+select {
+    width: 100%;
+    padding: 12px;
+    border: 1px solid #ff914d;
+    border-radius: 5px;
+    font-size: 16px;
+    margin-bottom: 15px;
+    background-color: #fff8f0;
+}
+
+input[type="text"]::placeholder {
+    color: #aaa;
+}
+
+button[type="submit"] {
+    background-color: #015799;
+    color: white;
+    padding: 12px 30px;
+    border: none;
+    border-radius: 20px;
+    font-size: 16px;
+    cursor: pointer;
+    font-weight: bold;
+    transition: all 0.3s ease-in-out;
+    margin: 0 auto;
+    display: block;
+}
+
+button[type="submit"]:hover {
+    background-color: #ff914d;
+    transform: translateY(-3px);
+    box-shadow: 0px 5px 15px rgba(255, 145, 77, 0.3);
+}
+</style>
+
+<!-- Modal de Confirmação -->
+<div id="confirmationModal" class="modal-overlay">
+    <div class="modal-content">
+        <div class="logo-circle">
+            <img src="/static/images/logoprincipal.png" alt="Logo">
+        </div>
+        <p>Tem certeza que deseja descartar este produto?</p>
+        <div class="button-group">
+            <button class="confirm-button" onclick="confirmDiscard()">Sim</button>
+            <button class="cancel-button" onclick="closeModal()">Voltar</button>
+        </div>
+    </div>
+</div>
+
+<div class="form-container">
+    <div class="dashed-border">
+        <form class="epi-form" action="/cadastroDescarte/{{ idEPI }}" method="post" onsubmit="event.preventDefault(); showModal();">
+            {% if error_message %}
+            <div class="alert alert-danger">
+                {{ error_message }}
+            </div>
+            {% endif %}
+            <div class="form-group">
+                <label for="motivoDescarte">Por que você está descartando este EPI?</label>
+                <input type="text" id="motivoDescarte" placeholder="Escreva aqui..." name="motivoDescarte">
+            </div>
+
+            <div class="form-group">
+                <label for="localDescarte">Onde foi/será descartado este EPI?</label>
+                <input type="text" id="localDescarte" placeholder="Escreva aqui..." name="localDescarte">
+            </div>
+
+            <div class="form-group">
+                <label for="quantidade">Quantidade:</label>
+                <input type="number" max="{{quantidade}}" min="1" id="quantidade" name="quantidade">
+        </div>
+        <div class="form-group">
+            <button type="submit">Descartar</button>
+        </div>
+    </form>
+</div>
+</div>
+
+<script>
+// Função para mostrar o modal
+function showModal() {
+    document.getElementById("confirmationModal").style.display = "flex";
+}
+
+// Função para fechar o modal
+function closeModal() {
+    document.getElementById("confirmationModal").style.display = "none";
+}
+
+// Função para confirmar o descarte e enviar o formulário
+function confirmDiscard() {
+    document.querySelector(".epi-form").submit();
+}
+</script>
+
+{% endblock %}

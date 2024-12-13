@@ -1,0 +1,174 @@
+{% extends 'model.html' %}
+
+{% block conteudo %}
+<style>
+    .info-box {
+        background-color: #f7c191;
+        padding: 15px;
+        border-radius: 5px;
+        margin-bottom: 15px;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        font-size: 14px;
+    }
+
+    .info-header {
+        font-weight: bold;
+        color: #1c1c1c;
+    }
+
+    .label {
+        font-size: 14px;
+        color: #333;
+        margin-bottom: 5px;
+    }
+
+    .label small {
+        color: #999;
+        font-size: 12px;
+    }
+
+    .date {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+    }
+
+    .date div {
+        background-color: #f0f0f0;
+        padding: 8px 12px;
+        border-radius: 5px;
+        font-size: 14px;
+        color: #007bff;
+        font-weight: bold;
+    }
+
+    .button-row {
+        text-align: center;
+        margin-top: 20px;
+    }
+
+    button {
+        background-color: #0056b3;
+        color: white;
+        padding: 10px 20px;
+        border: none;
+        border-radius: 5px;
+        font-size: 16px;
+        cursor: pointer;
+        margin: 5px;
+        transition: all 200ms;
+    }
+
+    button:hover {
+        background-color: #ff914d;
+        transform: scale(1.05);
+    }
+
+    .descarte {
+        background-color: #ff914d;
+    }
+
+    .descarte:hover {
+        background-color: #c16f3c;
+    }
+
+    main {
+        padding: 30px;
+    }
+
+    .info-group {
+        display: flex;
+        justify-content: space-between;
+        flex-wrap: wrap;
+        gap: 15px;
+    }
+
+    .info-group > .info-box {
+        flex: 1 1 calc(33.333% - 10px); /* Divide em três colunas */
+    }
+
+    .info-group .date-container {
+        flex: 1 1 calc(33.333% - 10px);
+    }
+
+    @media (max-width: 768px) {
+        .info-box {
+            flex-direction: column;
+            align-items: flex-start;
+        }
+
+        .info-group > .info-box {
+            flex: 1 1 100%; /* Coluna única no mobile */
+        }
+
+        button {
+            width: 100%;
+            text-align: center;
+        }
+    }
+</style>
+
+<main>
+    <div class="container mt-4">
+        <div class="row">
+            <div class="col-md-12">
+                <h3>{{ epi.nomeEquipamento }}</h3>
+                <p><strong>Material:</strong> {{ epi.marca }}</p>
+                <p>{{ epi.observacoes }}</p>
+            </div>
+        </div>
+
+        <div class="info-group">
+            <div class="info-box">
+                <span class="info-header">Número de série</span>
+                <span>{{ epi.numeroSerie }}</span>
+            </div>
+            <div class="info-box">
+                <span class="info-header">Modelo</span>
+                <span>{{ epi.modelo }}</span>
+            </div>
+            <div class="date-container">
+                <div class="label">Data de Aquisição<br><small>Início</small></div>
+                <div class="date">
+                    <div>{{ epi.dataAquisicao }}</div>
+                </div>
+            </div>
+            <div class="info-box">
+                <span class="info-header">Quantidade</span>
+                <span>{{ epi.quantidade }}</span>
+            </div>
+            
+            <div class="info-box">
+                <span class="info-header">Setor</span>
+                <span>{{ epi.nomeSetor[0] }}</span>
+            </div>
+            <div class="date-container">
+                <div class="label">Data de vencimento<br><small>Fim</small></div>
+                <div class="date">
+                    <div>{{ epi.dataVencimento }}</div>
+                </div>
+            </div>
+            <div class="info-box">
+                <span class="info-header">Marca</span>
+                <span>{{ epi.marca }}</span>
+            </div>
+            <div class="info-box">
+                <span class="info-header">Tamanho</span>
+                <span>{{ epi.tamanho }}</span>
+            </div>
+        </div>
+
+        <div class="button-row" style="text-decoration: none;">
+            <a href="{{ url_for('alocar.alocar_equipamento', idEPI=epi.idEPI) }}" style="text-decoration: none;">
+                <button>Alocar</button>
+            </a>
+            <a href="{{ url_for('admin.cadastroDescarte', idEPI=epi.idEPI) }}" style="text-decoration: none;">
+                <button class="descarte">Descartar</button>
+            </a>
+            <form action="/editarEPI/{{epi.idEPI}}" method="GET"><button type="submit">Editar</button></form>
+        </div>
+    </div>
+</main>
+{% endblock %}
