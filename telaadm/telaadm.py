@@ -69,7 +69,12 @@ def cadastrarCipeiro():
                 cpf = request.form['CPF']
                 senha = request.form['senhaAcesso']
                 senha_cript = generate_password_hash(senha)
-                idSupervisor = session['idSupervisor']
+
+                if not nomeSupervisor or not cpf:
+                    return render_template('cadastroCipeiro.html', error_message="Todos os campos devem ser preenchidos.")
+
+                if not cpf.isdigit() or len(cpf) != 11:
+                    return render_template('cadastroCipeiro.html', error_message="O CPF deve conter exatamente 11 números.")
 
                 query = 'INSERT INTO supervisor (nomeSupervisor, CPF, senhaAcesso) VALUES (%s, %s, %s)'
                 cursor.execute(query, (nomeSupervisor, cpf, senha_cript))
@@ -106,31 +111,54 @@ def editarCipeiro(idSupervisor):
 
         if request.method == 'POST':
             try:
+                query = 'SELECT idSupervisor, nomeSupervisor, CPF, status FROM supervisor WHERE idSupervisor = %s'
+                cursor.execute(query, (idSupervisor,))
+                result = cursor.fetchone()
+
+                if result:
+                    cipeiro = {
+                        'idSupervisor': result[0],
+                        'nomeSupervisor': result[1],
+                        'CPF': result[2],
+                        'status': result[3]
+                    }
+
+                cursor.execute('SELECT COUNT(*) FROM supervisor')
+                total_cipeiros = cursor.fetchone()[0] 
+                # Recuperar dados originais do banco
                 cursor.execute('SELECT nomeSupervisor, CPF, status FROM supervisor WHERE idSupervisor = %s', (idSupervisor,))
                 original_data = cursor.fetchone()
 
                 if not original_data:
-                    return "Cipeiro não encontrado", 404
+                    return render_template('editarCipeiro.html', cipeiro=cipeiro, total_cipeiros=total_cipeiros, error_message="Cipeiro não encontrado.")
 
                 original_nome, original_cpf, original_status = original_data
 
-                nome = request.form['nomeSupervisor']
-                cpf = request.form['CPF']
-                status = request.form['status']
+                # Recuperar e validar dados do formulário
+                nome = request.form.get('nomeSupervisor', '').strip()
+                cpf = request.form.get('CPF', '').strip()
+                status = request.form.get('status', '').strip()
                 senhaAcesso = request.form.get('senhaAcesso', '').strip()
-            
+
+                if not nome:
+                    return render_template('editarCipeiro.html', cipeiro=cipeiro, total_cipeiros=total_cipeiros, error_message="O campo 'Nome' é obrigatório.")
+                if not cpf or len(cpf) != 11 or not cpf.isdigit():
+                    return render_template('editarCipeiro.html', cipeiro=cipeiro, total_cipeiros=total_cipeiros, error_message="O CPF deve conter 11 dígitos numéricos.")
+                if status not in ['ativo', 'inativo']:
+                    return render_template('editarCipeiro.html', cipeiro=cipeiro, total_cipeiros=total_cipeiros, error_message="Status deve ser 'ativo' ou 'inativo'.")
+
                 if nome != original_nome:
                     cursor.execute('UPDATE supervisor SET nomeSupervisor = %s WHERE idSupervisor = %s', (nome, idSupervisor))
-
                 if cpf != original_cpf:
                     cursor.execute('UPDATE supervisor SET CPF = %s WHERE idSupervisor = %s', (cpf, idSupervisor))
-
                 if status != original_status:
                     cursor.execute('UPDATE supervisor SET status = %s WHERE idSupervisor = %s', (status, idSupervisor))
-
                 if senhaAcesso:
+                    if len(senhaAcesso) < 6:
+                        return render_template('editarCipeiro.html', cipeiro=cipeiro, total_cipeiros=total_cipeiros, error_message="A senha deve conter pelo menos 6 caracteres.")
                     senha_cript = generate_password_hash(senhaAcesso)
                     cursor.execute('UPDATE supervisor SET senhaAcesso = %s WHERE idSupervisor = %s', (senha_cript, idSupervisor))
+
                 conexao.commit()
                 return redirect(f'/detalhesCipeiro/{idSupervisor}')
             except Exception as e:

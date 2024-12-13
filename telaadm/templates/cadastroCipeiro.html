@@ -57,6 +57,11 @@
     <div class="form-container">
         <h4>Cadastrar Novo CIPEIRO</h4>
         <form action="/cadastrarCipeiro" method="post">
+            {% if error_message %}
+            <div class="alert alert-danger" role="alert">
+            {{ error_message }}
+            </div>
+            {% endif %}
             <div class="form-group">
                 <label for="nomeSupervisor">Nome Completo</label>
                 <input type="text" id="nomeSupervisor" name="nomeSupervisor" placeholder="Digite o nome completo" required>
