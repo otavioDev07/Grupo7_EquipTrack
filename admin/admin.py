@@ -356,12 +356,39 @@ def editDescarte(idDescarte):
 
         elif request.method == 'POST':
             try:
+                cursor.execute('''
+                    SELECT d.idDescarte, d.motivoDescarte, d.localDescarte, d.quantidade, e.nomeEquipamento, e.idEPI
+                    FROM descarte d
+                    INNER JOIN epi e ON d.idEquipamento = e.idEPI
+                    WHERE d.idDescarte = %s
+                ''', (idDescarte,))
+                result = cursor.fetchone()
+
+                if result:
+                    descarte = {
+                        'idDescarte': result[0],
+                        'motivoDescarte': result[1],
+                        'localDescarte': result[2],
+                        'quantidade': int(result[3]),
+                        'nomeEquipamento': result[4],
+                        'idEPI': result[5]
+                    }
+                else:
+                    return "Erro: Descarte não encontrado.", 404
+                
+                cursor.execute('SELECT quantidade FROM epi WHERE idEPI = %s', (descarte['idEPI'],))
+                result = cursor.fetchone()
+                if result:
+                    quantidadeDisponivel = result[0]
+                else:
+                    return "Erro: EPI não encontrado.", 404
+                
                 novo_motivo = request.form['motivoDescarte']
                 novo_localDescarte = request.form['localDescarte']
                 nova_quantidade = int(request.form['quantidade'])
 
                 if any(not campo for campo in [novo_motivo, novo_localDescarte, nova_quantidade]):
-                    return render_template('edicaoDescarte.html', error_message="Todos os campos devem estar preenchidos.", setores=get_setores())
+                    return render_template('edicaoDescarte.html', descarte=descarte, quantidadeDisponivel=quantidadeDisponivel, error_message="Todos os campos devem estar preenchidos.", setores=get_setores())
 
                 cursor.execute('SELECT idEquipamento FROM descarte WHERE idDescarte = %s', (idDescarte,))
                 result = cursor.fetchone()
@@ -386,10 +413,9 @@ def editDescarte(idDescarte):
                 
                 ajuste_quantidade = nova_quantidade - quantidade_descartada_anterior
                 if ajuste_quantidade > quantidade_atual:
-                    return "Erro: A quantidade ajustada excede o estoque disponível.", 400
+                    return render_template('edicaoDescarte.html', descarte=descarte, quantidadeDisponivel=quantidadeDisponivel, error_message="A quantidade excede o estoque disponível", setores=get_setores())
                 
-                cursor.execute('UPDATE epi SET quantidade = quantidade - %s WHERE idEPI = %s', 
-                               (ajuste_quantidade, idEPI))
+                cursor.execute('UPDATE epi SET quantidade = quantidade - %s WHERE idEPI = %s',(ajuste_quantidade, idEPI))
                 conexao.commit()
 
                 cursor.execute('''
