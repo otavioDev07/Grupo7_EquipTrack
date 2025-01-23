@@ -103,6 +103,10 @@ Para configurar e executar o EquipTrack em seu ambiente local, siga as instruç�
 - `session/`: Diretório contendo os arquivos referentes ao controle de sessão.
 - `telaadm/`: Diretório contendo os arquivos referentes à tela de administração geral.
 
+## Imagens
+![Tela inicial](static/images/telaInicial.png)
+![Tela cadastro de EPI](static/images/cadastroEPI.png)
+
 ## Contribuições
 
 Contribuições são sempre bem-vindas! Sinta-se à vontade para fazer um fork do repositório e enviar um Pull Request com suas melhorias.
