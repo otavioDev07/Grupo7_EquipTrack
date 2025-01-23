@@ -4,10 +4,11 @@ from contextlib import contextmanager
 
 db_blueprint = Blueprint('database', __name__)
 
+#Preencha com seu banco de dados
 DB_CONFIG = {
-    'host': 'localhost',
-    'user': 'root',
-    'password': 'senai',
+    'host': '',
+    'user': '',
+    'password': '',
     'database': 'equiptrack'
 }
 
