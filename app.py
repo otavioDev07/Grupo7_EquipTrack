@@ -23,4 +23,4 @@ app.register_blueprint(estoque_blueprint)
 app.register_blueprint(telaadm_blueprint)
 
 if __name__ == '__main__':
-    app.run(debug=True)
+    app.run(host='0.0.0.0', port=5000)
