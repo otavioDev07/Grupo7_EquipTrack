@@ -103,6 +103,10 @@ Para configurar e executar o EquipTrack em seu ambiente local, siga as instruç�
 - `session/`: Diretório contendo os arquivos referentes ao controle de sessão.
 - `telaadm/`: Diretório contendo os arquivos referentes à tela de administração geral.
 
+## Imagens
+![Tela inicial](static/images/telaInicial.png)
+![Tela cadastro de EPI](static/images/cadastroEPI.png)
+
 ## Contribuições
 
 Contribuições são sempre bem-vindas! Sinta-se à vontade para fazer um fork do repositório e enviar um Pull Request com suas melhorias.
@@ -115,7 +119,7 @@ Este projeto é fornecido sob a Licença [MIT](LICENSE).
 - Rafael Ribas: Instrutor de Programação Web Front-End.
 - João Paulo: Instrutor de Programação Web Back-End.
 
-- [Otávio Neto: Back-end Developer e Tech Lead](www.linkedin.com/in/otávio-neto12)
+- [Otávio Neto: Back-end Developer e Tech Lead](https://www.linkedin.com/in/ot%C3%A1vio-neto12/)
 - Pedro Schidmit: Front-end Developer
 - Samantha Fernandes: Scrum Master
 - [Sara Barros: Product Owner](https://www.linkedin.com/in/sararesendd/) 
